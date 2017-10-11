@@ -1,2 +1,3 @@
 # behave-webdriver
-Implements reusable step definitions for selenium webdriver automation for use with the behave BDD testing framework
+Boilerplate to easily run [selenium](https://github.com/SeleniumHQ/selenium) webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
+Inspired by the [webdriverio-cucumber](https://github.com/webdriverio/cucumber-boilerplate) project.
