@@ -1,6 +1,6 @@
 from behave import *
-use_step_matcher('re')
 
+use_step_matcher('re')
 @given('I open the url "([^"]*)?"')
 def open_url(context, url):
     context.behave_driver.open_url(url)
@@ -74,17 +74,30 @@ def elements_same_text(context, first_element, negative, second_element):
 
 @given('the element "([^"]*)?"( not)* matches the text "([^"]*)?"')
 def element_matches_text(context, element, negative, text):
-    matches = context.behave_driver
+    matches = context.behave_driver.get_element_text(element) == text
+    if negative:
+        assert not matches
+    else:
+        assert matches
 
 
 @given('the element "([^"]*)?"( not)* contains the text "([^"]*)?"')
-def step_impl(context, element, negative, text):
-    pass
+def element_contains_text(context, element, negative, text):
+    contains = text in context.behave_driver.get_element_text(element)
+    if negative:
+        assert not contains
+    else:
+        assert contains
+
 
 
 @given('the element "([^"]*)?"( not)* contains any text')
-def step_impl(context, element, negative):
-    pass
+def element_any_text(context, element, negative):
+    any_text = bool(context.behave_driver.get_element_text(element))
+    if negative:
+        assert not any_text
+    else:
+        assert any_text
 
 
 @given('the element "([^"]*)?" is( not)* empty')
@@ -96,14 +109,18 @@ def step_impl(context, element, negative):
 def step_impl(context, negative, value):
     page_url = context.behave_driver.current_url
     if negative:
-        assert not page_url == value
+        assert page_url != value
     else:
         assert page_url == value
 
 
 @given('the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
-def step_impl(context, is_css, attr, element, negative, value):
-    pass
+def element_attribute(context, is_css, attr, element, negative, value):
+    attribute_value = context.behave_driver.get_elemet_css_attribute(element, attr, is_css)
+    if negative:
+        assert attribute_value != value
+    else:
+        assert attribute_value == value
 
 
 @given('the cookie "([^"]*)?" contains( not)* the value "([^"]*)?"')

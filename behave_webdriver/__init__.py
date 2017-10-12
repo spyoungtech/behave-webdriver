@@ -11,6 +11,13 @@ class BehaveDriver(object):
     def current_url(self):
         return self.driver.current_url
 
+    @property
+    def cookies(self):
+        return self.driver.get_cookies()
+
+    def get_cookie(self, cookie_name):
+        return self.driver.get_cookie(cookie_name)
+
     def get_element(self, selector):
         """
         :param selector: An xpath or CSS selector
@@ -24,6 +31,15 @@ class BehaveDriver(object):
     def get_element_text(self, element):
         elem = self.get_element(element)
         return elem.text
+
+    def get_element_attribute(self, element, attr, css=False):
+        elem = self.get_element(element)
+        if css:
+            value = elem.value_of_css_property(attr)
+        else:
+            value = elem.get_attribute(attr)
+        return value
+
 
     def open_url(self, url):
         return self.driver.get(url)
@@ -46,3 +62,4 @@ class BehaveDriver(object):
     def element_selected(self, element):
         elem = self.get_element(element)
         return elem.is_selected()
+
