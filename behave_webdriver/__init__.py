@@ -13,7 +13,7 @@ class BehaveDriver(object):
         if hasattr(self.driver, item):
             return getattr(self.driver, item)
         else:
-            raise AttributeError('%r has no attribute %r' % self, item)
+            raise AttributeError('{} has no attribute {}'.format(self, item))
     @property
     def alert(self):
         return Alert(self.driver)
@@ -72,7 +72,7 @@ class BehaveDriver(object):
 
     def get_element_size(self, element):
         elem = self.get_element(element)
-        return element.size
+        return elem.size
 
     def get_element_location(self, element):
         elem = self.get_element(element)
@@ -127,7 +127,7 @@ class BehaveDriver(object):
     def send_keys(self, keys):
         actions = ActionChains(self.driver)
         actions.send_keys(keys)
-        actions.perorm()
+        actions.perform()
 
     def scroll_to_bottom(self):
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -143,4 +143,5 @@ class BehaveDriver(object):
         x = int(x)
         y = int(y)
         self.driver.execute_script('window.scrollTo({}, {});'.format(x, y))
+
 
