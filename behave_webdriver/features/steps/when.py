@@ -27,8 +27,9 @@ def set_input(context, element, value):
     elem.clear()
     elem.send_keys(value)
 
-@when('I set {value} to the inputfield {element}')
+@when('I set {value} to the inputfield "{element}"')
 def set_input(context, value, element):
+
     elem = context.behave_driver.get_element(element)
     elem.clear()
     elem.send_keys(value)
