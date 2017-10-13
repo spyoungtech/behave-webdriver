@@ -59,11 +59,11 @@ def handle_prompt(context, text):
 
 @when('I scroll to element {element}')
 def scroll_to(context, element):
-    pass
+    context.behave_driver.scroll_to_element(element)
 
 @when('I close the last opened tab')
 def close_last_tab(context):
-    pass
+    context.behave_driver.window_handles[-1].close()
 
 @when('I close the last opened window')
 def close_last_window(context):
