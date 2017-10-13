@@ -125,27 +125,45 @@ def element_attribute(context, is_css, attr, element, negative, value):
 
 @given('the cookie "([^"]*)?" contains( not)* the value "([^"]*)?"')
 def step_impl(context, cookie_key, negative, value):
-    pass
+    cookie = context.behave_driver.get_cookie(cookie_key)
+    if negative:
+        assert cookie != value
+    else:
+        assert cookie == value
 
 
 @given('the cookie "([^"]*)?" does( not)* exist')
 def step_impl(context, cookie_key, negative):
-    pass
+    cookie = context.behave_driver.get_cookie(cookie_key)
+    if negative:
+        assert cookie is None
+    else:
+        assert cookie is not None
 
 
-@given('the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
+@given('the element "([^"]*)?" is( not)* ([\d]+)px in (width|height)')
 def step_impl(context, element, negative, pixels, axis):
-    pass
+    elem_size = context.behave_driver.get_element_size(element)
+    # elem_is_specified_size = int(pixels) == elem_size[axis]
+    if negative:
+        assert elem_size[axis] != int(pixels)
+    else:
+        assert elem_size[axis] == int(pixels)
+
 
 
 @given('the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
 def step_impl(context, element, negative, pos, axis):
-    pass
+    element_position = context.behave_driver.get_element_location(element)
+    if negative:
+        assert element_position[axis] != int(pos)
+    else:
+        assert element_position[axis] == int(pos)
 
 
 @given('I have a screen that is ([\d]+) by ([\d]+) pixels')
 def step_impl(context, x, y):
-    pass
+    context.behave_driver.screen_size = (x, y)
 
 
 @given('I have closed all but the first (window|tab)')
@@ -155,4 +173,7 @@ def step_impl(context, window_or_tab):
 
 @given('a (alertbox|confirmbox|prompt) is( not)* opened')
 def step_impl(context, modal, negative):
-    pass
+    if negative:
+        assert context.behave_driver.has_alert is False
+    else:
+        assert context.behave_driver.has_alert is True
