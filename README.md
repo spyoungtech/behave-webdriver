@@ -4,12 +4,15 @@ Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriveri
 
 # Goal
 Make writing readable selenium tests as Gherkin features easy.
-
-
+Implement features from webdriverio-cucumber-boilerplate project
+Provide an easily extensible interface to the selenium driver
 
 
 # TODO
-- [x] Define the step implementations found in cucumber-boilerplate
-- [ ] Implement the support code with selenium webdriver
+- [ ] Implement the support code from cucumber-boilerplate for behave/selenium
+  - [x] given
+  - [ ] when
+  - [ ] then
+- [ ] Provide some cool browser options
 - [ ] ???
 - [ ] Profit
