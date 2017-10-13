@@ -1,5 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 
@@ -12,7 +14,9 @@ class BehaveDriver(object):
             return getattr(self.driver, item)
         else:
             raise AttributeError('%r has no attribute %r' % self, item)
-
+    @property
+    def alert(self):
+        return Alert(self.driver)
     @property
     def screen_size(self):
         size = self.driver.get_window_size()
@@ -21,7 +25,8 @@ class BehaveDriver(object):
         return (x, y)
 
     @screen_size.setter
-    def screen_size(self, x, y):
+    def screen_size(self, size):
+        x, y = size
         if x is None:
             x = self.screen_size[0]
         if y is None:
@@ -109,4 +114,33 @@ class BehaveDriver(object):
             self.driver.find_element_by_partial_link_text(text).click()
         else:
             self.driver.find_element_by_link_text(text).click()
+
+    def drag_element(self, element, to_element):
+        elem = self.get_element(element)
+        to_elem = self.get_element(to_element)
+        self.driver.drag_and_drop(elem, to_elem)
+
+    def submit(self, element):
+        elem = self.get_element(element)
+        elem.submit()
+
+    def send_keys(self, keys):
+        actions = ActionChains(self.driver)
+        actions.send_keys(keys)
+        actions.perorm()
+
+    def scroll_to_bottom(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    def scroll_to_element(self, element):
+        location = self.get_element_location(element)
+        x = location['x']
+        y = location['y']
+        self.scroll_to(x, y)
+
+    def scroll_to(self, x, y):
+        # prevent script injection
+        x = int(x)
+        y = int(y)
+        self.driver.execute_script('window.scrollTo({}, {});'.format(x, y))
 

@@ -2,55 +2,60 @@ from behave import *
 
 @when('I click on the element "{element}"')
 def click_element(context, element):
-    pass
+    context.behave_driver.click_element(element)
 
 @when('I doubleclick on the element "{element}"')
 def doubleclick_element(context, element):
-    pass
+    context.behave_driver.click_element(element, n=2)
 
 @when('I click on the link "{link_text}"')
 def click_link(context, link_text):
-    pass
+    context.behave_driver.click_link_text(link_text)
 
 @when('I set the inputfield "{element}" to "{value}"')
 def set_input(context, element, value):
-    pass
+    elem = context.behave_driver.get_element(element)
+    elem.clear()
+    elem.send_keys(value)
+
 
 @when('I clear the inputfield "{element}"')
 def clear_input(context, element):
-    pass
+    elem = context.behave_driver.get_element(element)
+    elem.clear()
 
 @when('I drag element "{from_element}" to element "{to_element}"')
 def drag_element(context, from_element, to_element):
-    pass
+    context.behave_driver.drag_element(from_element, to_element)
 
 @when('I submit the form "{element}"')
 def submit_form(context, element):
-    pass
+    context.behave_driver.submit(element)
+
 
 @when('I set a cookie "{cookie_key}" with the content "{value}"')
 def set_cookie(context, cookie_key, value):
-    pass
+    context.behave_driver.add_cookie({'name': cookie_key, 'value': value})
 
 @when('I delete the cookie "{cookie_key}')
 def delete_cookie(context, cookie_key):
-    pass
+    context.behave_driver.delete_cookie(cookie_key)
 
-@when('I press "{button_element}"')
-def press_button(context, button_element):
-    pass
+@when('I press "{key}"')
+def press_button(context, key):
+    context.behave_driver.send_keys(key)
 
 @when('I accept the alert')
 def accept_alert(context):
-    pass
+    context.behave_driver.alert.accept()
 
 @when('I dismiss the alert')
 def dismiss_alert(context):
-    pass
+    context.behave_driver.alert.dismiss()
 
 @when('I enter {text} into the prompt')
 def handle_prompt(context, text):
-    pass
+    context.behave_driver.alert.send_keys(text)
 
 @when('I scroll to element {element}')
 def scroll_to(context, element):
