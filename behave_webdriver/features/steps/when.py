@@ -1,4 +1,9 @@
 from behave import *
+import time
+@when('I pause for {miliseconds}ms')
+def sleep_ms(context, miliseconds):
+    # TODO: webdriver wait instead
+    time.sleep(miliseconds/1000)
 
 @when('I click on the element "{element}"')
 def click_element(context, element):
@@ -12,12 +17,26 @@ def doubleclick_element(context, element):
 def click_link(context, link_text):
     context.behave_driver.click_link_text(link_text)
 
+@when('I click on the button "{element}"')
+def click_button(context, element):
+    context.behave_driver.click_element(element)
+
 @when('I set the inputfield "{element}" to "{value}"')
 def set_input(context, element, value):
     elem = context.behave_driver.get_element(element)
     elem.clear()
     elem.send_keys(value)
 
+@when('I set {value} to the inputfield {element}')
+def set_input(context, value, element):
+    elem = context.behave_driver.get_element(element)
+    elem.clear()
+    elem.send_keys(value)
+
+@when('I add "{value}" to the inputfield "{element}"')
+def add_input(context, value, element):
+    elem = context.behave_driver.get_element(element)
+    elem.send_keys(value)
 
 @when('I clear the inputfield "{element}"')
 def clear_input(context, element):

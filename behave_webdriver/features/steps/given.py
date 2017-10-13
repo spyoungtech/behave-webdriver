@@ -83,11 +83,11 @@ def element_matches_text(context, element, negative, text):
 
 @given('the element "([^"]*)?"( not)* contains the text "([^"]*)?"')
 def element_contains_text(context, element, negative, text):
-    contains = text in context.behave_driver.get_element_text(element)
+    element_text = context.behave_driver.get_element_text(element)
     if negative:
-        assert not contains
+        assert text not in element_text
     else:
-        assert contains
+        assert text in element_text
 
 
 
@@ -120,7 +120,7 @@ def step_impl(context, negative, value):
 
 @given('the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
 def element_attribute(context, is_css, attr, element, negative, value):
-    attribute_value = context.behave_driver.get_elemet_css_attribute(element, attr, is_css)
+    attribute_value = context.behave_driver.get_element_attribute(element, attr, is_css)
     if negative:
         assert attribute_value != value
     else:
@@ -149,9 +149,9 @@ def step_impl(context, cookie_key, negative):
 def step_impl(context, element, negative, pixels, how):
     elem_size = context.behave_driver.get_element_size(element)
     if how == 'tall':
-        axis = 'y'
+        axis = 'height'
     else:
-        axis = 'x'
+        axis = 'width'
     if negative:
         assert elem_size[axis] != int(pixels)
     else:

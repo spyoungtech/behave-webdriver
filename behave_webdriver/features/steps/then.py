@@ -121,7 +121,7 @@ def step_impl(context, negative, value):
 
 @then('I expect that the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
 def step_impl(context, is_css, attr, element, negative, value):
-    attribute_value = context.behave_driver.get_elemet_css_attribute(element, attr, is_css)
+    attribute_value = context.behave_driver.get_element_attribute(element, attr, is_css)
     if negative:
         assert attribute_value != value
     else:
@@ -157,7 +157,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that cookie "([^"]*)?"( not)* contains "([^"]*)?"')
-def step_impl(context, element, negative, value):
+def step_impl(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
     if negative:
         assert cookie != value
@@ -178,9 +178,9 @@ def step_impl(context, cookie_key, negative):
 def step_impl(context, element, negative, pixels, how):
     elem_size = context.behave_driver.get_element_size(element)
     if how == 'tall':
-        axis = 'y'
+        axis = 'height'
     else:
-        axis = 'x'
+        axis = 'width'
     if negative:
         assert elem_size[axis] != int(pixels)
     else:
