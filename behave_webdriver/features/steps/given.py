@@ -7,7 +7,7 @@ def open_url(context, url):
 
 
 @given('the element "([^"]*)?" is( not)* visible')
-def element_visible(context, negative, element):
+def element_visible(context, element, negative):
     visible = context.behave_driver.element_visible(element)
     if negative:
         assert not visible
@@ -139,10 +139,12 @@ def step_impl(context, cookie_key, negative, value):
 @given('the cookie "([^"]*)?" does( not)* exist')
 def step_impl(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
-    if negative:
-        assert cookie is None
-    else:
-        assert cookie is not None
+    if cookie:
+        context.behave_driver.delete_cookie(cookie_key)
+    # if negative:
+    #     assert cookie is None
+    # else:
+    #     assert cookie is not None
 
 
 @given('the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')

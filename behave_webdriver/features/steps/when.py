@@ -1,6 +1,6 @@
 from behave import *
 import time
-@when('I pause for {miliseconds}ms')
+@when('I pause for {miliseconds:d}ms')
 def sleep_ms(context, miliseconds):
     # TODO: webdriver wait instead
     time.sleep(miliseconds/1000)
