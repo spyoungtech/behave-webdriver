@@ -1,28 +1,53 @@
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+
 class BehaveDriver(object):
-    def __init__(self, driver, **options):
+    def __init__(self, driver):
         self.driver = driver
 
-    @property
-    def title(self):
-        return self.driver.title
+    def __getattr__(self, item):
+        if hasattr(self.driver, item):
+            return getattr(self.driver, item)
+        else:
+            raise AttributeError('%r has no attribute %r' % self, item)
 
     @property
-    def current_url(self):
-        return self.driver.current_url
+    def screen_size(self):
+        size = self.driver.get_window_size()
+        x = size['width']
+        y = size['height']
+        return (x, y)
+
+    @screen_size.setter
+    def screen_size(self, x, y):
+        if x is None:
+            x = self.screen_size[0]
+        if y is None:
+            y = self.screen_size[1]
+        self.driver.set_window_size(x, y)
+
 
     @property
     def cookies(self):
         return self.driver.get_cookies()
 
+    @property
+    def has_alert(self):
+        e = EC.alert_is_present()
+        return e(self.driver)
+
     def get_cookie(self, cookie_name):
         return self.driver.get_cookie(cookie_name)
 
-    def get_element(self, selector):
+    def get_element(self, selector, by=None):
         """
         :param selector: An xpath or CSS selector
         :return:
         """
+        if by:
+            return self.driver.find_element(by, selector)
         if selector.startswith('//'):
             return self.driver.find_element_by_xpath(selector)
         else:
@@ -40,6 +65,13 @@ class BehaveDriver(object):
             value = elem.get_attribute(attr)
         return value
 
+    def get_element_size(self, element):
+        elem = self.get_element(element)
+        return element.size
+
+    def get_element_location(self, element):
+        elem = self.get_element(element)
+        return elem.location
 
     def open_url(self, url):
         return self.driver.get(url)
@@ -62,4 +94,19 @@ class BehaveDriver(object):
     def element_selected(self, element):
         elem = self.get_element(element)
         return elem.is_selected()
+
+    def click_element(self, element, n=1, delay=0.1):
+        if n < 1:
+            return
+        elem = self.get_element(element)
+        elem.click()
+        for _ in range(n-1):
+            time.sleep(delay)
+            elem.click()
+
+    def click_link_text(self, text, partial=False):
+        if partial:
+            self.driver.find_element_by_partial_link_text(text).click()
+        else:
+            self.driver.find_element_by_link_text(text).click()
 
