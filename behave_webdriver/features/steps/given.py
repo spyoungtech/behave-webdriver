@@ -102,7 +102,11 @@ def element_any_text(context, element, negative):
 
 @given('the element "([^"]*)?" is( not)* empty')
 def step_impl(context, element, negative):
-    pass
+    any_text = bool(context.behave_driver.get_element_text(element))
+    if negative:
+        assert not any_text
+    else:
+        assert any_text
 
 
 @given('the page url is( not)* "([^"]*)?"')
@@ -141,10 +145,13 @@ def step_impl(context, cookie_key, negative):
         assert cookie is not None
 
 
-@given('the element "([^"]*)?" is( not)* ([\d]+)px in (width|height)')
-def step_impl(context, element, negative, pixels, axis):
+@given('the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
+def step_impl(context, element, negative, pixels, how):
     elem_size = context.behave_driver.get_element_size(element)
-    # elem_is_specified_size = int(pixels) == elem_size[axis]
+    if how == 'tall':
+        axis = 'y'
+    else:
+        axis = 'x'
     if negative:
         assert elem_size[axis] != int(pixels)
     else:

@@ -1,54 +1,93 @@
 from behave import *
-
+from urllib.parse import urlparse
 use_step_matcher('re')
 @then('I expect that the title is( not)* "([^"]*)?"')
 def step_impl(context, negative, title):
-    raise NotImplementedError('step not implemented')
+    if negative:
+        assert title != context.behave_driver.title
+    else:
+        assert title == context.behave_driver.title
 
 
 @then('I expect that element "([^"]*)?" is( not)* visible')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    element_is_visible = context.behave_driver.element_visible(element)
+    if negative:
+        assert not element_is_visible
+    else:
+        assert element_is_visible
 
 
 @then('I expect that element "([^"]*)?" becomes( not)* visible')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    element_is_visible = context.behave_driver.element_visible(element)
+    if negative:
+        assert not element_is_visible
+    else:
+        assert element_is_visible
 
 
 @then('I expect that element "([^"]*)?" is( not)* within the viewport')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    element_is_visible = context.behave_driver.element_visible(element)
+    if negative:
+        assert not element_is_visible
+    else:
+        assert element_is_visible
 
 
 @then('I expect that element "([^"]*)?" does( not)* exist')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    element_exists = context.behave_driver.element_exists(element)
+    if negative:
+        assert not element_exists
+    else:
+        assert element_exists
 
 
 @then('I expect that element "([^"]*)?"( not)* contains the same text as element "([^"]*)?"')
 def step_impl(context, first_element, negative, second_element):
-    raise NotImplementedError('step not implemented')
-
+    first_elem_text = context.behave_driver.get_element_text(first_element)
+    second_elem_text = context.behave_driver.get_element_text(second_element)
+    same =  first_elem_text == second_elem_text
+    if negative:
+        assert not same
+    else:
+        assert same
 
 @then('I expect that element "([^"]*)?"( not)* matches the text "([^"]*)?"')
 def step_impl(context, element, negative, text):
-    raise NotImplementedError('step not implemented')
+    matches = context.behave_driver.get_element_text(element) == text
+    if negative:
+        assert not matches
+    else:
+        assert matches
 
 
 @then('I expect that element "([^"]*)?"( not)* contains the text "([^"]*)?"')
 def step_impl(context, element, negative, text):
-    raise NotImplementedError('step not implemented')
-
+    contains = text in context.behave_driver.get_element_text(element)
+    if negative:
+        assert not contains
+    else:
+        assert contains
 
 @then('I expect that element "([^"]*)?"( not)* contains any text')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    any_text = bool(context.behave_driver.get_element_text(element))
+    if negative:
+        assert not any_text
+    else:
+        assert any_text
 
 
 @then('I expect that element "([^"]*)?" is( not)* empty')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    any_text = bool(context.behave_driver.get_element_text(element))
+    if negative:
+        assert not any_text
+    else:
+        assert any_text
 
 
 @then('I expect that the url is( not)* "([^"]*)?"')
@@ -61,60 +100,105 @@ def step_impl(context, negative, value):
 
 
 
-
 @then('I expect that the path is( not)* "([^"]*)?"')
 def step_impl(context, negative, value):
-    raise NotImplementedError('step not implemented')
+    current_url = context.behave_driver.current_url
+    path = urlparse(current_url).path
+    if negative:
+        assert path != value
+    else:
+        assert path == value
 
 
 @then('I expect the url to( not)* contain "([^"]*)?"')
 def step_impl(context, negative, value):
-    raise NotImplementedError('step not implemented')
+    current_url = context.behave_driver.current_url
+    if negative:
+        assert value not in current_url
+    else:
+        assert value in current_url
 
 
 @then('I expect that the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
 def step_impl(context, is_css, attr, element, negative, value):
-    raise NotImplementedError('step not implemented')
+    attribute_value = context.behave_driver.get_elemet_css_attribute(element, attr, is_css)
+    if negative:
+        assert attribute_value != value
+    else:
+        assert attribute_value == value
 
 
 @then('I expect that checkbox "([^"]*)?" is( not)* checked')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    # should this check that the element is, in fact, a checkbox?
+    checked = context.behave_driver.element_selected(element)
+    if negative:
+        assert not checked
+    else:
+        assert checked
 
 
 @then('I expect that element "([^"]*)?" is( not)* selected')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    selected = context.behave_driver.element_selected(element)
+    if negative:
+        assert not selected
+    else:
+        assert selected
 
 
 @then('I expect that element "([^"]*)?" is( not)* enabled')
 def step_impl(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    enabled = context.behave_driver.element_enabled(element)
+    if negative:
+        assert not enabled
+    else:
+        assert enabled
 
 
 @then('I expect that cookie "([^"]*)?"( not)* contains "([^"]*)?"')
 def step_impl(context, element, negative, value):
-    raise NotImplementedError('step not implemented')
+    cookie = context.behave_driver.get_cookie(cookie_key)
+    if negative:
+        assert cookie != value
+    else:
+        assert cookie == value
 
 
 @then('I expect that cookie "([^"]*)?"( not)* exists')
 def step_impl(context, cookie_key, negative):
-    raise NotImplementedError('step not implemented')
+    cookie = context.behave_driver.get_cookie(cookie_key)
+    if negative:
+        assert cookie is None
+    else:
+        assert cookie is not None
 
 
 @then('I expect that element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
-def step_impl(context, element, negative, pixels, axis):
-    raise NotImplementedError('step not implemented')
+def step_impl(context, element, negative, pixels, how):
+    elem_size = context.behave_driver.get_element_size(element)
+    if how == 'tall':
+        axis = 'y'
+    else:
+        axis = 'x'
+    if negative:
+        assert elem_size[axis] != int(pixels)
+    else:
+        assert elem_size[axis] == int(pixels)
 
 
 @then('I expect that element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
 def step_impl(context, element, negative, pos, axis):
-    raise NotImplementedError('step not implemented')
+    element_position = context.behave_driver.get_element_location(element)
+    if negative:
+        assert element_position[axis] != int(pos)
+    else:
+        assert element_position[axis] == int(pos)
 
 
 @then('I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"')
 def step_impl(context, element, has, classname):
-    raise NotImplementedError('step not implemented')
+    pass
 
 
 @then('I expect a new (window|tab) has( not)* been opened')
@@ -139,7 +223,10 @@ def step_impl(context, element, miliseconds, negative, condition):
 
 @then('I expect that a (alertbox|confirmbox|prompt) is( not)* opened')
 def step_impl(context, modal, negative):
-    raise NotImplementedError('step not implemented')
+    if negative:
+        assert context.behave_driver.has_alert is False
+    else:
+        assert context.behave_driver.has_alert is True
 
 
 @then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
