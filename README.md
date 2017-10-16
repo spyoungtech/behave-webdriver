@@ -2,15 +2,16 @@
 Boilerplate to easily run [selenium](https://github.com/SeleniumHQ/selenium) webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
 Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
+[![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
 
 
 # Status
 
 This project is currently in the very early stages of development, but is being worked on regularly. A formal release will be forthcoming.
-
 The current travis build test a base set of features found in tests/features/sampleSnippets.feature
+Currently we test against Python 2.7 and Python 3.5+ -- Other versions may work, but are untested. If you have issues with other versions of Python, please raise an issue.
 
-[![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
+
 
 # Goals
 Make writing readable selenium tests as Gherkin features easy.
