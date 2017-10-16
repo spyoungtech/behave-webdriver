@@ -1,5 +1,9 @@
 from behave import *
-from urllib.parse import urlparse
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
 use_step_matcher('re')
 @then('I expect that the title is( not)* "([^"]*)?"')
 def step_impl(context, negative, title):
