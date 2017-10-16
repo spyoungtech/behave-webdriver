@@ -21,7 +21,7 @@ def click_link(context, link_text):
 def click_button(context, element):
     context.behave_driver.click_element(element)
 
-@when('I set the inputfield "{element}" to "{value}"')
+@when('I set "{value}" to the inputfield "{element}"')
 def set_input(context, element, value):
     elem = context.behave_driver.get_element(element)
     elem.clear()
