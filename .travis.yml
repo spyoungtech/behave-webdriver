@@ -19,4 +19,4 @@ install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
   - pip install .
 
 script:
-  - behave behave_webdriver/features
+  - behave tests/features
