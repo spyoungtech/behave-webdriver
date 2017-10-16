@@ -12,12 +12,34 @@ Provide an easily extensible interface to the selenium driver
 
 This project is currently in the very early stages of development, but is being worked on regularly. A formal release will be forthcoming.
 
+The current travis tests test a base set of features.
+
+## Installing and running the tests
+
+<aside class="notice">
+For now, the tests use headless chrome, so chromedriver 2.3+ must be on PATH.
+</aside>
+
+```
+# install
+git clone https://github.com/spyoungtech/behave-webdriver
+cd behave-webdriver
+pip install .
+# run tests
+behave behave_webdriver/features
+```
+
+0 features passed, 1 failed, 0 skipped
+18 scenarios passed, 8 failed, 0 skipped
+108 steps passed, 8 failed, 5 skipped, 0 undefined
+```
+
 # TODO
 - [ ] Implement the support code from cucumber-boilerplate for behave/selenium
   - [x] given
   - [ ] when
   - [ ] then
-- [ ] Setup travis tests
+- [x] Setup basic travis tests
 - [ ] Provide some cool browser options
 - [ ] ???
 - [ ] Profit
