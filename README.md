@@ -92,6 +92,8 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 ## Given Steps
 
 - `I open the url "([^"]*)?"`
+- `I open the site "([^"]*)?"`
+- `the base url is "([^"]*)?"`
 - `the element "([^"]*)?" is( not)* visible`
 - `the element "([^"]*)?" is( not)* enabled`
 - `the element "([^"]*)?" is( not)* selected`
@@ -138,7 +140,8 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I dismiss the alert`
 - `I enter {text} into the prompt`
 - `I scroll to element {element}`
-
+- `I move to element "{element}" with an offset of {x_offset:d},{y_offset:d}`
+- `I move to element "{element}"`
 
 ### When steps not yet implemented
 
@@ -147,8 +150,7 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I select the {nth:d} option for element "{element}"`
 - `I select the option with the text {text} for element {element}`
 - `I select the option with the value {value} for element {element}`
-- `I move to element "{element}" with an offset of ({x_offset:d},{y_offset:d})`
-- `I move to element "{element}"`
+
 
 
 ## Then Steps
@@ -177,10 +179,10 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I expect that element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis`
 - `I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*`
 - `I expect that a (alertbox|confirmbox|prompt) is( not)* opened`
+- `I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"`
 
 ### Then steps not yet implemented
 
-- `I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"`
 - `I expect a new (window|tab) has( not)* been opened`
 - `I expect the url "([^"]*)?" is opened in a new (tab|window)`
 - `I expect that element "([^"]*)?" is( not)* focused`
@@ -188,9 +190,9 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 
 # TODO
 - [ ] Implement the support code from cucumber-boilerplate for behave/selenium
-  - [ ] given 20/21 steps implemented
-  - [ ] when  18/25 steps implemented
-  - [ ] then 23/28 steps implemented
+  - [ ] given 22/23 steps implemented
+  - [ ] when  20/25 steps implemented
+  - [ ] then 24/28 steps implemented
   - [x] sampleSnippets.feature passing
 - [x] Setup basic travis tests
 - [ ] More extensive tests and feature files
