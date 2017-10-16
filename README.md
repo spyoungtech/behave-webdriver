@@ -2,10 +2,6 @@
 Boilerplate to easily run [selenium](https://github.com/SeleniumHQ/selenium) webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
 Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
-# Goal
-Make writing readable selenium tests as Gherkin features easy.
-Implement features from webdriverio-cucumber-boilerplate project
-Provide an easily extensible interface to the selenium driver
 
 
 # Status
@@ -15,6 +11,12 @@ This project is currently in the very early stages of development, but is being 
 The current travis build test a base set of features found in tests/features/sampleSnippets.feature
 
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
+
+# Goals
+Make writing readable selenium tests as Gherkin features easy.
+Implement features from webdriverio-cucumber-boilerplate project for Python's [behave](https://github.com/behave/behave) BDD framework
+Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
+
 
 
 # Installation
@@ -34,9 +36,9 @@ pip install .
 
 # How to use
 
-## Basic use
+## Quick start
 
-Basic use of this step library will require you to (1) import the step functions and (2) provide a `behave_driver` to your contexts.
+Basic use of this step library will require you to (1) import the step functions and (2) provide a `behave_driver` to your `context`.
 
 For example, you can import all the step definitions from this library by placing the following in one of your step files (`features/steps`)
 
@@ -47,7 +49,7 @@ from behave_webdriver.steps import *
 
 These steps will expect to be able to access a `BehaveDriver` instance in your context. You can provide this, for example, in your `environment.py` file in a `before_all` function.
 
-You can use one of the supplied presets
+You can use one of the supplied presets. For testing, we use **Headless Chrome** `BehaveDriver.headless_chrome()`which will work in headless environments, like CI builds.
 
 ```python
 # features/environment.py
@@ -75,22 +77,11 @@ def before_all(context):
 
 ## Advanced usage; modifying/extending behave-webdriver
 
-Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` class. You can subclass this to override or extend any behaviors implemented there.
+Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` class. This means you can subclass this to override or extend any behaviors implemented there.
 Also worth noting is that you can access attributes of the underlying webdriver directly through `behave_driver` or by accessing the stored driver instance `behave_driver.driver`
 
 
-
-For more information check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
-
-# Running The Tests
-
-Then you should get results like this:
-
-```
-1 features passed, 0 failed, 0 skipped
-26 scenarios passed, 0 failed, 0 skipped
-121 steps passed, 0 failed, 0 skipped, 0 undefined
-```
+For more information about behave, check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
 
 
 # List of steps implemented
