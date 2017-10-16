@@ -26,6 +26,11 @@ def set_base_url(context, url):
     context.base_url = url
 
 
+@given('I pause for (\d+)*ms')
+def pause(context, milliseconds):
+    milliseconds = int(milliseconds)
+    context.behave_driver.pause(milliseconds)
+
 @given('the element "([^"]*)?" is( not)* visible')
 def element_visible(context, element, negative):
     visible = context.behave_driver.element_visible(element)
@@ -149,10 +154,11 @@ def element_attribute(context, is_css, attr, element, negative, value):
 @given('the cookie "([^"]*)?" contains( not)* the value "([^"]*)?"')
 def step_impl(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
+    cookie_value = cookie.get('value')
     if negative:
-        assert cookie != value
+        assert cookie_value != value
     else:
-        assert cookie == value
+        assert cookie_value == value
 
 
 @given('the cookie "([^"]*)?" does( not)* exist')
