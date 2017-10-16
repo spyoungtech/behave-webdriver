@@ -219,6 +219,11 @@ class BehaveDriver(object):
             element_value = elem.text
         return value in element_value
 
+    def element_has_class(self, element, cls):
+        elem = self.get_element(element)
+        elem_classes = elem.get_attribute('class')
+        return cls in elem_classes
+
     def click_element(self, element, n=1, delay=0.1):
         if n < 1:
             return
@@ -275,6 +280,15 @@ class BehaveDriver(object):
         x = int(x)
         y = int(y)
         self.driver.execute_script('window.scrollTo({}, {});'.format(x, y))
+
+    def move_to_element(self, element, offset=None):
+        elem = self.get_element(element)
+        actions = ActionChains(self.driver)
+        if offset:
+            actions.move_to_element_with_offset(elem, *offset)
+        else:
+            actions.move_to_element(elem)
+        actions.perform()
 
     def pause(self, milliseconds):
         # TODO: use webdriver pause functionality?

@@ -124,11 +124,11 @@ def select_option_by_text(context, value, element):
     raise NotImplementedError('This step has not been implemented yet')
 
 
-@when('I move to element "{element}" with an offset of ({x_offset:d},{y_offset:d})')
+@when('I move to element "{element}" with an offset of {x_offset:d},{y_offset:d}')
 def move_to_element_offset(context, element, x_offset, y_offset):
-    raise NotImplementedError('This step has not been implemented yet')
+    context.behave_driver.move_to_element(element, (x_offset, y_offset))
 
 
 @when('I move to element "{element}"')
 def move_to_element(context, element):
-    raise NotImplementedError('This step has not been implemented yet')
+    context.behave_driver.move_to_element(element)

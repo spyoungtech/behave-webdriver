@@ -91,11 +91,12 @@ def step_impl(context, element, negative):
 
 @then('I expect that element "([^"]*)?" is( not)* empty')
 def step_impl(context, element, negative):
-    any_text = bool(context.behave_driver.get_element_text(element))
+    elem_text = context.behave_driver.get_element_text(element)
+    any_text = bool(elem_text)
     if negative:
-        assert not any_text
+        assert any_text is True
     else:
-        assert any_text
+        assert any_text is False
 
 
 @then('I expect that the url is( not)* "([^"]*)?"')
@@ -199,14 +200,23 @@ def step_impl(context, element, negative, pixels, how):
 def step_impl(context, element, negative, pos, axis):
     element_position = context.behave_driver.get_element_location(element)
     if negative:
-        assert element_position[axis] != int(pos)
+        assert element_position[axis] != int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
     else:
-        assert element_position[axis] == int(pos)
+        assert element_position[axis] == int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
 
 
 @then('I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"')
 def step_impl(context, element, has, classname):
-    raise NotImplementedError('step not implemented')
+    if 'not' in has:
+        negative = True
+    else:
+        negative = False
+
+    has_class = context.behave_driver.element_has_class(element, classname)
+    if negative:
+        assert not has_class, 'Classes were {}'.format(context.behave_driver.get_element_attribute(element, 'class'))
+    else:
+        assert has_class, 'Classes were {}'.format(context.behave_driver.get_element_attribute(element, 'class'))
 
 
 @then('I expect a new (window|tab) has( not)* been opened')

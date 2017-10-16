@@ -19,7 +19,7 @@ def open_site(context, url):
     context.behave_driver.open_url(destination)
 
 
-@given('The base url is "([^"]*)?"')
+@given('the base url is "([^"]*)?"')
 def set_base_url(context, url):
     if url.endswith('/'):
         url = url[:-1]
