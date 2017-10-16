@@ -29,9 +29,12 @@ pip install .
 behave behave_webdriver/features
 ```
 
+Then you should get results like this:
+
+```
 0 features passed, 1 failed, 0 skipped
-18 scenarios passed, 8 failed, 0 skipped
-108 steps passed, 8 failed, 5 skipped, 0 undefined
+19 scenarios passed, 7 failed, 0 skipped
+111 steps passed, 7 failed, 3 skipped, 0 undefined
 ```
 
 # TODO
