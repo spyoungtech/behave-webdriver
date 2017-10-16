@@ -4,7 +4,7 @@ Feature: Viewport test
     And make sure I have the logo within the viewport and make sure the footer is not
 
     Scenario: Header in viewport, footer outside viewport
-        Given I open the url "/"
+        Given I open the site "/"
         And   I have a screen that is 1024 by 768 pixels
         And   I pause for 1000ms
         Then  I expect that element "h1" is within the viewport

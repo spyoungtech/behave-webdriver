@@ -3,7 +3,7 @@ Feature: Test visibility of elements
     I want to be able to test the visibillity of a element
 
     Background:
-        Given I open the url "http://localhost:8080/"
+        Given I open the url "http://localhost:8000/"
         And   I pause for 1000ms
 
     Scenario: Invisible elements to be invisible
