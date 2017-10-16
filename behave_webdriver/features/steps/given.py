@@ -83,11 +83,11 @@ def element_matches_text(context, element, negative, text):
 
 @given('the element "([^"]*)?"( not)* contains the text "([^"]*)?"')
 def element_contains_text(context, element, negative, text):
-    element_text = context.behave_driver.get_element_text(element)
+    contains = context.behave_driver.element_contains(element, text)
     if negative:
-        assert text not in element_text
+        assert not contains
     else:
-        assert text in element_text
+        assert contains
 
 
 
