@@ -1,3 +1,5 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
@@ -14,6 +16,16 @@ class BehaveDriver(object):
             return getattr(self.driver, item)
         else:
             raise AttributeError('{} has no attribute {}'.format(self, item))
+
+    @classmethod
+    def headless_chrome(cls, *args, **kwargs):
+        chrome_options = kwargs.pop('chrome_options', None)
+        if chrome_options is None:
+            chrome_options = ChromeOptions()
+        chrome_options.add_argument('--headless')
+        driver = webdriver.Chrome(*args, chrome_options=chrome_options, **kwargs)
+        return cls(driver=driver)
+
     @property
     def alert(self):
         return Alert(self.driver)
