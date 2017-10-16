@@ -18,6 +18,11 @@ class BehaveDriver(object):
             raise AttributeError('{} has no attribute {}'.format(self, item))
 
     @classmethod
+    def chrome(cls, *args, **kwargs):
+        driver = webdriver.Chrome(*args, **kwargs)
+        return cls(driver=driver)
+
+    @classmethod
     def headless_chrome(cls, *args, **kwargs):
         chrome_options = kwargs.pop('chrome_options', None)
         if chrome_options is None:
