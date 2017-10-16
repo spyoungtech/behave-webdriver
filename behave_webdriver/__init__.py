@@ -168,6 +168,9 @@ class BehaveDriver(object):
 
     def get_element_text(self, element):
         elem = self.get_element(element)
+        value = elem.get_property('value')
+        if value is not None:
+            return value
         return elem.text
 
     def get_element_attribute(self, element, attr, css=False):
