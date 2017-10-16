@@ -140,9 +140,9 @@ def step_impl(context, cookie_key, negative, value):
 def step_impl(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
     if cookie and negative:
-        # This may be a bad idea
         context.behave_driver.delete_cookie(cookie_key)
     cookie = context.behave_driver.get_cookie(cookie_key)
+
     if negative:
         assert cookie is None
     else:
@@ -175,7 +175,6 @@ def step_impl(context, element, negative, pos, axis):
 @given('I have a screen that is ([\d]+) by ([\d]+) pixels')
 def step_impl(context, x, y):
     context.behave_driver.screen_size = (x, y)
-    assert context.behave_driver.screen_size
 
 
 @given('I have closed all but the first (window|tab)')
@@ -189,3 +188,5 @@ def step_impl(context, modal, negative):
         assert context.behave_driver.has_alert is False
     else:
         assert context.behave_driver.has_alert is True
+
+use_step_matcher('parse')

@@ -170,7 +170,7 @@ def step_impl(context, cookie_key, negative, value):
 def step_impl(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
     if negative:
-        assert cookie is None
+        assert cookie is None, u'Cookie was present: {}'.format(cookie)
     else:
         assert cookie is not None
 
@@ -243,3 +243,4 @@ def step_impl(context, modal, negative):
 def step_impl(context, modal, negative, text):
     raise NotImplementedError('step not implemented')
 
+use_step_matcher('parse')

@@ -1,5 +1,6 @@
 from behave import *
 import time
+use_step_matcher('parse')
 @when('I pause for {miliseconds:d}ms')
 def sleep_ms(context, miliseconds):
     # TODO: webdriver wait instead
@@ -56,7 +57,7 @@ def submit_form(context, element):
 def set_cookie(context, cookie_key, value):
     context.behave_driver.add_cookie({'name': cookie_key, 'value': value})
 
-@when('I delete the cookie "{cookie_key}')
+@when('I delete the cookie "{cookie_key}"')
 def delete_cookie(context, cookie_key):
     context.behave_driver.delete_cookie(cookie_key)
 
