@@ -159,10 +159,11 @@ def step_impl(context, element, negative):
 @then('I expect that cookie "([^"]*)?"( not)* contains "([^"]*)?"')
 def step_impl(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
+    cookie_value = cookie.get('value')
     if negative:
-        assert cookie != value
+        assert cookie_value != value
     else:
-        assert cookie == value
+        assert cookie_value == value
 
 
 @then('I expect that cookie "([^"]*)?"( not)* exists')
