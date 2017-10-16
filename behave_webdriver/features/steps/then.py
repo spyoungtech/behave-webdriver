@@ -199,7 +199,7 @@ def step_impl(context, element, negative, pos, axis):
 
 @then('I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"')
 def step_impl(context, element, has, classname):
-    pass
+    raise NotImplementedError('step not implemented')
 
 
 @then('I expect a new (window|tab) has( not)* been opened')
@@ -223,7 +223,7 @@ def step_impl(context, element, milliseconds, negative, condition):
         digits = ''.join(char for char in milliseconds if char.isdigit())
         milliseconds = int(digits)
     else:
-        milliseconds = 100 # default wait time
+        milliseconds = 5000 # default wait time
     result = context.behave_driver.wait_for_element_condition(element, milliseconds, condition)
     if negative:
         assert not result

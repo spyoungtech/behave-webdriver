@@ -20,6 +20,17 @@ class element_is_enabled(object):
         else:
             return False
 
+class element_exists(object):
+    def __init__(self, locator):
+        self.locator = locator
+
+    def __call__(self, driver):
+        try:
+            element = driver.find_element(*self.locator)
+        except NoSuchElementException:
+            return False
+        if element:
+            return element
 
 class BehaveDriver(object):
     def __init__(self, driver):
@@ -197,13 +208,13 @@ class BehaveDriver(object):
             'be checked': EC.element_to_be_selected,
             'be enabled': element_is_enabled,
             'be selected': EC.element_to_be_selected,
-            'be visible': EC.visibility_of,
+            'be visible': EC.visibility_of_element_located,
             'contain a text': EC.text_to_be_present_in_element,
             'contain a value': EC.text_to_be_present_in_element_value,
-            'exist': EC.presence_of_element_located,
+            'exist': element_exists,
         }
 
-        if not condition or condition == 'exist':
+        if not condition or condition in ['exist', 'be visible']:
             if element.startswith('//'):
                 elem = (By.XPATH, element)
             else:
@@ -211,11 +222,11 @@ class BehaveDriver(object):
         else:
             elem = self.get_element(element)
         seconds = round(ms / 1000, 3)
-        wait = WebDriverWait(seconds)
+        wait = WebDriverWait(self.driver, seconds)
         if condition:
             expected = conditions[condition]
         else:
-            expected = EC.presence_of_element_located
+            expected = element_exists
 
         try:
             result = wait.until(expected(elem))
