@@ -134,9 +134,10 @@ class BehaveDriver(object):
             self.driver.find_element_by_link_text(text).click()
 
     def drag_element(self, element, to_element):
-        elem = self.get_element(element)
+        source_elem = self.get_element(element)
         to_elem = self.get_element(to_element)
-        self.driver.drag_and_drop(elem, to_elem)
+        actions = ActionChains(self.driver)
+        actions.drag_and_drop(source_elem, to_elem)
 
     def submit(self, element):
         elem = self.get_element(element)
