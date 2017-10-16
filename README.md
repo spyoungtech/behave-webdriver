@@ -192,11 +192,16 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
   - [ ] when  18/25 steps implemented
   - [ ] then 23/28 steps implemented
   - [x] sampleSnippets.feature passing
-- [ ] More extensive tests and feature files
 - [x] Setup basic travis tests
+- [ ] More extensive tests and feature files
+- [ ] Use an assertion matcher library
 - [ ] Provide some cool browser options
-- [ ] ???
-- [ ] Profit
+  - [x] Headless selenium `BehaveDriver.headless_chrome()`
+  - [x] Standard chrome browser `BehaveDriver.chrome()`
+  - [ ] PhantomJS
+  - [ ] Firefox
+  - [ ] ???
+
 
 # Acknowledgements
 
