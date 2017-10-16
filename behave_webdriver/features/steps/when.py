@@ -11,7 +11,7 @@ def click_element(context, element):
 
 @when('I doubleclick on the element "{element}"')
 def doubleclick_element(context, element):
-    context.behave_driver.click_element(element, n=2)
+    context.behave_driver.doubleclick_element(element)
 
 @when('I click on the link "{link_text}"')
 def click_link(context, link_text):

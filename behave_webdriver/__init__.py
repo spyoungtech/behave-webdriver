@@ -135,6 +135,12 @@ class BehaveDriver(object):
             time.sleep(delay)
             elem.click()
 
+    def doubleclick_element(self, element):
+        elem = self.get_element(element)
+        actions = ActionChains(self.driver)
+        actions.double_click(elem)
+        actions.perform()
+
     def click_link_text(self, text, partial=False):
         if partial:
             self.driver.find_element_by_partial_link_text(text).click()
