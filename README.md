@@ -26,7 +26,7 @@ git clone https://github.com/spyoungtech/behave-webdriver
 cd behave-webdriver
 pip install .
 # run tests
-behave behave_webdriver/features
+behave tests/features
 ```
 
 Then you should get results like this:
@@ -62,7 +62,7 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `the cookie "([^"]*)?" does( not)* exist`
 - `the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)`
 - `the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis`
-- `I have a screen that is ([\d]+) by ([\d]+) pixels
+- `I have a screen that is ([\d]+) by ([\d]+) pixels`
 
 - `a (alertbox|confirmbox|prompt) is( not)* opened`
 
