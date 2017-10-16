@@ -1,6 +1,8 @@
 from behave import *
 
 use_step_matcher('re')
+
+
 @given('I open the url "([^"]*)?"')
 def open_url(context, url):
     context.behave_driver.open_url(url)
@@ -65,7 +67,7 @@ def title(context, negative, value):
 def elements_same_text(context, first_element, negative, second_element):
     first_elem_text = context.behave_driver.get_element_text(first_element)
     second_elem_text = context.behave_driver.get_element_text(second_element)
-    same =  first_elem_text == second_elem_text
+    same = first_elem_text == second_elem_text
     if negative:
         assert not same
     else:
@@ -88,7 +90,6 @@ def element_contains_text(context, element, negative, text):
         assert not contains
     else:
         assert contains
-
 
 
 @given('the element "([^"]*)?"( not)* contains any text')
@@ -160,7 +161,6 @@ def step_impl(context, element, negative, pixels, how):
         assert elem_size[axis] != int(pixels)
     else:
         assert elem_size[axis] == int(pixels)
-
 
 
 @given('the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')

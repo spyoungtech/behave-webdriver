@@ -5,6 +5,8 @@ except ImportError:
     from urlparse import urlparse
 
 use_step_matcher('re')
+
+
 @then('I expect that the title is( not)* "([^"]*)?"')
 def step_impl(context, negative, title):
     if negative:
@@ -53,11 +55,12 @@ def step_impl(context, element, negative):
 def step_impl(context, first_element, negative, second_element):
     first_elem_text = context.behave_driver.get_element_text(first_element)
     second_elem_text = context.behave_driver.get_element_text(second_element)
-    same =  first_elem_text == second_elem_text
+    same = first_elem_text == second_elem_text
     if negative:
         assert not same
     else:
         assert same
+
 
 @then('I expect that element "([^"]*)?"( not)* matches the text "([^"]*)?"')
 def step_impl(context, element, negative, text):
@@ -75,6 +78,7 @@ def step_impl(context, element, negative, text):
         assert not contains
     else:
         assert contains
+
 
 @then('I expect that element "([^"]*)?"( not)* contains any text')
 def step_impl(context, element, negative):
@@ -101,7 +105,6 @@ def step_impl(context, negative, value):
         assert current_url != value
     else:
         assert current_url == value
-
 
 
 @then('I expect that the path is( not)* "([^"]*)?"')
@@ -227,7 +230,7 @@ def step_impl(context, element, milliseconds, negative, condition):
         digits = ''.join(char for char in milliseconds if char.isdigit())
         milliseconds = int(digits)
     else:
-        milliseconds = 5000 # default wait time
+        milliseconds = 5000  # default wait time
     result = context.behave_driver.wait_for_element_condition(element, milliseconds, condition)
     if negative:
         assert not result
