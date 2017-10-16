@@ -146,6 +146,7 @@ class BehaveDriver(object):
         to_elem = self.get_element(to_element)
         actions = ActionChains(self.driver)
         actions.drag_and_drop(source_elem, to_elem)
+        actions.perform()
 
     def submit(self, element):
         elem = self.get_element(element)
