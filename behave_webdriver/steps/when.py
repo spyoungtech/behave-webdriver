@@ -76,7 +76,7 @@ def delete_cookie(context, cookie_key):
 
 @when('I press "{key}"')
 def press_button(context, key):
-    context.behave_driver.send_keys(key)
+    context.behave_driver.press_button(key)
 
 
 @when('I accept the alert')
@@ -94,7 +94,7 @@ def handle_prompt(context, text):
     context.behave_driver.alert.send_keys(text)
 
 
-@when('I scroll to element {element}')
+@when('I scroll to element "{element}"')
 def scroll_to(context, element):
     context.behave_driver.scroll_to_element(element)
 
