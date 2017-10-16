@@ -218,8 +218,17 @@ def step_impl(context, element, negative):
 
 
 @then('I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*')
-def step_impl(context, element, miliseconds, negative, condition):
-    raise NotImplementedError('step not implemented')
+def step_impl(context, element, milliseconds, negative, condition):
+    if milliseconds:
+        digits = ''.join(char for char in milliseconds if char.isdigit())
+        milliseconds = int(digits)
+    else:
+        milliseconds = 100 # default wait time
+    result = context.behave_driver.wait_for_element_condition(element, milliseconds, condition)
+    if negative:
+        assert not result
+    else:
+        assert result
 
 
 @then('I expect that a (alertbox|confirmbox|prompt) is( not)* opened')

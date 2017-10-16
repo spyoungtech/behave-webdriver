@@ -1,10 +1,24 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+
+
+class element_is_enabled(object):
+    def __init__(self, element):
+        self.element = element
+
+    def __call__(self, driver):
+        element = self.element
+        if element.is_enabled():
+            return element
+        else:
+            return False
 
 
 class BehaveDriver(object):
@@ -177,5 +191,41 @@ class BehaveDriver(object):
         x = int(x)
         y = int(y)
         self.driver.execute_script('window.scrollTo({}, {});'.format(x, y))
+
+    def wait_for_element_condition(self, element, ms, condition):
+        conditions = {
+            'be checked': EC.element_to_be_selected,
+            'be enabled': element_is_enabled,
+            'be selected': EC.element_to_be_selected,
+            'be visible': EC.visibility_of,
+            'contain a text': EC.text_to_be_present_in_element,
+            'contain a value': EC.text_to_be_present_in_element_value,
+            'exist': EC.presence_of_element_located,
+        }
+
+        if not condition or condition == 'exist':
+            if element.startswith('//'):
+                elem = (By.XPATH, element)
+            else:
+                elem = (By.CSS_SELECTOR, element)
+        else:
+            elem = self.get_element(element)
+        seconds = round(ms / 1000, 3)
+        wait = WebDriverWait(seconds)
+        if condition:
+            expected = conditions[condition]
+        else:
+            expected = EC.presence_of_element_located
+
+        try:
+            result = wait.until(expected(elem))
+        except TimeoutException:
+            result = None
+
+        return result
+
+
+
+
 
 
