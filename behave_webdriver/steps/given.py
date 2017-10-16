@@ -1,4 +1,8 @@
 from behave import *
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin  # Python 2
 
 use_step_matcher('re')
 
@@ -6,6 +10,20 @@ use_step_matcher('re')
 @given('I open the url "([^"]*)?"')
 def open_url(context, url):
     context.behave_driver.open_url(url)
+
+
+@given('I open the site "([^"]*)?"')
+def open_site(context, url):
+    base_url = getattr(context, 'base_url', 'http://localhost:8000')
+    destination = urljoin(base_url, url)
+    context.behave_driver.open_url(destination)
+
+
+@given('The base url is "([^"]*)?"')
+def set_base_url(context, url):
+    if url.endswith('/'):
+        url = url[:-1]
+    context.base_url = url
 
 
 @given('the element "([^"]*)?" is( not)* visible')
