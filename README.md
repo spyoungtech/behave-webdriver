@@ -9,15 +9,14 @@ Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriveri
 
 This project is currently in the very early stages of development, but is being worked on regularly. A formal release will be forthcoming.
 The current travis build test a base set of features found in tests/features/sampleSnippets.feature
-Currently we test against Python 2.7 and Python 3.5+ -- Other versions may work, but are untested. If you have issues with other versions of Python, please raise an issue.
+Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver -- Other versions/browsers may work, but are untested. If you have issues with untested versions or browsers, please raise an issue.
 
 
 
 # Goals
-Make writing readable selenium tests as Gherkin features easy.
-Implement features from webdriverio-cucumber-boilerplate project for Python's [behave](https://github.com/behave/behave) BDD framework
-Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
-
+- Make writing readable selenium tests as Gherkin features easy.
+- Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
+- To be (at least mostly) compatible with feature files written for cucumber/webdriverio
 
 
 # Installation
