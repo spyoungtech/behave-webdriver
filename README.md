@@ -12,22 +12,77 @@ Provide an easily extensible interface to the selenium driver
 
 This project is currently in the very early stages of development, but is being worked on regularly. A formal release will be forthcoming.
 
-The current travis tests test a base set of features.
+The current travis build test a base set of features found in tests/features/sampleSnippets.feature
 
-## Installing and running the tests
+[![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
 
-<aside class="notice">
-For now, the tests use headless chrome, so chromedriver 2.3+ must be on PATH.
-</aside>
+
+# Installation
+
+Via pip (PyPI coming soon)
+```
+pip install git+https://github.com/spyoungtech/behave-webdriver.git
+```
+
+Manual install (setup.py)
 
 ```
-# install
-git clone https://github.com/spyoungtech/behave-webdriver
+git clone https://github.com/spyoungtech/behave-webdriver.git
 cd behave-webdriver
 pip install .
-# run tests
-behave tests/features
 ```
+
+# How to use
+
+## Basic use
+
+Basic use of this step library will require you to (1) import the step functions and (2) provide a `behave_driver` to your contexts.
+
+For example, you can import all the step definitions from this library by placing the following in one of your step files (`features/steps`)
+
+```python
+# features/steps/webdriver_example.py
+from behave_webdriver.steps import *
+```
+
+These steps will expect to be able to access a `BehaveDriver` instance in your context. You can provide this, for example, in your `environment.py` file in a `before_all` function.
+
+You can use one of the supplied presets
+
+```python
+# features/environment.py
+from behave_webdriver import BehaveDriver
+
+def before_all(context):
+    # use the headless chromedriver preset
+    context.behave_driver = BehaveDriver.headless_chrome()
+
+def after_all(context):
+    # cleanup after tests run
+    context.behave_driver.quit()
+```
+You can also supply your own instance of any selenium webdriver by passing the driver to `BehaveDriver` (e.g. `BehaveDriver(my_driver_instance)`
+
+```python
+from behave_webdriver import BehaveDriver
+from selenium import webdriver
+
+firefox = webdriver.Firefox()
+
+def before_all(context):
+    context.behave_driver = BehaveDriver(firefox)
+```
+
+## Advanced usage; modifying/extending behave-webdriver
+
+Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` class. You can subclass this to override or extend any behaviors implemented there.
+Also worth noting is that you can access attributes of the underlying webdriver directly through `behave_driver` or by accessing the stored driver instance `behave_driver.driver`
+
+
+
+For more information check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
+
+# Running The Tests
 
 Then you should get results like this:
 
@@ -36,6 +91,7 @@ Then you should get results like this:
 26 scenarios passed, 0 failed, 0 skipped
 121 steps passed, 0 failed, 0 skipped, 0 undefined
 ```
+
 
 # List of steps implemented
 
@@ -145,6 +201,7 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
   - [ ] when  18/25 steps implemented
   - [ ] then 23/28 steps implemented
   - [x] sampleSnippets.feature passing
+- [ ] More extensive tests and feature files
 - [x] Setup basic travis tests
 - [ ] Provide some cool browser options
 - [ ] ???
