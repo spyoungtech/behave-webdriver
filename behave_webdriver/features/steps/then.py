@@ -66,7 +66,7 @@ def step_impl(context, element, negative, text):
 
 @then('I expect that element "([^"]*)?"( not)* contains the text "([^"]*)?"')
 def step_impl(context, element, negative, text):
-    contains = text in context.behave_driver.get_element_text(element)
+    contains = context.behave_driver.element_contains(element, text)
     if negative:
         assert not contains
     else:

@@ -118,6 +118,14 @@ class BehaveDriver(object):
         elem = self.get_element(element)
         return elem.is_selected()
 
+
+    def element_contains(self, element, value):
+        elem = self.get_element(element)
+        element_value = elem.get_property('value')
+        if element_value is None:
+            element_value = elem.text
+        return value in element_value
+
     def click_element(self, element, n=1, delay=0.1):
         if n < 1:
             return
