@@ -203,6 +203,14 @@ class BehaveDriver(object):
         y = int(y)
         self.driver.execute_script('window.scrollTo({}, {});'.format(x, y))
 
+    def pause(self, milliseconds):
+        # TODO: use webdriver pause functionality?
+        # actions = ActionChains(self.driver)
+        seconds = round(milliseconds / 1000, 3)
+        # actions.pause(seconds)
+        #actions.perform()
+        time.sleep(seconds)
+
     def wait_for_element_condition(self, element, ms, condition):
         conditions = {
             'be checked': EC.element_to_be_selected,

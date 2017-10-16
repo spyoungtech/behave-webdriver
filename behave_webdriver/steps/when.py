@@ -1,10 +1,9 @@
 from behave import *
 import time
 use_step_matcher('parse')
-@when('I pause for {miliseconds:d}ms')
-def sleep_ms(context, miliseconds):
-    # TODO: webdriver wait instead
-    time.sleep(miliseconds/1000)
+@when('I pause for {milliseconds:d}ms')
+def sleep_ms(context, milliseconds):
+    context.behave_driver.pause(milliseconds)
 
 @when('I click on the element "{element}"')
 def click_element(context, element):
