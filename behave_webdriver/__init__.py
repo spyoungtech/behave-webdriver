@@ -23,6 +23,7 @@ class BehaveDriver(object):
         if chrome_options is None:
             chrome_options = ChromeOptions()
         chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(*args, chrome_options=chrome_options, **kwargs)
         return cls(driver=driver)
 
