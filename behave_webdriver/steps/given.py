@@ -125,7 +125,7 @@ def element_any_text(context, element, negative):
 
 
 @given('the element "([^"]*)?" is( not)* empty')
-def step_impl(context, element, negative):
+def element_not_empty(context, element, negative):
     any_text = bool(context.behave_driver.get_element_text(element))
     if negative:
         assert not any_text
@@ -134,7 +134,7 @@ def step_impl(context, element, negative):
 
 
 @given('the page url is( not)* "([^"]*)?"')
-def step_impl(context, negative, value):
+def check_url(context, negative, value):
     page_url = context.behave_driver.current_url
     if negative:
         assert page_url != value
@@ -143,7 +143,7 @@ def step_impl(context, negative, value):
 
 
 @given('the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
-def element_attribute(context, is_css, attr, element, negative, value):
+def check_element_attribute(context, is_css, attr, element, negative, value):
     attribute_value = context.behave_driver.get_element_attribute(element, attr, is_css)
     if negative:
         assert attribute_value != value
@@ -152,7 +152,7 @@ def element_attribute(context, is_css, attr, element, negative, value):
 
 
 @given('the cookie "([^"]*)?" contains( not)* the value "([^"]*)?"')
-def step_impl(context, cookie_key, negative, value):
+def check_cookie_value(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
     cookie_value = cookie.get('value')
     if negative:
@@ -162,7 +162,7 @@ def step_impl(context, cookie_key, negative, value):
 
 
 @given('the cookie "([^"]*)?" does( not)* exist')
-def step_impl(context, cookie_key, negative):
+def check_cookie_exists(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
     if cookie and negative:
         context.behave_driver.delete_cookie(cookie_key)
@@ -175,7 +175,7 @@ def step_impl(context, cookie_key, negative):
 
 
 @given('the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
-def step_impl(context, element, negative, pixels, how):
+def check_element_size(context, element, negative, pixels, how):
     elem_size = context.behave_driver.get_element_size(element)
     if how == 'tall':
         axis = 'height'
@@ -188,7 +188,7 @@ def step_impl(context, element, negative, pixels, how):
 
 
 @given('the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
-def step_impl(context, element, negative, pos, axis):
+def check_element_position(context, element, negative, pos, axis):
     element_position = context.behave_driver.get_element_location(element)
     if negative:
         assert element_position[axis] != int(pos)
@@ -197,17 +197,17 @@ def step_impl(context, element, negative, pos, axis):
 
 
 @given('I have a screen that is ([\d]+) by ([\d]+) pixels')
-def step_impl(context, x, y):
+def set_screen_size(context, x, y):
     context.behave_driver.screen_size = (x, y)
 
 
 @given('I have closed all but the first (window|tab)')
-def step_impl(context, window_or_tab):
+def close_secondary_windows(context, window_or_tab):
     raise NotImplementedError('step not implemented')
 
 
 @given('a (alertbox|confirmbox|prompt) is( not)* opened')
-def step_impl(context, modal, negative):
+def check_modal(context, modal, negative):
     if negative:
         assert context.behave_driver.has_alert is False
     else:

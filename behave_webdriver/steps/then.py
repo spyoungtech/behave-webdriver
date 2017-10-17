@@ -8,7 +8,7 @@ use_step_matcher('re')
 
 
 @then('I expect that the title is( not)* "([^"]*)?"')
-def step_impl(context, negative, title):
+def check_title(context, negative, title):
     if negative:
         assert title != context.behave_driver.title
     else:
@@ -16,7 +16,7 @@ def step_impl(context, negative, title):
 
 
 @then('I expect that element "([^"]*)?" is( not)* visible')
-def step_impl(context, element, negative):
+def check_element_visibility(context, element, negative):
     element_is_visible = context.behave_driver.element_visible(element)
     if negative:
         assert not element_is_visible
@@ -25,7 +25,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?" becomes( not)* visible')
-def step_impl(context, element, negative):
+def check_element_becomes_visible(context, element, negative):
     element_is_visible = context.behave_driver.element_visible(element)
     if negative:
         assert not element_is_visible
@@ -34,7 +34,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?" is( not)* within the viewport')
-def step_impl(context, element, negative):
+def check_element_within_viewport(context, element, negative):
     element_is_visible = context.behave_driver.element_visible(element)
     if negative:
         assert not element_is_visible
@@ -43,7 +43,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?" does( not)* exist')
-def step_impl(context, element, negative):
+def check_element_exists(context, element, negative):
     element_exists = context.behave_driver.element_exists(element)
     if negative:
         assert not element_exists
@@ -52,7 +52,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?"( not)* contains the same text as element "([^"]*)?"')
-def step_impl(context, first_element, negative, second_element):
+def check_elements_same_text(context, first_element, negative, second_element):
     first_elem_text = context.behave_driver.get_element_text(first_element)
     second_elem_text = context.behave_driver.get_element_text(second_element)
     same = first_elem_text == second_elem_text
@@ -63,7 +63,7 @@ def step_impl(context, first_element, negative, second_element):
 
 
 @then('I expect that element "([^"]*)?"( not)* matches the text "([^"]*)?"')
-def step_impl(context, element, negative, text):
+def check_element_text_matches(context, element, negative, text):
     matches = context.behave_driver.get_element_text(element) == text
     if negative:
         assert not matches
@@ -72,7 +72,7 @@ def step_impl(context, element, negative, text):
 
 
 @then('I expect that element "([^"]*)?"( not)* contains the text "([^"]*)?"')
-def step_impl(context, element, negative, text):
+def check_element_text_contains(context, element, negative, text):
     contains = context.behave_driver.element_contains(element, text)
     if negative:
         assert not contains
@@ -81,7 +81,7 @@ def step_impl(context, element, negative, text):
 
 
 @then('I expect that element "([^"]*)?"( not)* contains any text')
-def step_impl(context, element, negative):
+def check_element_contains_text(context, element, negative):
     any_text = bool(context.behave_driver.get_element_text(element))
     if negative:
         assert not any_text
@@ -90,7 +90,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?" is( not)* empty')
-def step_impl(context, element, negative):
+def check_element_empty(context, element, negative):
     elem_text = context.behave_driver.get_element_text(element)
     any_text = bool(elem_text)
     if negative:
@@ -100,7 +100,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that the url is( not)* "([^"]*)?"')
-def step_impl(context, negative, value):
+def check_url(context, negative, value):
     current_url = context.behave_driver.current_url
     if negative:
         assert current_url != value
@@ -109,7 +109,7 @@ def step_impl(context, negative, value):
 
 
 @then('I expect that the path is( not)* "([^"]*)?"')
-def step_impl(context, negative, value):
+def check_path(context, negative, value):
     current_url = context.behave_driver.current_url
     path = urlparse(current_url).path
     if negative:
@@ -119,7 +119,7 @@ def step_impl(context, negative, value):
 
 
 @then('I expect the url to( not)* contain "([^"]*)?"')
-def step_impl(context, negative, value):
+def check_url_contains(context, negative, value):
     current_url = context.behave_driver.current_url
     if negative:
         assert value not in current_url
@@ -128,7 +128,7 @@ def step_impl(context, negative, value):
 
 
 @then('I expect that the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
-def step_impl(context, is_css, attr, element, negative, value):
+def check_element_attribute_value(context, is_css, attr, element, negative, value):
     attribute_value = context.behave_driver.get_element_attribute(element, attr, is_css)
     if negative:
         assert attribute_value != value
@@ -137,7 +137,7 @@ def step_impl(context, is_css, attr, element, negative, value):
 
 
 @then('I expect that checkbox "([^"]*)?" is( not)* checked')
-def step_impl(context, element, negative):
+def check_checkbox_checked(context, element, negative):
     # should this check that the element is, in fact, a checkbox?
     checked = context.behave_driver.element_selected(element)
     if negative:
@@ -147,7 +147,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?" is( not)* selected')
-def step_impl(context, element, negative):
+def check_element_selected(context, element, negative):
     selected = context.behave_driver.element_selected(element)
     if negative:
         assert not selected
@@ -156,7 +156,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that element "([^"]*)?" is( not)* enabled')
-def step_impl(context, element, negative):
+def check_element_enabled(context, element, negative):
     enabled = context.behave_driver.element_enabled(element)
     if negative:
         assert not enabled
@@ -165,7 +165,7 @@ def step_impl(context, element, negative):
 
 
 @then('I expect that cookie "([^"]*)?"( not)* contains "([^"]*)?"')
-def step_impl(context, cookie_key, negative, value):
+def check_cookie_value_contains(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
     cookie_value = cookie.get('value')
     if negative:
@@ -175,7 +175,7 @@ def step_impl(context, cookie_key, negative, value):
 
 
 @then('I expect that cookie "([^"]*)?"( not)* exists')
-def step_impl(context, cookie_key, negative):
+def check_cookie_exists(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
     if negative:
         assert cookie is None, u'Cookie was present: {}'.format(cookie)
@@ -184,7 +184,7 @@ def step_impl(context, cookie_key, negative):
 
 
 @then('I expect that element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
-def step_impl(context, element, negative, pixels, how):
+def check_element_size(context, element, negative, pixels, how):
     elem_size = context.behave_driver.get_element_size(element)
     if how == 'tall':
         axis = 'height'
@@ -197,7 +197,7 @@ def step_impl(context, element, negative, pixels, how):
 
 
 @then('I expect that element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
-def step_impl(context, element, negative, pos, axis):
+def check_element_position(context, element, negative, pos, axis):
     element_position = context.behave_driver.get_element_location(element)
     if negative:
         assert element_position[axis] != int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
@@ -206,7 +206,7 @@ def step_impl(context, element, negative, pos, axis):
 
 
 @then('I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"')
-def step_impl(context, element, has, classname):
+def check_element_has_class(context, element, has, classname):
     if 'not' in has:
         negative = True
     else:
@@ -220,22 +220,22 @@ def step_impl(context, element, has, classname):
 
 
 @then('I expect a new (window|tab) has( not)* been opened')
-def step_impl(context, window_or_tab, negative):
+def check_window_opened(context, window_or_tab, negative):
     raise NotImplementedError('step not implemented')
 
 
 @then('I expect the url "([^"]*)?" is opened in a new (tab|window)')
-def step_impl(context, url, tab_or_window):
+def check_url_new_window(context, url, tab_or_window):
     raise NotImplementedError('step not implemented')
 
 
 @then('I expect that element "([^"]*)?" is( not)* focused')
-def step_impl(context, element, negative):
+def check_element_focused(context, element, negative):
     raise NotImplementedError('step not implemented')
 
 
 @then('I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*')
-def step_impl(context, element, milliseconds, negative, condition):
+def wait_for_element_condition(context, element, milliseconds, negative, condition):
     if milliseconds:
         digits = ''.join(char for char in milliseconds if char.isdigit())
         milliseconds = int(digits)
@@ -249,7 +249,7 @@ def step_impl(context, element, milliseconds, negative, condition):
 
 
 @then('I expect that a (alertbox|confirmbox|prompt) is( not)* opened')
-def step_impl(context, modal, negative):
+def check_model_opened(context, modal, negative):
     if negative:
         assert context.behave_driver.has_alert is False
     else:
@@ -257,7 +257,7 @@ def step_impl(context, modal, negative):
 
 
 @then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
-def step_impl(context, modal, negative, text):
+def check_modal_text_contains(context, modal, negative, text):
     raise NotImplementedError('step not implemented')
 
 use_step_matcher('parse')
