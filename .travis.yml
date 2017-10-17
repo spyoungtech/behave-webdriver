@@ -36,3 +36,4 @@ script:
   - behave tests/features
   - export BEHAVE_DRIVER=phantom_js
   - behave tests/features
+  - export BEHAVE_driver=firefox
