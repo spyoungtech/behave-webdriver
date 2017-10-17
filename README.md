@@ -197,7 +197,36 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
   - [x] sampleSnippets.feature passing
 - [x] Setup basic travis tests
 - [ ] More extensive tests and feature files
-- [ ] Use an assertion matcher library
+  - [x] attribute.feature
+  - [x] buttonPress.feature
+  - [x] checkbox.feature
+  - [x] checkTitle.feature
+  - [x] class.feature
+  - [x] click.feature
+  - [x] cookie.feature
+  - [x] elementExistence.feature
+  - [x] elementSize.feature
+  - [x] form.feature
+  - [x] inputfield.feature
+  - [x] isEmpty.feature
+  - [x] isExisting.feature
+  - [x] moveTo.feature
+  - [x] sampleSnippets.feature
+  - [x] sctructure.feature
+  - [x] textComparison.feature
+  - [x] title.feature
+  - [x] urlValidation.feature
+  - [ ] drag.feature
+  - [ ] elementPosition.feature
+  - [ ] elementVisibility.feature
+  - [ ] focus.feature
+  - [ ] modals.feature
+  - [ ] pending.feature
+  - [ ] select.feature
+  - [ ] wait.feature
+  - [ ] window.feature
+  - [ ] withinViewport.feature
+- [ ] Provide more detailed assertion errors
 - [ ] Provide some cool browser options
   - [x] Headless selenium `BehaveDriver.headless_chrome()`
   - [x] Standard chrome browser `BehaveDriver.chrome()`
