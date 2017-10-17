@@ -42,10 +42,7 @@ class element_exists(object):
 
 class BehaveDriver(object):
     """
-    An instance of this class is intended to be injected into a behave testing context.
-    Mostly, this helps step definitions bridge the gap between strings of element selectors and working with the
-    actual element objects. Also provides some useful shortcuts to the underlying driver. This also provides an easily
-    accessible way to modify the behavior of the step definitions by bringing most of the logic in this class.
+    Implements most of the logic for step definitions.
     Attributes of the underlying webdriver can be accessed directly (behave_driver.attr)
     or you can access the driver attribute `behave_driver.driver.attr`
     """
@@ -61,7 +58,7 @@ class BehaveDriver(object):
     @classmethod
     def chrome(cls, *args, **kwargs):
         """
-        Shortcut for creating a chrome webdriver instance.
+        Alternative constructor. Creates BehaveDriver instance using standard chromedriver.
         :param args: positional args passed to `webdriver.Chrome`
         :param kwargs: keyword args passed to `webdriver.Chrome`
         :return: a BehaveDriver instance
@@ -72,7 +69,7 @@ class BehaveDriver(object):
     @classmethod
     def headless_chrome(cls, *args, **kwargs):
         """
-        Shortcut for crating a headless chrome webdriver instance.
+        Alternate constructor. Creates a BehaveDriver instance using a chromrdriver with headless options.
         :param args: positional args passed to `webdriver.Chrome`
         :param kwargs: keyword args passed to `webdriver.Chrome`
         :return: a BehaveDriver instance
