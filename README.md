@@ -230,12 +230,12 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
   - [ ] window.feature
   - [ ] withinViewport.feature
 - [ ] Provide more detailed assertion errors
-- [ ] Provide some cool browser options
+- [x] Provide some cool browser options
   - [x] Headless selenium `BehaveDriver.headless_chrome()`
   - [x] Standard chrome browser `BehaveDriver.chrome()`
-  - [ ] PhantomJS
-  - [ ] Firefox
-  - [ ] ???
+  - [x] PhantomJS
+  - [x] Firefox
+  - [x] Safari
 
 
 # Acknowledgements
