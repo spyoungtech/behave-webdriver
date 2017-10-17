@@ -66,6 +66,40 @@ class BehaveDriver(object):
         driver = webdriver.Chrome(*args, **kwargs)
         return cls(driver=driver)
 
+
+    @classmethod
+    def firefox(cls, *args, **kwargs):
+        """
+        Alternative constructor. Creates a BehaveDriver instance using standard firefox gecko driver.
+        :param args: dirver args
+        :param kwargs: driver kwargs
+        :return: a BehaveDriver instance
+        """
+        driver = webdriver.Firefox(*args, **kwargs)
+        return cls(driver=driver)
+
+    @classmethod
+    def phantom_js(cls, *args, **kwargs):
+        """
+        Alternative constructor. Creates a BehaveDriver instance using standard phantomJS driver.
+        :param args: dirver args
+        :param kwargs: driver kwargs
+        :return: a BehaveDriver instance
+        """
+        driver = webdriver.PhantomJS(*args, **kwargs)
+        return cls(driver=driver)
+
+    @classmethod
+    def safari(cls, *args, **kwargs):
+        """
+        Alternative constructor. Creates a BehaveDriver instance using standard safari driver.
+        :param args: dirver args
+        :param kwargs: driver kwargs
+        :return: a BehaveDriver instance
+        """
+        driver = webdriver.Safari(*args, **kwargs)
+        return cls(driver=driver)
+
     @classmethod
     def headless_chrome(cls, *args, **kwargs):
         """
