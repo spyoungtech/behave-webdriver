@@ -34,19 +34,22 @@ include some teardown logic in an `after_all` function.
 
 .. hint::
     You can supply any arguments that a given webdriver would normally take to any of the alternative browser constructors
-    .. code-block:: python
 
-        context.behave_driver = BehaveDriver.headless_chrome(executable_path='/path/to/chromedriver')
+.. code-block:: python
 
+    context.behave_driver = BehaveDriver.headless_chrome(executable_path='/path/to/chromedriver')
+
+.. hint::
     You don't need to use the builtin browsers, either. You can also supply your own selenium webdriver instance to `BehaveDriver`
-    .. code-block:: python
 
-        from selenium import webdriver
-        from behave_webdriver import BehaveDriver
-        my_driver = webdriver.Firefox()
+.. code-block:: python
 
-        def before_all(context):
-            context.behave_driver = BehaveDriver(my_driver)
+    from selenium import webdriver
+    from behave_webdriver import BehaveDriver
+    my_driver = webdriver.Firefox()
+
+    def before_all(context):
+        context.behave_driver = BehaveDriver(my_driver)
 
 Import the step definitions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -83,8 +86,6 @@ The following is a snippet of a feature file that utilizes a few of the step def
         When  I click on the link "two"
         Then  I expect that the title is "two"
 
-Running the tests
------------------
 
 Recap: we've created a minimal application structure with the content from the previous section. If you're following
 the example, you should have a directory tree that looks something like this::
@@ -95,8 +96,11 @@ the example, you should have a directory tree that looks something like this::
             └── steps
                 └── my_steps.py
 
-With this in place, we can now run the tests, just like any other behave test, from the working directory
-`my-minimal-project`
+Running the tests
+-----------------
+
+With the above being satisfactory for our minimal project, we can now run the tests, just like any other behave test,
+from the working directory of `my-minimal-project`
 
 .. code-block:: bash
 
