@@ -1,8 +1,10 @@
 # behave-webdriver
-Boilerplate to easily run [selenium](https://github.com/SeleniumHQ/selenium) webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
+behave-webdriver is a step library intended to allow users to easily run [selenium](https://github.com/SeleniumHQ/selenium) webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
 Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
+
+For more information about behave, check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
 
 
 # Status
@@ -11,6 +13,7 @@ This project is currently in the very early stages of development, but is being 
 The current travis build test a base set of features found in tests/features/sampleSnippets.feature
 Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver -- Other versions/browsers may work, but are untested. If you have issues with untested versions or browsers, please raise an issue.
 
+[Documentation](http://behave-webdriver.readthedocs.io/en/latest/) is currently a work-in-progress.
 
 
 # Goals
@@ -34,7 +37,6 @@ cd behave-webdriver
 pip install .
 ```
 
-# How to use
 
 ## Quick start
 
@@ -81,7 +83,6 @@ Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` c
 Also worth noting is that you can access attributes of the underlying webdriver directly through `behave_driver` or by accessing the stored driver instance `behave_driver.driver`
 
 
-For more information about behave, check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
 
 
 # List of steps implemented
@@ -188,11 +189,11 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I expect that element "([^"]*)?" is( not)* focused`
 - `I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"`
 
-# TODO
+# TODO v0.0.1
 - [ ] Implement the support code from cucumber-boilerplate for behave/selenium
-  - [ ] given 22/23 steps implemented
-  - [ ] when  20/25 steps implemented
-  - [ ] then 24/28 steps implemented
+  - [ ] given 95%
+  - [ ] when 90%
+  - [ ] then 90%
   - [x] sampleSnippets.feature passing
 - [x] Setup basic travis tests
 - [ ] More extensive tests and feature files
