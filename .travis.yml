@@ -8,6 +8,12 @@ python:
   - "3.7-dev"
   - "nightly"
 
+env:
+  - BEHAVE_WEBDRIVER=headless_chrome
+  - BEHAVE_WEBDRIVER=chrome
+  - BEHAVE_WEBDRIVER=phantom_js
+  - BEHAVE_WEBDRIVER=firefox
+
 addons: # get google-chrome-stable
   chrome: stable
 install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
@@ -30,10 +36,4 @@ script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
-  - export BEHAVE_DRIVER=headless_chrome
   - behave tests/features
-  - export BEHAVE_DRIVER=chrome
-  - behave tests/features
-  - export BEHAVE_DRIVER=phantom_js
-  - behave tests/features
-  - export BEHAVE_driver=firefox
