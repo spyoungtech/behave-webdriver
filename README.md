@@ -10,10 +10,13 @@ For more information about behave, check out the [behave documentation](http://b
 # Status
 
 This project is currently in the very early stages of development, but is being worked on regularly. A formal release will be forthcoming.
-The current travis build test a base set of features found in tests/features/sampleSnippets.feature
 Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver -- Other versions/browsers may work, but are untested. If you have issues with untested versions or browsers, please raise an issue.
 
 [Documentation](http://behave-webdriver.readthedocs.io/en/latest/) is currently a work-in-progress.
+
+In the TODO section below, there is a list of feature files that can be found in `tests`.
+Tests/features that are currently passing are in the `tests/features` directory, and are tested in the travis CI build.
+Tests/features that still need work are in the `tests/experimental_features` directory and are not tested in the travis CI build.
 
 
 # Goals
