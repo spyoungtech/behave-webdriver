@@ -17,7 +17,7 @@ env:
 addons: # get google-chrome-stable
   chrome: stable
 install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
-  - chmod ugo+x ./travis-build.sh
+  - chmod +x ./travis-build.sh
   - ./travis-build.sh
   - pip install .
 
