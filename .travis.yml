@@ -23,6 +23,12 @@ install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
   - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo mv -f ~/chromedriver /usr/local/share/; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo chmod +x /usr/local/share/chromedriver; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then tar -xvzf ./geckodriver-v0.11.1-linux64.tar.gz; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then rm ./geckodriver-v0.11.1-linux64.tar.gz; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo mv -f ./geckodriver /usr/local/share/; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo chmod +x /usr/local/share/geckodriver; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver; fi
   - pip install .
 
 before_script:
