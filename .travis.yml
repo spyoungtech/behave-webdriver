@@ -17,12 +17,12 @@ env:
 addons: # get google-chrome-stable
   chrome: stable
 install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then unzip ~/chromedriver_linux64.zip -d ~/
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then rm ~/chromedriver_linux64.zip
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo mv -f ~/chromedriver /usr/local/share/
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo chmod +x /usr/local/share/chromedriver
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then unzip ~/chromedriver_linux64.zip -d ~/; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then rm ~/chromedriver_linux64.zip; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo mv -f ~/chromedriver /usr/local/share/; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo chmod +x /usr/local/share/chromedriver; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver; fi
   - pip install .
 
 before_script:
