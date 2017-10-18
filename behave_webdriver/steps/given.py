@@ -81,9 +81,9 @@ def element_exists(context, an_no, element):
 @given('the title is( not)* "([^"]*)?"')
 def title(context, negative, value):
     if negative:
-        assert context.behave_driver.title != value
+        assert context.behave_driver.title != value, 'Title was "{}"'.format(context.behave_driver.title)
     else:
-        assert context.behave_driver.title == value
+        assert context.behave_driver.title == value, 'Title was "{}"'.format(context.behave_driver.title)
 
 
 @given('the element "([^"]*)?" contains( not)* the same text as element "([^"]*)?"')
@@ -92,18 +92,26 @@ def elements_same_text(context, first_element, negative, second_element):
     second_elem_text = context.behave_driver.get_element_text(second_element)
     same = first_elem_text == second_elem_text
     if negative:
-        assert not same
+        assert not same, 'Element "{}" text "{}" is same as element "{}"'.format(first_element,
+                                                                                first_elem_text,
+                                                                                second_element)
     else:
-        assert same
+        assert same, 'Element "{}" text "{}" is not same as element "{}" text "{}"'.format(first_element,
+                                                                                           first_elem_text,
+                                                                                           second_element,
+                                                                                           second_elem_text)
 
 
 @given('the element "([^"]*)?"( not)* matches the text "([^"]*)?"')
 def element_matches_text(context, element, negative, text):
-    matches = context.behave_driver.get_element_text(element) == text
+    elem_text = context.behave_driver.get_element_text(element)
+    matches = elem_text == text
     if negative:
-        assert not matches
+        assert not matches, 'Element "{}" text matches "{}"'.format(element,
+                                                                    text)
     else:
-        assert matches
+        assert matches, 'The text "{}" did not match the element text "{}"'.format(text, elem_text)
+
 
 
 @given('the element "([^"]*)?"( not)* contains the text "([^"]*)?"')
@@ -137,18 +145,18 @@ def element_not_empty(context, element, negative):
 def check_url(context, negative, value):
     page_url = context.behave_driver.current_url
     if negative:
-        assert page_url != value
+        assert page_url != value, 'Url was "{}"'.format(page_url)
     else:
-        assert page_url == value
+        assert page_url == value, 'Url was "{}"'.format(page_url)
 
 
 @given('the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
 def check_element_attribute(context, is_css, attr, element, negative, value):
     attribute_value = context.behave_driver.get_element_attribute(element, attr, is_css)
     if negative:
-        assert attribute_value != value
+        assert attribute_value != value, 'Attribute value was "{}"'.format(attribute_value)
     else:
-        assert attribute_value == value
+        assert attribute_value == value, 'Attribute value was "{}"'.format(attribute_value)
 
 
 @given('the cookie "([^"]*)?" contains( not)* the value "([^"]*)?"')
@@ -156,9 +164,9 @@ def check_cookie_value(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
     cookie_value = cookie.get('value')
     if negative:
-        assert cookie_value != value
+        assert cookie_value != value, 'Cookie value was "{}"'.format(cookie_value)
     else:
-        assert cookie_value == value
+        assert cookie_value == value, 'Cookie value was "{}"'.format(cookie_value)
 
 
 @given('the cookie "([^"]*)?" does( not)* exist')
@@ -169,7 +177,7 @@ def check_cookie_exists(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
 
     if negative:
-        assert cookie is None
+        assert cookie is None, 'Cookie exists: {}'.format(cookie)
     else:
         assert cookie is not None
 
@@ -182,18 +190,18 @@ def check_element_size(context, element, negative, pixels, how):
     else:
         axis = 'width'
     if negative:
-        assert elem_size[axis] != int(pixels)
+        assert elem_size[axis] != int(pixels), 'Element size was "{}"'.format(elem_size)
     else:
-        assert elem_size[axis] == int(pixels)
+        assert elem_size[axis] == int(pixels), 'Element size was "{}"'.format(elem_size)
 
 
 @given('the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
 def check_element_position(context, element, negative, pos, axis):
     element_position = context.behave_driver.get_element_location(element)
     if negative:
-        assert element_position[axis] != int(pos)
+        assert element_position[axis] != int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
     else:
-        assert element_position[axis] == int(pos)
+        assert element_position[axis] == int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
 
 
 @given('I have a screen that is ([\d]+) by ([\d]+) pixels')
