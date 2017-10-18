@@ -10,7 +10,6 @@ python:
 
 env:
   - BEHAVE_WEBDRIVER=headless_chrome
-  - BEHAVE_WEBDRIVER=chrome
   - BEHAVE_WEBDRIVER=phantom_js
   - BEHAVE_WEBDRIVER=firefox
 
