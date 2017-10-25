@@ -136,7 +136,11 @@ def check_url_contains(context, negative, value):
 
 @then('I expect that the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
 def check_element_attribute_value(context, is_css, attr, element, negative, value):
-    attribute_value = context.behave_driver.get_element_attribute(element, attr, is_css)
+    if is_css:
+        attribute_value, value = context.behave_driver.get_element_attribute(element, attr, is_css, value)
+    else:
+        attribute_value = context.behave_driver.get_element_attribute(element, attr)
+
     if negative:
         assert attribute_value != value, 'Attribute value was "{}"'.format(attribute_value)
     else:
