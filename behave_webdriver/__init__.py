@@ -7,8 +7,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.color import Color
 
 import time
+
+
+
 
 
 class element_is_enabled(object):
@@ -221,7 +225,7 @@ class BehaveDriver(object):
             return value
         return elem.text
 
-    def get_element_attribute(self, element, attr, css=False):
+    def get_element_attribute(self, element, attr, css=False, expected_value=None):
         """
         Get the value of an attribute or css attribute from an element.
         :param element: selector used to locate the element.
@@ -235,6 +239,12 @@ class BehaveDriver(object):
         elem = self.get_element(element)
         if css:
             value = elem.value_of_css_property(attr)
+            if self.is_color(value):
+                value = Color.from_string(value)
+            if expected_value:
+                if self.is_color(expected_value):
+                    expected_value = Color.from_string(expected_value)
+                return value, expected_value
         else:
             value = elem.get_attribute(attr)
         return value
@@ -556,8 +566,10 @@ class BehaveDriver(object):
 
         return result
 
-
-
-
-
-
+    @staticmethod
+    def is_color(str_):
+        try:
+            Color.from_string(str_)
+            return True
+        except ValueError:
+            return False
