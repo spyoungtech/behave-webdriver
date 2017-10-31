@@ -8,7 +8,7 @@ setup(
     author='Spencer Young',
     author_email='spencer.young@spyoung.com',
     description='Selenium webdriver step library for behave BDD testing',
-    packages=['behave_webdriver'],
+    packages=['behave_webdriver', 'behave_webdriver.steps'],
     platforms='any',
     install_requires=[
         'selenium',
