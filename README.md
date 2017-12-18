@@ -4,7 +4,9 @@ Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriveri
 
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
 
-For more information about behave, check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
+See the [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) (work-in-progress) for information about this step library.
+
+For information about behave in general, check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
 
 
 # Status
