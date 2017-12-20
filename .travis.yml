@@ -28,6 +28,7 @@ install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
   - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo mv -f ./geckodriver /usr/local/share/; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo chmod +x /usr/local/share/geckodriver; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver; fi
+  - chmod +x ./runtests.sh
   - pip install .
 
 before_script:
@@ -41,4 +42,4 @@ script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
-  - behave tests/features
+  - ./runtests.sh
