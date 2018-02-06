@@ -8,7 +8,7 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
-
+from functools import partial
 import time
 
 
@@ -43,6 +43,24 @@ class element_exists(object):
             return False
         if element:
             return element
+
+class element_contains_any_text(object):
+    """
+    Used as expected condition for checking if an element contains any text
+    """
+    def __init__(self, element):
+        self.element = element
+
+    def __call__(self, driver):
+        return bool(self.element.text)
+
+class element_contains_any_value(object):
+    def __init__(self, element):
+        self.element = element
+
+    def __call__(self, driver):
+        return bool(self.element.get_property('value'))
+
 
 class BehaveDriver(object):
     """
@@ -535,13 +553,14 @@ class BehaveDriver(object):
         :param condition: the condition to check for
         :return: element
         """
+        print(condition)
         conditions = {
             'be checked': EC.element_to_be_selected,
             'be enabled': element_is_enabled,
             'be selected': EC.element_to_be_selected,
             'be visible': EC.visibility_of_element_located,
-            'contain a text': EC.text_to_be_present_in_element,
-            'contain a value': EC.text_to_be_present_in_element_value,
+            'contain a text': element_contains_any_text,
+            'contain a value': element_contains_any_value,
             'exist': element_exists,
         }
 
@@ -552,13 +571,14 @@ class BehaveDriver(object):
                 elem = (By.CSS_SELECTOR, element)
         else:
             elem = self.get_element(element)
+        print(elem)
         seconds = round(ms / 1000, 3)
         wait = WebDriverWait(self.driver, seconds)
         if condition:
             expected = conditions[condition]
         else:
             expected = element_exists
-
+        print(expected)
         try:
             result = wait.until(expected(elem))
         except TimeoutException:
