@@ -93,7 +93,6 @@ Also worth noting is that you can access attributes of the underlying webdriver 
 # List of step definitions
 
 Not all steps have been implemented yet. Steps that are not implemented will be in a separate list. 
-For now, when steps use the default matcher, but will likely be cahnged to regex to be more compatible with feature files from cucumber-boilerplate
 
 ## Given Steps
 
@@ -230,7 +229,7 @@ For now, when steps use the default matcher, but will likely be cahnged to regex
   - [ ] select.feature
   - [ ] wait.feature
   - [ ] window.feature
-  - [ ] withinViewport.feature
+  - [x] withinViewport.feature
 - [ ] Provide more detailed assertion errors
 - [x] Provide some cool browser options (note only chrome/headless chrome are officially supported at this time)
   - [x] Headless selenium `BehaveDriver.headless_chrome()`
