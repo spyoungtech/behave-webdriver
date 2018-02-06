@@ -24,7 +24,7 @@ If you have issues with untested Python versions or browsers, please raise an is
 # Goals
 - Make writing readable selenium tests as Gherkin features easy.
 - Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
-- To be (at least mostly) compatible with feature files written for [webdriverio/cucumber-boilerplate]([cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate))
+- To be (at least mostly) compatible with feature files written for [webdriverio/cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate)
 
 
 # Installation
