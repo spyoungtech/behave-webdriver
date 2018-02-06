@@ -2,44 +2,22 @@ language: python
 python:
   - "2.7"
   - "3.5"
-  - "3.5-dev"
   - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
   - "nightly"
-
-env:
-  - BEHAVE_WEBDRIVER=headless_chrome
-  - BEHAVE_WEBDRIVER=phantom_js
-  - BEHAVE_WEBDRIVER=firefox
 
 addons: # get google-chrome-stable
   chrome: stable
-install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then unzip ~/chromedriver_linux64.zip -d ~/; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then rm ~/chromedriver_linux64.zip; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo mv -f ~/chromedriver /usr/local/share/; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo chmod +x /usr/local/share/chromedriver; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "chrome" ] || [ "${BEHAVE_WEBDRIVER}" = "headless_chrome" ]; then sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-linux64.tar.gz; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then tar -xvzf ./geckodriver-v0.19.0-linux64.tar.gz; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then rm ./geckodriver-v0.19.0-linux64.tar.gz; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo mv -f ./geckodriver /usr/local/share/; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo chmod +x /usr/local/share/geckodriver; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "firefox" ]; then sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver; fi
-  - chmod +x ./runtests.sh
+install: # Install ChromeDriver.
+  - wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/
+  - unzip ~/chromedriver_linux64.zip -d ~/
+  - rm ~/chromedriver_linux64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
   - pip install .
-
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-
-
 
 script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
-  - ./runtests.sh
+  - behave tests/features
