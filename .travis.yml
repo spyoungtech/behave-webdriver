@@ -2,15 +2,12 @@ language: python
 python:
   - "2.7"
   - "3.5"
-  - "3.5-dev"
   - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
   - "nightly"
 
 addons: # get google-chrome-stable
   chrome: stable
-install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
+install: # Install ChromeDriver.
   - wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/
   - unzip ~/chromedriver_linux64.zip -d ~/
   - rm ~/chromedriver_linux64.zip

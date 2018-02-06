@@ -27,6 +27,7 @@ Feature: Sample Snippets test
         When  I click on the button ".btn1"
         Then  I expect that element ".btn1_clicked" is visible
 
+    @firefox_bug
     Scenario: double click on a button
         Given I open the url "http://webdriverjs.christian-bromann.com/"
         And   the element ".btn1_dblclicked" is not visible
@@ -62,7 +63,7 @@ Feature: Sample Snippets test
         And   the element ".searchinput" not contains the text "Dropped!"
         When  I drag element "#overlay" to element ".red"
         Then  I expect that element ".searchinput" contains the text "Dropped!"
-
+    @firefox_bug
     Scenario: submit form
         Given I open the url "http://webdriverjs.christian-bromann.com/"
         And   there is no element ".gotDataA" on the page
@@ -133,7 +134,7 @@ Feature: Sample Snippets test
         And   the css attribute "background-color" from element ".red" is not "rgba(0, 255, 0, 1)"
         Then  I expect that the css attribute "background-color" from element ".red" is "rgba(255, 0, 0, 1)"
         And   I expect that the css attribute "background-color" from element ".red" is not "rgba(0, 255, 0, 1)"
-
+    @firefox_bug
     Scenario: check width and height
         Given I open the url "http://webdriverjs.christian-bromann.com/"
         And   the element ".red" is 102px broad

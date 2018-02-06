@@ -11,20 +11,18 @@ For information about behave in general, check out the [behave documentation](ht
 
 # Status
 
-This project is currently in the very early stages of development, but is being worked on regularly. A formal release will be forthcoming.
-Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver -- Other versions/browsers may work, but are untested. If you have issues with untested versions or browsers, please raise an issue.
+This project is currently in the early stages of development, but is being worked on regularly. A formal release will be forthcoming.
+Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver. Support for additional browsers is planned for the future.
+
+If you have issues with untested Python versions or browsers, please raise an issue.
 
 [Documentation](http://behave-webdriver.readthedocs.io/en/latest/) is currently a work-in-progress.
-
-In the TODO section below, there is a list of feature files that can be found in `tests`.
-Tests/features that are currently passing are in the `tests/features` directory, and are tested in the travis CI build.
-Tests/features that still need work are in the `tests/experimental_features` directory and are not tested in the travis CI build.
 
 
 # Goals
 - Make writing readable selenium tests as Gherkin features easy.
 - Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
-- To be (at least mostly) compatible with feature files written for cucumber/webdriverio
+- To be (at least mostly) compatible with feature files written for [webdriverio/cucumber-boilerplate]([cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate))
 
 
 # Installation
@@ -70,7 +68,7 @@ def after_all(context):
     # cleanup after tests run
     context.behave_driver.quit()
 ```
-You can also supply your own instance of any selenium webdriver by passing the driver to `BehaveDriver` (e.g. `BehaveDriver(my_driver_instance)`
+You can also supply your own instance of any selenium webdriver by passing the driver to `BehaveDriver` (e.g. `BehaveDriver(my_driver_instance)`)
 
 ```python
 from behave_webdriver import BehaveDriver
@@ -90,10 +88,10 @@ Also worth noting is that you can access attributes of the underlying webdriver 
 
 
 
-# List of steps implemented
+# List of step definitions
 
-Given and Then steps use the behave regex matcher, When steps use the default parser matcher.
-Not all steps have been implemented yet. Steps that are not implemented will be in a separate list.
+Not all steps have been implemented yet. Steps that are not implemented will be in a separate list. 
+For now, when steps use the default matcher, but will likely be cahnged to regex to be more compatible with feature files from cucumber-boilerplate
 
 ## Given Steps
 
@@ -194,11 +192,11 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I expect that element "([^"]*)?" is( not)* focused`
 - `I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"`
 
-# TODO v0.0.1
+# TODO v0.1.0 (Planned first PyPI release)
 - [ ] Implement the support code from cucumber-boilerplate for behave/selenium
-  - [ ] given 95%
-  - [ ] when 90%
-  - [ ] then 90%
+  - [ ] given 21/22
+  - [ ] when 20/25
+  - [ ] then 24/28
   - [x] sampleSnippets.feature passing
 - [x] Setup basic travis tests
 - [ ] More extensive tests and feature files
@@ -232,7 +230,7 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
   - [ ] window.feature
   - [ ] withinViewport.feature
 - [ ] Provide more detailed assertion errors
-- [x] Provide some cool browser options
+- [x] Provide some cool browser options (note only chrome/headless chrome are officially supported at this time)
   - [x] Headless selenium `BehaveDriver.headless_chrome()`
   - [x] Standard chrome browser `BehaveDriver.chrome()`
   - [x] PhantomJS
