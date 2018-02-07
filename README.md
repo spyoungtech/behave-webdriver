@@ -228,7 +228,7 @@ For now, when steps use the default matcher, but will likely be cahnged to regex
   - [ ] modals.feature
   - [ ] pending.feature
   - [ ] select.feature
-  - [ ] wait.feature
+  - [x] wait.feature
   - [ ] window.feature
   - [ ] withinViewport.feature
 - [ ] Provide more detailed assertion errors
