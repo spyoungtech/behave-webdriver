@@ -1,6 +1,7 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,130 +9,18 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
-from functools import partial
-import time
 
-
-class NegationMixin(object):
-    def __init__(self, *args, negative=False, **kwargs):
-        super(NegationMixin, self).__init__(*args, **kwargs)
-        self.negative = negative
-
-    def __call__(self, *args, **kwargs):
-        result = super(NegationMixin, self).__call__(*args, **kwargs)
-        if self.negative:
-            return not result
-        return result
-
-
-class AnyTextMixin(NegationMixin):
-    def __init__(self, *args, **kwargs):
-        kwargs['text_'] = ''
-        super(AnyTextMixin, self).__init__(*args, **kwargs)
-
-
-class element_is_present(EC.presence_of_element_located):
-    """
-    Same as :ref:`~selenium.webdriver.support.expected_conditions.presence_of_element_located`
-    but accepts a ``negative`` keyword where, if True, checks that the element can *not* be located.
-    """
-    def __init__(self, locator, negative=False):
-        super().__init__(locator)
-        self.negative = negative
-
-    def __call__(self, driver):
-        try:
-            result = super().__call__(driver)
-        except StaleElementReferenceException:
-            return False
-        except NoSuchElementException:
-            result = False
-        if self.negative:
-            return not result
-        return result
-
-
-class element_contains_any_text(EC.text_to_be_present_in_element):
-    def __init__(self, locator, negative=False):
-        self.negative = negative
-        self.locator = locator
-        self.text = ''
-
-    def __call__(self, driver):
-        try:
-            element = driver.find_element(*self.locator)
-            result = bool(element.text)
-        except StaleElementReferenceException:
-            return False
-
-        if self.negative:
-            return not result
-        return result
-
-
-class element_contains_any_value(EC.text_to_be_present_in_element_value):
-    def __init__(self, locator, negative=False):
-        self.locator = locator
-        self.text = ''
-        self.negative = negative
-
-    def __call__(self, driver):
-        result = super().__call__(driver)
-        if self.negative:
-            return not result
-        return result
-
-
-class element_is_selected(EC.element_located_to_be_selected):
-    def __init__(self, locator, negative=False):
-        self.locator = locator
-        self.negative = negative
-
-    def __call__(self, driver):
-        result = super().__call__(driver)
-        if self.negative:
-            return not result
-        return result
-
-
-class element_is_visible(EC.visibility_of_element_located):
-    def __init__(self, locator, negative=False):
-        self.locator = locator
-        self.negative = negative
-
-    def __call__(self, driver):
-        result = super().__call__(driver)
-        if self.negative:
-            return not result
-        return result
-
-
-class element_is_enabled(object):
-    """
-    Used as an expected condition for checking if an element is enabled.
-    """
-    def __init__(self, locator, negative=False):
-        self.locator = locator
-        self.negative = False
-
-    def __call__(self, driver):
-        element = driver.find_element(*self.locator)
-        result = element.is_enabled()
-        if self.negative:
-            return not result
-        return result
-
-
+from .conditions import element_is_present, element_is_selected, element_contains_value, element_is_visible, element_contains_text, element_is_enabled
 
 
 
 class BehaveDriver(object):
     """
-    Implements most of the logic for step definitions.
+    Implements most of the logic for step definitions. Should be fully substitutable with any selenium webdriver.
     Attributes of the underlying webdriver can be accessed directly (behave_driver.attr)
     or you can access the driver attribute `behave_driver.driver.attr`
     """
-    def __init__(self, driver):
+    def __init__(self, driver, default_wait=None):
         self.driver = driver
 
     def __getattr__(self, item):
@@ -614,30 +503,36 @@ class BehaveDriver(object):
         :param element: selector used to locate the element
         :param ms: maximum time (in milliseconds) to wait for the condition to be true
         :param negative: whether or not the check for negation of condition. Will coarse boolean from value
-        :param condition: the condition to check for
+        :param condition: the condition to check for. Defaults to checking for presence of element
         :return: element
         """
-        conditions = {
+        if not ms:
+            seconds = 1.5
+        else:
+            seconds = round(ms / 1000, 3)
+
+        condition_text_map = {
             'be checked': element_is_selected,
             'be enabled': element_is_enabled,
             'be selected': element_is_selected,
             'be visible': element_is_visible,
-            'contain a text': element_contains_any_text,
-            'contain a value': element_contains_any_value,
+            'contain a text': element_contains_text,
+            'contain a value': element_contains_value,
             'exist': element_is_present,
         }
+
+        if condition:
+            expected = condition_text_map[condition]
+        else:
+            expected = element_is_present
 
         if element.startswith('//'):
             locator = (By.XPATH, element)
         else:
             locator = (By.CSS_SELECTOR, element)
 
-        seconds = round(ms / 1000, 3)
         wait = WebDriverWait(self.driver, seconds)
-        if condition:
-            expected = conditions[condition]
-        else:
-            expected = element_is_present
+
         try:
             result = wait.until(expected(locator, negative=bool(negative)))
         except TimeoutException:
