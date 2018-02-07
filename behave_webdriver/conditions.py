@@ -11,7 +11,8 @@ class NegationMixin(object):
     Provides the ability to test the negation of any existing expected condition (EC).
     Currently, there is an unsolved problem in certain ECs due to the way exceptions are caught.
     """
-    def __init__(self, *args, negative=False, **kwargs):
+    def __init__(self, *args, **kwargs):
+        negative = kwargs.pop('negative', False)
         super(NegationMixin, self).__init__(*args, **kwargs)
         self.negative = negative
 
