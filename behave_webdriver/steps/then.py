@@ -250,13 +250,13 @@ def wait_for_element_condition(context, element, milliseconds, negative, conditi
     if milliseconds:
         digits = ''.join(char for char in milliseconds if char.isdigit())
         milliseconds = int(digits)
-    else:
-        milliseconds = 5000  # default wait time # This logic should probably be moved to BehaveDriver class
-    result = context.behave_driver.wait_for_element_condition(element, milliseconds, condition)
-    if negative:
-        assert not result, 'expected no result, got {}'.format(result)
-    else:
-        assert result, 'expected a result, got {}'.format(result)
+
+    result = context.behave_driver.wait_for_element_condition(element, milliseconds, negative, condition)
+    assert result
+    # if negative:
+    #     assert not result, 'expected no result, got {}'.format(result)
+    # else:
+    #     assert result, 'expected a result, got {}'.format(result)
 
 
 @then('I expect that a (alertbox|confirmbox|prompt) is( not)* opened')
