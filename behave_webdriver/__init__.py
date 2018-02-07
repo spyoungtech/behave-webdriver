@@ -1,3 +1,4 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -9,49 +10,24 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
 
-import time
+from .conditions import element_is_present, element_is_selected, element_contains_value, element_is_visible, element_contains_text, element_is_enabled
 
 
-
-
-
-class element_is_enabled(object):
-    """
-    Used as an expected condition for checking if an element is enabled.
-    """
-    def __init__(self, element):
-        self.element = element
-
-    def __call__(self, driver):
-        element = self.element
-        if element.is_enabled():
-            return element
-        else:
-            return False
-
-class element_exists(object):
-    """
-    Used as an expected condition for checking if an element exists.
-    """
-    def __init__(self, locator):
-        self.locator = locator
-
-    def __call__(self, driver):
-        try:
-            element = driver.find_element(*self.locator)
-        except NoSuchElementException:
-            return False
-        if element:
-            return element
 
 class BehaveDriver(object):
     """
-    Implements most of the logic for step definitions.
+    Implements most of the logic for step definitions. Should be fully substitutable with any selenium webdriver.
     Attributes of the underlying webdriver can be accessed directly (behave_driver.attr)
     or you can access the driver attribute `behave_driver.driver.attr`
     """
-    def __init__(self, driver):
+    def __init__(self, driver, default_wait=None):
+        """
+
+        :param driver: a selenium webdriver instance
+        :param default_wait: number of seconds to wait for elements (for expected conditions) by default. This option may not be around forever, in favor of other methods.
+        """
         self.driver = driver
+        self.default_wait = default_wait
 
     def __getattr__(self, item):
         if hasattr(self.driver, item):
@@ -525,42 +501,46 @@ class BehaveDriver(object):
         #actions.perform()
         time.sleep(seconds)
 
-    def wait_for_element_condition(self, element, ms, condition):
+    def wait_for_element_condition(self, element, ms, negative, condition):
         """
         Wait on an element until a certain condition is met, up to a maximum amount of time to wait.
         This is currently (pre-0.0.1 release) a major work-in-progress, so expect it to change without warning
 
         :param element: selector used to locate the element
         :param ms: maximum time (in milliseconds) to wait for the condition to be true
-        :param condition: the condition to check for
+        :param negative: whether or not the check for negation of condition. Will coarse boolean from value
+        :param condition: the condition to check for. Defaults to checking for presence of element
         :return: element
         """
-        conditions = {
-            'be checked': EC.element_to_be_selected,
+        if not ms:
+            seconds = self.default_wait or 1.5
+        else:
+            seconds = round(ms / 1000, 3)
+
+        condition_text_map = {
+            'be checked': element_is_selected,
             'be enabled': element_is_enabled,
-            'be selected': EC.element_to_be_selected,
-            'be visible': EC.visibility_of_element_located,
-            'contain a text': EC.text_to_be_present_in_element,
-            'contain a value': EC.text_to_be_present_in_element_value,
-            'exist': element_exists,
+            'be selected': element_is_selected,
+            'be visible': element_is_visible,
+            'contain a text': element_contains_text,
+            'contain a value': element_contains_value,
+            'exist': element_is_present,
         }
 
-        if not condition or condition in ['exist', 'be visible']:
-            if element.startswith('//'):
-                elem = (By.XPATH, element)
-            else:
-                elem = (By.CSS_SELECTOR, element)
-        else:
-            elem = self.get_element(element)
-        seconds = round(ms / 1000, 3)
-        wait = WebDriverWait(self.driver, seconds)
         if condition:
-            expected = conditions[condition]
+            expected = condition_text_map[condition]
         else:
-            expected = element_exists
+            expected = element_is_present
+
+        if element.startswith('//'):
+            locator = (By.XPATH, element)
+        else:
+            locator = (By.CSS_SELECTOR, element)
+
+        wait = WebDriverWait(self.driver, seconds)
 
         try:
-            result = wait.until(expected(elem))
+            result = wait.until(expected(locator, negative=bool(negative)))
         except TimeoutException:
             result = None
 
