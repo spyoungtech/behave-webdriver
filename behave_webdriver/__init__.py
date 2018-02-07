@@ -21,7 +21,13 @@ class BehaveDriver(object):
     or you can access the driver attribute `behave_driver.driver.attr`
     """
     def __init__(self, driver, default_wait=None):
+        """
+
+        :param driver: a selenium webdriver instance
+        :param default_wait: number of seconds to wait for elements (for expected conditions) by default. This option may not be around forever, in favor of other methods.
+        """
         self.driver = driver
+        self.default_wait = default_wait
 
     def __getattr__(self, item):
         if hasattr(self.driver, item):
@@ -507,7 +513,7 @@ class BehaveDriver(object):
         :return: element
         """
         if not ms:
-            seconds = 1.5
+            seconds = self.default_wait or 1.5
         else:
             seconds = round(ms / 1000, 3)
 
