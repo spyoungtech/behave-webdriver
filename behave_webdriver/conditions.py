@@ -20,18 +20,19 @@ class NegationMixin(object):
         try:
             result = super(NegationMixin, self).__call__(*args, **kwargs)
         except StaleElementReferenceException:
-            return False # Stale elements are unreliable, always try to regrab the element
+            return False  # Stale elements are unreliable, always try to regrab the element
         if self.negative:
             return not result
         return result
 
+
 class AnyTextMixin(object):
     """
     Provides default for text_ arguments when the EC expects it. An empty value will test true when
-    tested against any other string... in the selenium ECs that means we transform the regular behavior (of text in element EC, for example)
+    tested against any other string. For example, with selenium's ``text_to_be_present_in_element`` that checks
     >>> if element_text:
     ...     return self.text in element_text
-    To the desired behavior of accepting just any text because ``'' in any_string`` is always ``True``, effectively:
+    In effect, to the desired behavior of accepting just any text because ``'' in any_string`` is always ``True``
     >>> if element_text:
     ...    return True
 
@@ -55,7 +56,6 @@ class element_is_visible(NegationMixin, EC.visibility_of_element_located):
     """
     Like selenium's visibility_of_element_located but with the :ref:`~behave_webdriver.conditions.NegationMixin`.
     """
-    # This may or may not suffer from the same exception handling problem.
     pass
 
 
@@ -122,17 +122,3 @@ class element_contains_value(NegationMixin, AnyTextMixin, EC.text_to_be_present_
     Like selenium's text_to_be_present_in_element_value but with the :ref:`~behave_webdriver.conditions.NegationMixin`. and :ref:`~behave_webdriver.conditions.AnyTextMixin`.
     """
     pass
-    # def __call__(self, driver):
-    #     """
-    #     Same logic as in EC.text_to_be_present_in_element_value except StaleElementReferenceException is not caught
-    #     this, for now, is needed to distinguish if a False return value is the result of this exception.
-    #     """
-    #     try:
-    #         element_text = driver.find_element(*self.locator).get_attribute("value")
-    #         result = self.text in element_text
-    #     except StaleElementReferenceException:
-    #         return False
-    #     if self.negative:
-    #         return not result
-    #     return result
-
