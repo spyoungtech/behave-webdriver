@@ -1,3 +1,4 @@
+@fresh_driver
 Feature: Viewport test
     As a Developer in Test
     I want to visit the Google result page for the term "test"

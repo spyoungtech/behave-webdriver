@@ -35,11 +35,11 @@ def check_element_becomes_visible(context, element, negative):
 
 @then('I expect that element "([^"]*)?" is( not)* within the viewport')
 def check_element_within_viewport(context, element, negative):
-    element_is_visible = context.behave_driver.element_visible(element)
+    element_in_viewport = context.behave_driver.element_in_viewport(element)
     if negative:
-        assert not element_is_visible
+        assert not element_in_viewport, 'Expected element to not be in viewport, but it was completely within the viewport'
     else:
-        assert element_is_visible
+        assert element_in_viewport, 'Element not was not completely within viewport'
 
 
 @then('I expect that element "([^"]*)?" does( not)* exist')
