@@ -37,7 +37,7 @@ def check_element_becomes_visible(context, element, negative):
 def check_element_within_viewport(context, element, negative):
     element_in_viewport = context.behave_driver.element_in_viewport(element)
     if negative:
-        assert not element_in_viewport, 'Expected element to not be in viewport, but it was completely within the viewport'
+        assert not element_in_viewport, 'Element was completely within the viewport'
     else:
         assert element_in_viewport, 'Element was not completely within viewport'
 
@@ -46,9 +46,9 @@ def check_element_within_viewport(context, element, negative):
 def check_element_exists(context, element, negative):
     element_exists = context.behave_driver.element_exists(element)
     if negative:
-        assert not element_exists, 'Expected the element does not exist, but located an element with selector {}'.format(element)
+        assert not element_exists, 'Expected the element does not exist, but element "{}" was located'.format(element)
     else:
-        assert element_exists, 'Expected element to exist, but no element with selector {} was found'.format(element)
+        assert element_exists, 'Expected element to exist, but no element "{}" was located'.format(element)
 
 
 @then('I expect that element "([^"]*)?"( not)* contains the same text as element "([^"]*)?"')
@@ -272,5 +272,6 @@ def check_model_opened(context, modal, negative):
 @then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
 def check_modal_text_contains(context, modal, negative, text):
     raise NotImplementedError('step not implemented')
+
 
 use_step_matcher('parse')

@@ -31,6 +31,7 @@ def pause(context, milliseconds):
     milliseconds = int(milliseconds)
     context.behave_driver.pause(milliseconds)
 
+
 @given('the element "([^"]*)?" is( not)* visible')
 def element_visible(context, element, negative):
     visible = context.behave_driver.element_visible(element)
@@ -93,8 +94,8 @@ def elements_same_text(context, first_element, negative, second_element):
     same = first_elem_text == second_elem_text
     if negative:
         assert not same, 'Element "{}" text "{}" is same as element "{}"'.format(first_element,
-                                                                                first_elem_text,
-                                                                                second_element)
+                                                                                 first_elem_text,
+                                                                                 second_element)
     else:
         assert same, 'Element "{}" text "{}" is not same as element "{}" text "{}"'.format(first_element,
                                                                                            first_elem_text,
@@ -111,7 +112,6 @@ def element_matches_text(context, element, negative, text):
                                                                     text)
     else:
         assert matches, 'The text "{}" did not match the element text "{}"'.format(text, elem_text)
-
 
 
 @given('the element "([^"]*)?"( not)* contains the text "([^"]*)?"')
@@ -224,5 +224,6 @@ def check_modal(context, modal, negative):
         assert context.behave_driver.has_alert is False
     else:
         assert context.behave_driver.has_alert is True
+
 
 use_step_matcher('parse')

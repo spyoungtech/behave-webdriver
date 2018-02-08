@@ -10,21 +10,31 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
 
-from .conditions import element_is_present, element_is_selected, element_contains_value, element_is_visible, element_contains_text, element_is_enabled
-
+from .conditions import (element_is_present,
+                         element_is_selected,
+                         element_contains_value,
+                         element_is_visible,
+                         element_contains_text,
+                         element_is_enabled)
 
 
 class BehaveDriver(object):
     """
-    Implements most of the logic for step definitions. Should be fully substitutable with any selenium webdriver.
-    Attributes of the underlying webdriver can be accessed directly (behave_driver.attr)
-    or you can access the driver attribute `behave_driver.driver.attr`
+    Implements most of the logic for step definitions.
+    Instances of this class are fully substitutable with selenium webdriver.
+    The behave driver can be used just like you would any other selenium webdriver.
+    >>> behave_driver = BehaveDriver.chrome()
+    >>> behave_driver.get('https://google.com/')
+
+    If, for some reason, you need it, you can access the actual driver instance by the ``.driver`` attribute.
     """
+
     def __init__(self, driver, default_wait=None):
         """
 
         :param driver: a selenium webdriver instance
-        :param default_wait: number of seconds to wait for elements (for expected conditions) by default. This option may not be around forever, in favor of other methods.
+        :param default_wait: number of seconds to wait for elements (for expected conditions) by default.
+        This option may not be around forever, in favor of other methods.
         """
         self.driver = driver
         self.default_wait = default_wait
@@ -45,7 +55,6 @@ class BehaveDriver(object):
         """
         driver = webdriver.Chrome(*args, **kwargs)
         return cls(driver=driver)
-
 
     @classmethod
     def firefox(cls, *args, **kwargs):
@@ -123,11 +132,6 @@ class BehaveDriver(object):
         :param size: The dimensions to set the screen to in (x, y) format.
         :type size: tuple
         :return:
-        >>> behave_driver = BehaveDriver.chrome()
-        >>> behave_driver.screen_size = (800, 600) # changes the screen size
-        >>> behave_driver.screen_size == behave_driver.get_window_size() == (800, 600)
-        True
-
         """
         x, y = size
         if x is None:
@@ -135,7 +139,6 @@ class BehaveDriver(object):
         if y is None:
             y = self.screen_size[1]
         self.driver.set_window_size(x, y)
-
 
     @property
     def cookies(self):
@@ -210,6 +213,7 @@ class BehaveDriver(object):
         :type attr: str
         :param css: Whether or not this is a CSS atrribute
         :type css: bool
+        :param expected_value:
         :return: The value of the attribute
         """
         elem = self.get_element(element)
@@ -251,7 +255,8 @@ class BehaveDriver(object):
 
     def open_url(self, url):
         """
-        Get an absolute URL
+        Navigate to an absolute URL
+        Behaves same as ``driver.get`` but serves as a common entry-point for subclasses wanting to change this.
         :param url: an absolute URL including the scheme
         :type url: str
         :return:
@@ -286,6 +291,12 @@ class BehaveDriver(object):
         return elem.is_displayed()
 
     def element_in_viewport(self, element):
+        """
+        Determines the bounding box (rect) of the window and rect of the element.
+        This information is used to determine whether or not the element is *completely* within the viewport.
+        :param element: the selector used to locate the element
+        :return:
+        """
         elem = self.get_element(element)
         elem_left_bound = elem.location.get('x')
         elem_top_bound = elem.location.get('y')
@@ -511,22 +522,18 @@ class BehaveDriver(object):
 
     def pause(self, milliseconds):
         """
-        sleep for a number of miliseconds. For now, this just uses time.sleep, but will probably change.
+        Pause for a number of miliseconds.
+        ``time.sleep`` is used here due to issues with w3c browsers and ActionChain pause feature.
         :param milliseconds: number of miliseconds to wait
         :type milliseconds: int
         :return:
         """
-        # TODO: use webdriver pause functionality?
-        # actions = ActionChains(self.driver)
         seconds = round(milliseconds / 1000, 3)
-        # actions.pause(seconds)
-        #actions.perform()
         time.sleep(seconds)
 
     def wait_for_element_condition(self, element, ms, negative, condition):
         """
         Wait on an element until a certain condition is met, up to a maximum amount of time to wait.
-        This is currently (pre-0.0.1 release) a major work-in-progress, so expect it to change without warning
 
         :param element: selector used to locate the element
         :param ms: maximum time (in milliseconds) to wait for the condition to be true
