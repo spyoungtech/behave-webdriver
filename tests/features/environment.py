@@ -11,7 +11,7 @@ def before_all(context):
     Driver = getattr(BehaveDriver, browser_env, BehaveDriver.headless_chrome)
     if Driver == BehaveDriver.headless_chrome:
         opts = ChromeOptions()
-        opts.add_argument('log-level=3')
+        opts.add_argument('--no-sandbox')
         kwargs['chrome_options'] = opts
         kwargs['executable_path'] = os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
     context.BehaveDriver = partial(Driver, **kwargs)
