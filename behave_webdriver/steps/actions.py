@@ -1,4 +1,8 @@
 from behave import *
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin  # Python 2
 
 use_step_matcher('parse')
 
@@ -132,3 +136,49 @@ def move_to_element_offset(context, element, x_offset, y_offset):
 @when('I move to element "{element}"')
 def move_to_element(context, element):
     context.behave_driver.move_to_element(element)
+
+
+use_step_matcher('re')
+
+
+@given('I have closed all but the first (window|tab)')
+def close_secondary_windows(context, window_or_tab):
+    raise NotImplementedError('step not implemented')
+
+
+@given('I open the url "([^"]*)?"')
+def open_url(context, url):
+    context.behave_driver.open_url(url)
+
+
+@given('I open the site "([^"]*)?"')
+def open_site(context, url):
+    base_url = getattr(context, 'base_url', 'http://localhost:8000')
+    destination = urljoin(base_url, url)
+    context.behave_driver.open_url(destination)
+
+
+@given('the base url is "([^"]*)?"')
+def set_base_url(context, url):
+    if url.endswith('/'):
+        url = url[:-1]
+    context.base_url = url
+
+
+@given('I pause for (\d+)*ms')
+def pause(context, milliseconds):
+    milliseconds = int(milliseconds)
+    context.behave_driver.pause(milliseconds)
+
+
+@given('I have a screen that is ([\d]+) by ([\d]+) pixels')
+def set_screen_size(context, x, y):
+    context.behave_driver.screen_size = (x, y)
+
+
+@given('I have closed all but the first (window|tab)')
+def close_secondary_windows(context, window_or_tab):
+    raise NotImplementedError('step not implemented')
+
+
+use_step_matcher('parse')

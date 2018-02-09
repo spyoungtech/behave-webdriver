@@ -23,6 +23,7 @@ class BehaveDriver(object):
     Implements most of the logic for step definitions.
     Instances of this class are fully substitutable with selenium webdriver.
     The behave driver can be used just like you would any other selenium webdriver.
+
     >>> behave_driver = BehaveDriver.chrome()
     >>> behave_driver.get('https://google.com/')
 
@@ -34,7 +35,6 @@ class BehaveDriver(object):
 
         :param driver: a selenium webdriver instance
         :param default_wait: number of seconds to wait for elements (for expected conditions) by default.
-        This option may not be around forever, in favor of other methods.
         """
         self.driver = driver
         self.default_wait = default_wait
@@ -49,6 +49,7 @@ class BehaveDriver(object):
     def chrome(cls, *args, **kwargs):
         """
         Alternative constructor. Creates BehaveDriver instance using standard chromedriver.
+
         :param args: positional args passed to `webdriver.Chrome`
         :param kwargs: keyword args passed to `webdriver.Chrome`
         :return: a BehaveDriver instance
@@ -60,6 +61,7 @@ class BehaveDriver(object):
     def firefox(cls, *args, **kwargs):
         """
         Alternative constructor. Creates a BehaveDriver instance using standard firefox gecko driver.
+
         :param args: dirver args
         :param kwargs: driver kwargs
         :return: a BehaveDriver instance
@@ -71,6 +73,7 @@ class BehaveDriver(object):
     def phantom_js(cls, *args, **kwargs):
         """
         Alternative constructor. Creates a BehaveDriver instance using standard phantomJS driver.
+
         :param args: dirver args
         :param kwargs: driver kwargs
         :return: a BehaveDriver instance
@@ -82,6 +85,7 @@ class BehaveDriver(object):
     def safari(cls, *args, **kwargs):
         """
         Alternative constructor. Creates a BehaveDriver instance using standard safari driver.
+
         :param args: dirver args
         :param kwargs: driver kwargs
         :return: a BehaveDriver instance
@@ -92,7 +96,9 @@ class BehaveDriver(object):
     @classmethod
     def headless_chrome(cls, *args, **kwargs):
         """
-        Alternate constructor. Creates a BehaveDriver instance using a chromrdriver with headless options.
+        Alternate constructor. Creates a BehaveDriver instance using a chromrdriver with headless options
+        (``--headless`` and ``--disable-gpu``)
+
         :param args: positional args passed to `webdriver.Chrome`
         :param kwargs: keyword args passed to `webdriver.Chrome`
         :return: a BehaveDriver instance
@@ -108,9 +114,10 @@ class BehaveDriver(object):
     @property
     def alert(self):
         """
-        Property shortcut for an `Alert` object for the driver
+        Property shortcut for an ``Alert`` object for the driver
         Note: this will return an Alert instance regardless of whether or not there is actually an alert present.
-        Use `has_alert` to check whether or not there is an alert currently present.
+        Use ``has_alert`` to check whether or not there is an alert currently present.
+
         :return: an selenium.webdriver.common.alert.Alert instance
         """
         return Alert(self.driver)
@@ -118,7 +125,8 @@ class BehaveDriver(object):
     @property
     def screen_size(self):
         """
-        Property for the current screen size
+        Property for the current screen size. Can also be set by assigning an x/y tuple.
+
         :return: tuple of the screen dimensions (x, y)
         """
         size = self.driver.get_window_size()
@@ -144,7 +152,6 @@ class BehaveDriver(object):
     def cookies(self):
         """
         Shortcut for driver.get_cookies()
-        :return:
         """
         return self.driver.get_cookies()
 
@@ -152,6 +159,7 @@ class BehaveDriver(object):
     def has_alert(self):
         """
         Whether or not there is currently an alert present
+
         :return: True if there is an alert present, else False
         :rtype: bool
         """
@@ -161,6 +169,7 @@ class BehaveDriver(object):
     def get_cookie(self, cookie_name):
         """
         retrieve a cookie with a particular name
+
         :param cookie_name: the name of the cookie
         :type cookie_name: str
         :return: A dictionary containing the cookie information
@@ -193,7 +202,7 @@ class BehaveDriver(object):
         getting the current text of Input elements)
         If the element has no 'value' property, the containing text is returned (elem.text)
 
-        :param element: selector to use to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: the text contained within the element.
         :rtype: str
@@ -207,7 +216,8 @@ class BehaveDriver(object):
     def get_element_attribute(self, element, attr, css=False, expected_value=None):
         """
         Get the value of an attribute or css attribute from an element.
-        :param element: selector used to locate the element.
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :param attr: The attribute to lookup
         :type attr: str
@@ -233,7 +243,8 @@ class BehaveDriver(object):
         """
         Returns a dictionary containing the size information of an element.
         The dictionary has two keys: 'width' and 'height' which represent the size of the element dimensions in px
-        :param element: selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: A dictionary with size information
         :rtype: dict
@@ -245,7 +256,8 @@ class BehaveDriver(object):
         """
         Gets the location of the element in the renderable canvas.
         This is a dict with two keys: 'x' and 'y'
-        :param element: selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: the element's location
         :rtype: dict
@@ -257,6 +269,7 @@ class BehaveDriver(object):
         """
         Navigate to an absolute URL
         Behaves same as ``driver.get`` but serves as a common entry-point for subclasses wanting to change this.
+
         :param url: an absolute URL including the scheme
         :type url: str
         :return:
@@ -267,7 +280,8 @@ class BehaveDriver(object):
         """
         Whether or not an element exists. Attempts to locate the element using `get_element` returns True if the element
         was found, False if it couldn't be located.
-        :param element: the selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: True if the element could be found, False if it couldn't be found
         :rtype: bool
@@ -282,7 +296,8 @@ class BehaveDriver(object):
     def element_visible(self, element):
         """
         Checks if an element is visible or not.
-        :param element: the selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: True if the element is visible, else False
         :rtype: bool
@@ -294,7 +309,8 @@ class BehaveDriver(object):
         """
         Determines the bounding box (rect) of the window and rect of the element.
         This information is used to determine whether or not the element is *completely* within the viewport.
-        :param element: the selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :return:
         """
         elem = self.get_element(element)
@@ -322,7 +338,7 @@ class BehaveDriver(object):
         """
         Checks if an element is enabled or not.
 
-        :param element: the selector used to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: True if the element is enabled, else False
         :rtype: bool
@@ -334,7 +350,7 @@ class BehaveDriver(object):
         """
         Checks if an element is selected or not.
 
-        :param element: the selector used to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return: True if the element is selected, else False
         :rtype: bool
@@ -346,7 +362,7 @@ class BehaveDriver(object):
         """
         Checks if an element contains (in value/text) a given string/value
 
-        :param element: the selector used to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :param value: the text/value to check for
         :type value: str
@@ -363,7 +379,7 @@ class BehaveDriver(object):
         """
         Checks whether or not an element has a particular css class.
 
-        :param element: the selector used to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :param cls: The css class to check for
         :type cls: str
@@ -379,7 +395,7 @@ class BehaveDriver(object):
         Click on an element. Note: this will not trigger some doubleclick events, even when n=2 with any delay.
         Instead, if you want to doubleclick, use `doubleclick_element`
 
-        :param element: the selector used to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :param n: Number of times to click
         :type n: int
@@ -397,7 +413,8 @@ class BehaveDriver(object):
     def doubleclick_element(self, element):
         """
         Double click an element
-        :param element: the selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return:
         """
@@ -408,8 +425,9 @@ class BehaveDriver(object):
 
     def click_link_text(self, text, partial=False):
         """
-        Click on a link, located by matching the text contained in the link. If `partial` is True,
+        Click on a link, located by matching the text contained in the link. If ``partial`` is True,
         the link is located by partial text.
+
         :param text: The text contained in the link, used to locate the element.
         :type text: str
         :param partial: Whether or not to match link by partial text (as opposed to full match)
@@ -424,7 +442,8 @@ class BehaveDriver(object):
     def drag_element(self, element, to_element):
         """
         Drag an element to the location of another element.
-        :param element: the selector used to locate the source element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :param to_element: the selector used to locate the destination element
         :type to_element: str
@@ -439,7 +458,8 @@ class BehaveDriver(object):
     def submit(self, element):
         """
         Shortcut for submitting an element
-        :param element: the selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :return:
         """
@@ -449,6 +469,7 @@ class BehaveDriver(object):
     def send_keys(self, keys):
         """
         Send arbitrary keys. Note: this is different than sending keys directly to an element.
+
         :param keys: keys to send
         :return:
         """
@@ -473,14 +494,14 @@ class BehaveDriver(object):
     def scroll_to_bottom(self):
         """
         Scrolls the current window to the bottom of the window (0, document.body.scrollHeight).
-        :return:
         """
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def scroll_to_element(self, element):
         """
         Scroll to the location of an element.
-        :param element:
+
+        :param element: CSS Selector or XPATH used to locate the element
         :return:
         """
         location = self.get_element_location(element)
@@ -506,7 +527,8 @@ class BehaveDriver(object):
     def move_to_element(self, element, offset=None):
         """
         Moves the mouse to the middle of an element
-        :param element: the selector used to locate the element
+
+        :param element: CSS Selector or XPATH used to locate the element
         :type element: str
         :param offset: optional tuple of x/y offsets to offset mouse from center
         :type offset: tuple
@@ -524,6 +546,7 @@ class BehaveDriver(object):
         """
         Pause for a number of miliseconds.
         ``time.sleep`` is used here due to issues with w3c browsers and ActionChain pause feature.
+
         :param milliseconds: number of miliseconds to wait
         :type milliseconds: int
         :return:
@@ -535,7 +558,7 @@ class BehaveDriver(object):
         """
         Wait on an element until a certain condition is met, up to a maximum amount of time to wait.
 
-        :param element: selector used to locate the element
+        :param element: CSS Selector or XPATH used to locate the element
         :param ms: maximum time (in milliseconds) to wait for the condition to be true
         :param negative: whether or not the check for negation of condition. Will coarse boolean from value
         :param condition: the condition to check for. Defaults to checking for presence of element
@@ -577,6 +600,12 @@ class BehaveDriver(object):
 
     @staticmethod
     def is_color(str_):
+        """
+        Whether or not the string represents a color.
+
+        :param str_:
+        :return:
+        """
         try:
             Color.from_string(str_)
             return True

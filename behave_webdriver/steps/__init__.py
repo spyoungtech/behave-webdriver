@@ -1,3 +1,2 @@
-from .given import *
-from .then import *
-from .when import *
+from .actions import *
+from .expectations import *

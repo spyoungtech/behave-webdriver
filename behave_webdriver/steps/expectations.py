@@ -7,14 +7,8 @@ except ImportError:
 use_step_matcher('re')
 
 
-@then('I expect that the title is( not)* "([^"]*)?"')
-def check_title(context, negative, title):
-    if negative:
-        assert title != context.behave_driver.title, 'Expected title was NOT "{0}", but it was, in fact "{0}"'.format(title)
-    else:
-        assert title == context.behave_driver.title, 'Expected title "{}", but saw "{}" instead'.format(title, context.behave_driver.title)
-
-
+@given('the element "([^"]*)?" is( not)* visible')
+@then('I expect that element "([^"]*)?" becomes( not)* visible')
 @then('I expect that element "([^"]*)?" is( not)* visible')
 def check_element_visibility(context, element, negative):
     element_is_visible = context.behave_driver.element_visible(element)
@@ -24,13 +18,13 @@ def check_element_visibility(context, element, negative):
         assert element_is_visible, 'Expected element to be visible, but it was not visible'
 
 
-@then('I expect that element "([^"]*)?" becomes( not)* visible')
-def check_element_becomes_visible(context, element, negative):
-    element_is_visible = context.behave_driver.element_visible(element)
+@given('the title is( not)* "([^"]*)?"')
+@then('I expect that the title is( not)* "([^"]*)?"')
+def title(context, negative, value):
     if negative:
-        assert not element_is_visible, 'Expected element to not be visible, but it was'
+        assert context.behave_driver.title != value, 'Title was "{}"'.format(context.behave_driver.title)
     else:
-        assert element_is_visible, 'Expected element to be visible, but it was not visible'
+        assert context.behave_driver.title == value, 'Title was "{}"'.format(context.behave_driver.title)
 
 
 @then('I expect that element "([^"]*)?" is( not)* within the viewport')
@@ -42,17 +36,58 @@ def check_element_within_viewport(context, element, negative):
         assert element_in_viewport, 'Element was not completely within viewport'
 
 
+@given('the element "([^"]*)?" is( not)* enabled')
+@then('I expect that element "([^"]*)?" is( not)* enabled')
+def element_enabled(context, element, negative):
+    enabled = context.behave_driver.element_enabled(element)
+    if negative:
+        assert not enabled
+    else:
+        assert enabled
+
+
+@given('the element "([^"]*)?" is( not)* selected')
+@then('I expect that element "([^"]*)?" is( not)* selected')
+def element_selected(context, element, negative):
+    selected = context.behave_driver.element_selected(element)
+    if negative:
+        assert not selected
+    else:
+        assert selected
+
+
+@given('the checkbox "([^"]*)?" is( not)* checked')
+@then('I expect that checkbox "([^"]*)?" is( not)* checked')
+def element_checked(context, element, negative):
+    checked = context.behave_driver.element_selected(element)
+    if negative:
+        assert not checked
+    else:
+        assert checked
+
+
+@given('there is (an|no) element "([^"]*)?" on the page')
+def element_exists(context, an_no, element):
+    negative = an_no == 'no'
+    exists = context.behave_driver.element_exists(element)
+    if negative:
+        assert not exists
+    else:
+        assert exists
+
+
 @then('I expect that element "([^"]*)?" does( not)* exist')
 def check_element_exists(context, element, negative):
-    element_exists = context.behave_driver.element_exists(element)
+    exists = context.behave_driver.element_exists(element)
     if negative:
-        assert not element_exists, 'Expected the element does not exist, but element "{}" was located'.format(element)
+        assert not exists, 'Expected the element does not exist, but element "{}" was located'.format(element)
     else:
-        assert element_exists, 'Expected element to exist, but no element "{}" was located'.format(element)
+        assert exists, 'Expected element to exist, but no element "{}" was located'.format(element)
 
 
+@given('the element "([^"]*)?" contains( not)* the same text as element "([^"]*)?"')
 @then('I expect that element "([^"]*)?"( not)* contains the same text as element "([^"]*)?"')
-def check_elements_same_text(context, first_element, negative, second_element):
+def elements_same_text(context, first_element, negative, second_element):
     first_elem_text = context.behave_driver.get_element_text(first_element)
     second_elem_text = context.behave_driver.get_element_text(second_element)
     same = first_elem_text == second_elem_text
@@ -62,13 +97,14 @@ def check_elements_same_text(context, first_element, negative, second_element):
                                                                                  second_element)
     else:
         assert same, 'Element "{}" text "{}" is not same as element "{}" text "{}"'.format(first_element,
-                                                                                            first_elem_text,
-                                                                                            second_element,
-                                                                                            second_elem_text)
+                                                                                           first_elem_text,
+                                                                                           second_element,
+                                                                                           second_elem_text)
 
 
+@given('the element "([^"]*)?"( not)* matches the text "([^"]*)?"')
 @then('I expect that element "([^"]*)?"( not)* matches the text "([^"]*)?"')
-def check_element_text_matches(context, element, negative, text):
+def element_matches_text(context, element, negative, text):
     elem_text = context.behave_driver.get_element_text(element)
     matches = elem_text == text
     if negative:
@@ -78,6 +114,7 @@ def check_element_text_matches(context, element, negative, text):
         assert matches, 'The text "{}" did not match the element text "{}"'.format(text, elem_text)
 
 
+@given('the element "([^"]*)?"( not)* contains the text "([^"]*)?"')
 @then('I expect that element "([^"]*)?"( not)* contains the text "([^"]*)?"')
 def check_element_contains_text(context, element, negative, text):
     contains = context.behave_driver.element_contains(element, text)
@@ -87,8 +124,9 @@ def check_element_contains_text(context, element, negative, text):
         assert contains, 'Element text does not contain "{}"'.format(text)
 
 
+@given('the element "([^"]*)?"( not)* contains any text')
 @then('I expect that element "([^"]*)?"( not)* contains any text')
-def check_element_contains_any_text(context, element, negative):
+def element_any_text(context, element, negative):
     any_text = bool(context.behave_driver.get_element_text(element))
     if negative:
         assert not any_text
@@ -96,6 +134,7 @@ def check_element_contains_any_text(context, element, negative):
         assert any_text
 
 
+@given('the element "([^"]*)?" is( not)* empty')
 @then('I expect that element "([^"]*)?" is( not)* empty')
 def check_element_empty(context, element, negative):
     elem_text = context.behave_driver.get_element_text(element)
@@ -106,6 +145,7 @@ def check_element_empty(context, element, negative):
         assert any_text is False
 
 
+@given('the page url is( not)* "([^"]*)?"')
 @then('I expect that the url is( not)* "([^"]*)?"')
 def check_url(context, negative, value):
     current_url = context.behave_driver.current_url
@@ -113,16 +153,6 @@ def check_url(context, negative, value):
         assert current_url != value, 'The url was "{}"'.format(current_url)
     else:
         assert current_url == value, 'Expected url to be "{}", but saw the url was "{}"'.format(value, current_url)
-
-
-@then('I expect that the path is( not)* "([^"]*)?"')
-def check_path(context, negative, value):
-    current_url = context.behave_driver.current_url
-    path = urlparse(current_url).path
-    if negative:
-        assert path != value, 'The path was "{}"'.format(path)
-    else:
-        assert path == value, 'Expected the path to be "{}", but saw the path "{}"'.format(value, path)
 
 
 @then('I expect the url to( not)* contain "([^"]*)?"')
@@ -134,8 +164,9 @@ def check_url_contains(context, negative, value):
         assert value in current_url, 'url was "{}"'.format(current_url)
 
 
+@given('the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
 @then('I expect that the( css)* attribute "([^"]*)?" from element "([^"]*)?" is( not)* "([^"]*)?"')
-def check_element_attribute_value(context, is_css, attr, element, negative, value):
+def check_element_attribute(context, is_css, attr, element, negative, value):
     if is_css:
         attribute_value, value = context.behave_driver.get_element_attribute(element, attr, is_css, value)
     else:
@@ -144,45 +175,31 @@ def check_element_attribute_value(context, is_css, attr, element, negative, valu
     if negative:
         assert attribute_value != value, 'Attribute value was "{}"'.format(attribute_value)
     else:
-        assert attribute_value == value, 'Expected attribute value "{}", but saw value "{}"'.format(value, attribute_value)
+        assert attribute_value == value, 'Attribute value was "{}"'.format(attribute_value)
 
 
-@then('I expect that checkbox "([^"]*)?" is( not)* checked')
-def check_checkbox_checked(context, element, negative):
-    # should this check that the element is, in fact, a checkbox?
-    checked = context.behave_driver.element_selected(element)
-    if negative:
-        assert not checked
-    else:
-        assert checked
-
-
-@then('I expect that element "([^"]*)?" is( not)* selected')
-def check_element_selected(context, element, negative):
-    selected = context.behave_driver.element_selected(element)
-    if negative:
-        assert not selected
-    else:
-        assert selected
-
-
-@then('I expect that element "([^"]*)?" is( not)* enabled')
-def check_element_enabled(context, element, negative):
-    enabled = context.behave_driver.element_enabled(element)
-    if negative:
-        assert not enabled
-    else:
-        assert enabled
-
-
+@given('the cookie "([^"]*)?" contains( not)* the value "([^"]*)?"')
 @then('I expect that cookie "([^"]*)?"( not)* contains "([^"]*)?"')
-def check_cookie_value_contains(context, cookie_key, negative, value):
+def check_cookie_value(context, cookie_key, negative, value):
     cookie = context.behave_driver.get_cookie(cookie_key)
     cookie_value = cookie.get('value')
     if negative:
         assert cookie_value != value, 'Cookie value was "{}"'.format(cookie_value)
     else:
         assert cookie_value == value, 'Cookie value was "{}"'.format(cookie_value)
+
+
+@given('the cookie "([^"]*)?" does( not)* exist')
+def cookie_exists(context, cookie_key, negative):
+    cookie = context.behave_driver.get_cookie(cookie_key)
+    if cookie and negative:
+        context.behave_driver.delete_cookie(cookie_key)
+    cookie = context.behave_driver.get_cookie(cookie_key)
+
+    if negative:
+        assert cookie is None, 'Cookie exists: {}'.format(cookie)
+    else:
+        assert cookie is not None
 
 
 @then('I expect that cookie "([^"]*)?"( not)* exists')
@@ -194,6 +211,7 @@ def check_cookie_exists(context, cookie_key, negative):
         assert cookie is not None, 'Cookie was not found'
 
 
+@given('the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
 @then('I expect that element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)')
 def check_element_size(context, element, negative, pixels, how):
     elem_size = context.behave_driver.get_element_size(element)
@@ -202,11 +220,12 @@ def check_element_size(context, element, negative, pixels, how):
     else:
         axis = 'width'
     if negative:
-        assert elem_size[axis] != int(pixels), 'Element size was {}'.format(elem_size)
+        assert elem_size[axis] != int(pixels), 'Element size was "{}"'.format(elem_size)
     else:
-        assert elem_size[axis] == int(pixels), 'Element size was {}'.format(elem_size)
+        assert elem_size[axis] == int(pixels), 'Element size was "{}"'.format(elem_size)
 
 
+@given('the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
 @then('I expect that element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis')
 def check_element_position(context, element, negative, pos, axis):
     element_position = context.behave_driver.get_element_location(element)
@@ -214,6 +233,25 @@ def check_element_position(context, element, negative, pos, axis):
         assert element_position[axis] != int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
     else:
         assert element_position[axis] == int(pos), 'Position was {} on the {} axis'.format(element_position[axis], axis)
+
+
+@given('a (alertbox|confirmbox|prompt) is( not)* opened')
+@then('I expect that a (alertbox|confirmbox|prompt) is( not)* opened')
+def check_modal(context, modal, negative):
+    if negative:
+        assert context.behave_driver.has_alert is False
+    else:
+        assert context.behave_driver.has_alert is True
+
+
+@then('I expect that the path is( not)* "([^"]*)?"')
+def check_path(context, negative, value):
+    current_url = context.behave_driver.current_url
+    path = urlparse(current_url).path
+    if negative:
+        assert path != value, 'The path was "{}"'.format(path)
+    else:
+        assert path == value, 'Expected the path to be "{}", but saw the path "{}"'.format(value, path)
 
 
 @then('I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"')
@@ -245,6 +283,11 @@ def check_element_focused(context, element, negative):
     raise NotImplementedError('step not implemented')
 
 
+@then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
+def check_modal_text_contains(context, modal, negative, text):
+    raise NotImplementedError('step not implemented')
+
+
 @then('I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*')
 def wait_for_element_condition(context, element, milliseconds, negative, condition):
     if milliseconds:
@@ -259,19 +302,6 @@ def wait_for_element_condition(context, element, milliseconds, negative, conditi
                     negative=negative,
                     condition=condition,
                     result=result)
-
-
-@then('I expect that a (alertbox|confirmbox|prompt) is( not)* opened')
-def check_model_opened(context, modal, negative):
-    if negative:
-        assert context.behave_driver.has_alert is False
-    else:
-        assert context.behave_driver.has_alert is True
-
-
-@then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
-def check_modal_text_contains(context, modal, negative, text):
-    raise NotImplementedError('step not implemented')
 
 
 use_step_matcher('parse')
