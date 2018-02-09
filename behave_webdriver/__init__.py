@@ -23,6 +23,7 @@ class BehaveDriver(object):
     Implements most of the logic for step definitions.
     Instances of this class are fully substitutable with selenium webdriver.
     The behave driver can be used just like you would any other selenium webdriver.
+
     >>> behave_driver = BehaveDriver.chrome()
     >>> behave_driver.get('https://google.com/')
 
