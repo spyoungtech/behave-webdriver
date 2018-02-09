@@ -13,6 +13,7 @@ def before_all(context):
         opts = ChromeOptions()
         opts.add_argument('log-level=3')
         kwargs['chrome_options'] = opts
+        kwargs['executable_path'] = os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
     context.BehaveDriver = partial(Driver, **kwargs)
     context.behave_driver = context.BehaveDriver()
     context.behave_driver.default_wait = 5
