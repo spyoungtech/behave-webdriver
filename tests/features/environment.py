@@ -1,4 +1,5 @@
 import os
+import shutil
 from behave_webdriver import BehaveDriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium import webdriver
@@ -13,7 +14,8 @@ def before_all(context):
         opts = ChromeOptions()
         opts.add_argument('--no-sandbox')
         kwargs['chrome_options'] = opts
-        kwargs['executable_path'] = os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
+        ex_path = shutil.which('chromedriver') or os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
+        kwargs['executable_path'] = ex_path
     context.BehaveDriver = partial(Driver, **kwargs)
     context.behave_driver = context.BehaveDriver()
     context.behave_driver.default_wait = 5
