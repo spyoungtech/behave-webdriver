@@ -24,4 +24,4 @@ script:
 
 
 after_success:
-  - codecov --dump
+  - codecov -X gcov
