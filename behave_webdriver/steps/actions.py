@@ -39,13 +39,6 @@ def set_input(context, value, element):
     elem.send_keys(value)
 
 
-@when('I set {value} to the inputfield "{element}"')
-def set_input(context, value, element):
-    elem = context.behave_driver.get_element(element)
-    elem.clear()
-    elem.send_keys(value)
-
-
 @when('I add "{value}" to the inputfield "{element}"')
 def add_input(context, value, element):
     elem = context.behave_driver.get_element(element)
@@ -146,12 +139,12 @@ def close_secondary_windows(context, window_or_tab):
     raise NotImplementedError('step not implemented')
 
 
-@given('I open the url "([^"]*)?"')
+@step('I open the url "([^"]*)?"')
 def open_url(context, url):
     context.behave_driver.open_url(url)
 
 
-@given('I open the site "([^"]*)?"')
+@step('I open the site "([^"]*)?"')
 def open_site(context, url):
     base_url = getattr(context, 'base_url', 'http://localhost:8000')
     destination = urljoin(base_url, url)
