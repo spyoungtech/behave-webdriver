@@ -3,8 +3,9 @@ behave-webdriver is a step library intended to allow users to easily run [seleni
 Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
+[![codecov](https://codecov.io/gh/spyoungtech/behave-webdriver/branch/master/graph/badge.svg)](https://codecov.io/gh/spyoungtech/behave-webdriver)
 
-See the [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) (work-in-progress) for information about this step library.
+Be sure to check out the full  [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) 
 
 ![behave-webdriver](https://raw.githubusercontent.com/spyoungtech/behave-webdriver/master/docs/_static/behave-webdriver.gif)
 
@@ -13,18 +14,16 @@ For information about behave in general, check out the [behave documentation](ht
 
 # Status
 
-This project is currently in the early stages of development, but is being worked on regularly. A formal release will be forthcoming.
+This project is under active development and its first official release is around the corner.
 Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver. Support for additional browsers is planned for the future.
 
 If you have issues with untested Python versions or browsers, please raise an issue.
-
-[Documentation](http://behave-webdriver.readthedocs.io/en/latest/) is currently a work-in-progress.
 
 
 # Goals
 - Make writing readable selenium tests as Gherkin features easy.
 - Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
-- To be (at least mostly) compatible with feature files written for [webdriverio/cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate)
+- To be compatible with feature files written for [webdriverio/cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate)
 
 
 # Installation
