@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 from behave_webdriver import BehaveDriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -14,7 +15,11 @@ def before_all(context):
         opts = ChromeOptions()
         opts.add_argument('--no-sandbox')
         kwargs['chrome_options'] = opts
-        ex_path = shutil.which('chromedriver') or os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
+        pwd_chrome_path = os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
+        if sys.version_info[0] < 3:
+            ex_path = pwd_chrome_path
+        else:
+            ex_path = shutil.which('chromedriver') or pwd_chrome_path
         kwargs['executable_path'] = ex_path
     context.BehaveDriver = partial(Driver, **kwargs)
     context.behave_driver = context.BehaveDriver()
