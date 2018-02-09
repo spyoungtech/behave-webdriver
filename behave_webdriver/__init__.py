@@ -390,25 +390,16 @@ class BehaveDriver(object):
         elem_classes = elem.get_attribute('class')
         return cls in elem_classes
 
-    def click_element(self, element, n=1, delay=0.1):
+    def click_element(self, element):
         """
         Click on an element. Note: this will not trigger some doubleclick events, even when n=2 with any delay.
         Instead, if you want to doubleclick, use `doubleclick_element`
 
         :param element: CSS Selector or XPATH used to locate the element
         :type element: str
-        :param n: Number of times to click
-        :type n: int
-        :param delay: Delay (in seconds) between each click.
-        :return:
         """
-        if n < 1:
-            return
         elem = self.get_element(element)
         elem.click()
-        for _ in range(n-1):
-            time.sleep(delay)
-            elem.click()
 
     def doubleclick_element(self, element):
         """

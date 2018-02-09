@@ -192,10 +192,6 @@ def check_cookie_value(context, cookie_key, negative, value):
 @given('the cookie "([^"]*)?" does( not)* exist')
 def cookie_exists(context, cookie_key, negative):
     cookie = context.behave_driver.get_cookie(cookie_key)
-    if cookie and negative:
-        context.behave_driver.delete_cookie(cookie_key)
-    cookie = context.behave_driver.get_cookie(cookie_key)
-
     if negative:
         assert cookie is None, 'Cookie exists: {}'.format(cookie)
     else:
