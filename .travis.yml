@@ -13,7 +13,7 @@ install: # Install ChromeDriver.
   - unzip ./chromedriver_linux64.zip -d ./
   - rm ./chromedriver_linux64.zip
   - chmod +x ./chromedriver
-  - pip install .
+  - pip install -r ./requirements.txt
 
 script:
   - cd tests/demo-app
