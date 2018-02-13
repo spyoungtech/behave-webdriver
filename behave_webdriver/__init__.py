@@ -346,6 +346,11 @@ class BehaveDriver(object):
         elem = self.get_element(element)
         return elem.is_enabled()
 
+    def element_focused(self, element):
+        elem = self.get_element(element)
+        focused_elem = self.driver.switch_to.active_element
+        return elem == focused_elem
+
     def element_selected(self, element):
         """
         Checks if an element is selected or not.
