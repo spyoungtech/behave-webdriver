@@ -3,7 +3,7 @@ behave-webdriver is a step library intended to allow users to easily run [seleni
 Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
-[![codecov](https://codecov.io/gh/spyoungtech/behave-webdriver/branch/master/graph/badge.svg)](https://codecov.io/gh/spyoungtech/behave-webdriver)
+[![Coverage Status](https://coveralls.io/repos/github/spyoungtech/behave-webdriver/badge.svg)](https://coveralls.io/github/spyoungtech/behave-webdriver)
 
 Be sure to check out the full  [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) 
 
