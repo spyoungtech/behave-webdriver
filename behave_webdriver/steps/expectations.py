@@ -276,7 +276,11 @@ def check_url_new_window(context, url, tab_or_window):
 
 @then('I expect that element "([^"]*)?" is( not)* focused')
 def check_element_focused(context, element, negative):
-    raise NotImplementedError('step not implemented')
+    element_focused = context.behave_driver.element_focused(element)
+    if negative:
+        assert not element_focused
+    else:
+        assert element_focused
 
 
 @then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
