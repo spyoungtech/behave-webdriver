@@ -1,4 +1,3 @@
-@Pending
 Feature: Test modals
     As a developer
     I want to be able to test the onening, closing and contens of modal windows
@@ -11,6 +10,7 @@ Feature: Test modals
         When  I click on the element "#openAlert"
         Then  I expect that a alertbox is opened
         And   I expect that a alertbox contains the text "I am a alert box!"
+        And   I expect that a alertbox not contains the text "Other Text"
         When  I accept the alertbox
         Then  I expect that a alertbox is not opened
 

@@ -284,8 +284,12 @@ def check_element_focused(context, element, negative):
 
 
 @then('I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"')
-def check_modal_text_contains(context, modal, negative, text):
-    raise NotImplementedError('step not implemented')
+def check_modal_text_contains(context, modal_type, negative, text):
+    alert_text = context.behave_driver.alert.text
+    if negative:
+        assert not text in alert_text
+    else:
+        assert text in alert_text
 
 
 @then('I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*')

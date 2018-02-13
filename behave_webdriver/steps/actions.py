@@ -76,21 +76,6 @@ def press_button(context, key):
     context.behave_driver.press_button(key)
 
 
-@when('I accept the alert')
-def accept_alert(context):
-    context.behave_driver.alert.accept()
-
-
-@when('I dismiss the alert')
-def dismiss_alert(context):
-    context.behave_driver.alert.dismiss()
-
-
-@when('I enter {text} into the prompt')
-def handle_prompt(context, text):
-    context.behave_driver.alert.send_keys(text)
-
-
 @when('I scroll to element "{element}"')
 def scroll_to(context, element):
     context.behave_driver.scroll_to_element(element)
@@ -133,6 +118,20 @@ def move_to_element(context, element):
 
 use_step_matcher('re')
 
+
+@when('I accept the (alertbox|confirmbox|prompt)')
+def accept_alert(context, modal_type):
+    context.behave_driver.alert.accept()
+
+
+@when('I dismiss the (alertbox|confirmbox|prompt)')
+def dismiss_alert(context, modal_type):
+    context.behave_driver.alert.dismiss()
+
+
+@when('I enter "([^"]*)?" into the (alertbox|confirmbox|prompt)')
+def handle_prompt(context, text, modal_type):
+    context.behave_driver.alert.send_keys(text)
 
 @given('I have closed all but the first (window|tab)')
 def close_secondary_windows(context, window_or_tab):

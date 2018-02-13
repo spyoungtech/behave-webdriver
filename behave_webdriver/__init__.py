@@ -5,7 +5,6 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
@@ -120,7 +119,7 @@ class BehaveDriver(object):
 
         :return: an selenium.webdriver.common.alert.Alert instance
         """
-        return Alert(self.driver)
+        return self.driver.switch_to.alert
 
     @property
     def screen_size(self):
@@ -163,8 +162,13 @@ class BehaveDriver(object):
         :return: True if there is an alert present, else False
         :rtype: bool
         """
-        e = EC.alert_is_present()
-        return e(self.driver)
+        try:
+            WebDriverWait(self.driver, 1).until(EC.alert_is_present())
+            alert = self.driver.switch_to.alert
+            return True
+        except TimeoutException:
+            return False
+
 
     def get_cookie(self, cookie_name):
         """
