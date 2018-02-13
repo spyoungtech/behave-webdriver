@@ -1,11 +1,10 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoAlertPresentException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
@@ -164,7 +163,7 @@ class BehaveDriver(object):
         :rtype: bool
         """
         try:
-            WebDriverWait(self.driver, 2).until(EC.alert_is_present())
+            WebDriverWait(self.driver, 1).until(EC.alert_is_present())
             alert = self.driver.switch_to.alert
             return True
         except TimeoutException:
