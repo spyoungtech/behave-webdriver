@@ -1,2 +1,7 @@
 [run]
-source=behave_webdriver
+branch = True
+source = behave_webdriver
+
+[report]
+exclude_lines =
+    raise NotImplementedError
