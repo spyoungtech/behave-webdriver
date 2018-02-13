@@ -14,7 +14,7 @@ install: # Install ChromeDriver.
   - rm ./chromedriver_linux64.zip
   - chmod +x ./chromedriver
   - pip install -r ./requirements.txt
-  - pip install codecov
+  - pip install coveralls
 
 script:
   - cd tests/demo-app
@@ -24,4 +24,4 @@ script:
 
 
 after_success:
-  - codecov -X gcov
+  - coveralls
