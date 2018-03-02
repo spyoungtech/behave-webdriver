@@ -1,8 +1,10 @@
+import string
 from behave import *
 try:
     from urllib.parse import urljoin
 except ImportError:
     from urlparse import urljoin  # Python 2
+
 
 use_step_matcher('parse')
 
@@ -91,19 +93,12 @@ def close_last_window(context):
     raise NotImplementedError('This step has not been implemented yet')
 
 
-@when('I select the {nth:d} option for element "{element}"')
+@when('I select the {nth} option for element "{element}"')
 def select_nth_option(context, nth, element):
-    raise NotImplementedError('This step has not been implemented yet')
-
-
-@when('I select the option with the text {text} for element {element}')
-def select_option_by_text(context, text, element):
-    raise NotImplementedError('This step has not been implemented yet')
-
-
-@when('I select the option with the value {value} for element {element}')
-def select_option_by_text(context, value, element):
-    raise NotImplementedError('This step has not been implemented yet')
+    index = int(''.join(char for char in nth if char in string.digits))
+    context.behave_driver.select_option(element,
+                                        by='index',
+                                        by_arg=index)
 
 
 @when('I move to element "{element}" with an offset of {x_offset:d},{y_offset:d}')
@@ -119,6 +114,15 @@ def move_to_element(context, element):
 use_step_matcher('re')
 
 
+@when('I select the option with the (text|value|name) "([^"]*)?" for element "([^"]*)?"')
+def select_option_by(context, attr, attr_value, element):
+    attr_map = {'text': 'visible_text'}
+    attr = attr_map.get(attr, attr)
+    context.behave_driver.select_option(select_element=element,
+                                        by=attr,
+                                        by_arg=attr_value)
+
+
 @when('I accept the (alertbox|confirmbox|prompt)')
 def accept_alert(context, modal_type):
     context.behave_driver.alert.accept()
@@ -132,6 +136,7 @@ def dismiss_alert(context, modal_type):
 @when('I enter "([^"]*)?" into the (alertbox|confirmbox|prompt)')
 def handle_prompt(context, text, modal_type):
     context.behave_driver.alert.send_keys(text)
+
 
 @given('I have closed all but the first (window|tab)')
 def close_secondary_windows(context, window_or_tab):

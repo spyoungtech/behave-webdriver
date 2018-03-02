@@ -42,7 +42,8 @@ Feature: Test select elements
         When I select the option with the text "Option #4" for element "#selectElementTest"
         Then I expect that element "#selectElementTest option:nth-child(4)" is selected
 
-    Scenario: Test if we can select a option by its value using XPath selectors only
+    Scenario: Test if we can select a option
+    by its value using XPath selectors only
         Then I expect that element "#selectElementTest option:nth-child(2)" is not selected
         When I select the option with the value "second" for element "//select[@id='selectElementTest']"
         Then I expect that element "#selectElementTest option:nth-child(2)" is selected
