@@ -1,21 +1,23 @@
 # behave-webdriver
-behave-webdriver is a step library intended to allow users to easily run [selenium](https://github.com/SeleniumHQ/selenium) webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
+behave-webdriver is a step library intended to allow users to easily run [selenium](https://github.com/SeleniumHQ/selenium) 
+webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
 Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
+[![Documentation](https://readthedocs.org/projects/behave-webdriver/badge/?version=latest)](http://behave-webdriver.readthedocs.io/en/latest/)
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
+[![PyPI Version](https://img.shields.io/pypi/v/behave-webdriver.svg?colorB=blue)](https://pypi.org/project/behave-webdriver/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/behave-webdriver.svg?)](https://pypi.org/project/behave-webdriver/)
 [![Coverage Status](https://coveralls.io/repos/github/spyoungtech/behave-webdriver/badge.svg)](https://coveralls.io/github/spyoungtech/behave-webdriver)
 
 Be sure to check out the full  [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) 
 
 ![behave-webdriver](https://raw.githubusercontent.com/spyoungtech/behave-webdriver/master/docs/_static/behave-webdriver.gif)
 
-For information about behave in general, check out the [behave documentation](http://behave.readthedocs.io/en/latest/)
-
 
 # Status
 
 This project is under active development and its first official release is around the corner.
-Currently we test against Python 2.7 and Python 3.5+ using a headless chromedriver. Support for additional browsers is planned for the future.
+Currently we test against Python **2.7** and Python **3.5+** using a headless chromedriver. Support for additional browsers is planned for the future.
 
 If you have issues with untested Python versions or browsers, please raise an issue.
 
@@ -28,21 +30,19 @@ If you have issues with untested Python versions or browsers, please raise an is
 
 # Installation
 
-Via pip (PyPI coming soon)
 ```
-pip install git+https://github.com/spyoungtech/behave-webdriver.git
-```
-
-Manual install (setup.py)
-
-```
-git clone https://github.com/spyoungtech/behave-webdriver.git
-cd behave-webdriver
-pip install .
+pip install behave-webdriver
 ```
 
+## Using webdrivers
 
-## Quick start
+Selenium requires that you provide executables for the webdriver you want to use. Further, unless you specify the path to 
+the binary explicitly, selenium expects that this executable is in PATH. See [this article](http://selenium-python.readthedocs.io/installation.html#drivers) for more information.
+
+You can download the latest chromedriver for your 
+platform from the [chromium.org downloads page](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+
+# Quick start
 
 Basic use of this step library will require you to (1) import the step functions and (2) provide a `behave_driver` to your `context`.
 
@@ -86,12 +86,21 @@ def before_all(context):
 Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` class. This means you can subclass this to override or extend any behaviors implemented there.
 Also worth noting is that you can access attributes of the underlying webdriver directly through `behave_driver` or by accessing the stored driver instance `behave_driver.driver`
 
+For example, suppose you want to write your steps using class names instead of the standard behavior of using CSS/XPATH.
+You can override the `get_element` method.
 
+```python
+from behave_webdriver import BehaveDriver
+class MyBehaveDriver(BehaveDriver):
+    def get_element(self, class_name, by=None):
+        elem = self.driver.find_element_by_class_name(class_name)
+        return elem
+```
 
 
 # List of step definitions
 
-Not all steps have been implemented yet. Steps that are not implemented will be in a separate list. 
+A few step definitions are pending implementation. These will be provided as part of the 0.1.0 release.
 
 ## Given Steps
 
@@ -116,10 +125,9 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `the element "([^"]*)?" is( not)* ([\d]+)px (broad|tall)`
 - `the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis`
 - `I have a screen that is ([\d]+) by ([\d]+) pixels`
-
 - `a (alertbox|confirmbox|prompt) is( not)* opened`
 
-### Given steps not yet implemented
+### Given steps pending implementation
 
 - `I have closed all but the first (window|tab)`
 
@@ -147,7 +155,7 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I move to element "{element}" with an offset of {x_offset:d},{y_offset:d}`
 - `I move to element "{element}"`
 
-### When steps not yet implemented
+### When steps pending implementation
 
 - `I close the last opened tab`
 - `I close the last opened window`
@@ -184,60 +192,16 @@ Not all steps have been implemented yet. Steps that are not implemented will be 
 - `I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*`
 - `I expect that a (alertbox|confirmbox|prompt) is( not)* opened`
 - `I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"`
-
-### Then steps not yet implemented
-
-- `I expect a new (window|tab) has( not)* been opened`
-- `I expect the url "([^"]*)?" is opened in a new (tab|window)`
 - `I expect that element "([^"]*)?" is( not)* focused`
 - `I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"`
 
-# TODO v0.1.0 (Planned first PyPI release)
-- [ ] Implement the support code from cucumber-boilerplate for behave/selenium
-  - [ ] given 21/22
-  - [ ] when 20/25
-  - [ ] then 24/28
-  - [x] sampleSnippets.feature passing
-- [x] Setup basic travis tests
-- [ ] More extensive tests and feature files
-  - [x] attribute.feature
-  - [x] buttonPress.feature
-  - [x] checkbox.feature
-  - [x] checkTitle.feature
-  - [x] class.feature
-  - [x] click.feature
-  - [x] cookie.feature
-  - [x] elementExistence.feature
-  - [x] elementSize.feature
-  - [x] form.feature
-  - [x] inputfield.feature
-  - [x] isEmpty.feature
-  - [x] isExisting.feature
-  - [x] moveTo.feature
-  - [x] sampleSnippets.feature
-  - [x] sctructure.feature
-  - [x] textComparison.feature
-  - [x] title.feature
-  - [x] urlValidation.feature
-  - [ ] drag.feature
-  - [ ] elementPosition.feature
-  - [ ] elementVisibility.feature
-  - [ ] focus.feature
-  - [ ] modals.feature
-  - [ ] pending.feature
-  - [ ] select.feature
-  - [x] wait.feature
-  - [ ] window.feature
-  - [x] withinViewport.feature
-- [ ] Provide more detailed assertion errors
-- [x] Provide some cool browser options (note only chrome/headless chrome are officially supported at this time)
-  - [x] Headless selenium `BehaveDriver.headless_chrome()`
-  - [x] Standard chrome browser `BehaveDriver.chrome()`
-  - [x] PhantomJS
-  - [x] Firefox
-  - [x] Safari
+### Then steps pending implementation
+
+- `I expect a new (window|tab) has( not)* been opened`
+- `I expect the url "([^"]*)?" is opened in a new (tab|window)`
 
 
 # Acknowledgements
 
-Thanks to the authors of the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project for boilerplate ideas and feature files
+Special thanks to the authors of the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project for boilerplate ideas and feature files
+Special thanks to the authors of the [behave](https://github.com/behave/behave) for the BDD testing framework.
