@@ -28,4 +28,4 @@ Feature: Test Multiple Select elements
     And I expect that element "#negative" is not selected
 
   Scenario: Trying to select non-existant elements raises an error
-    Then I expect that executing the step 'When I select the option with the value "x" for element "#selectElementTest"' raises an exception
+    Then I expect that executing the step 'When I select the option with the name "x" for element "#selectElementTest"' raises an exception
