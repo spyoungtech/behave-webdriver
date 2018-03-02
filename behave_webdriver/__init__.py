@@ -21,14 +21,14 @@ from .conditions import (element_is_present,
 
 class Select(_Select):
     def select_by_attr(self, attr, attr_value):
-        css = 'option[{} ={}'.format(attr, self._escapeString(attr_value))
+        css = 'option[{} ={}]'.format(attr, self._escapeString(attr_value))
         opts = self._el.find_elements(By.CSS_SELECTOR, css)
         matched = False
         for opt in opts:
             self._setSelected(opt)
+            matched = True
             if not self.is_multiple:
                 return
-            matched = True
         if not matched:
             raise NoSuchElementException("Cannot locate option by {} attribue with value of '{}'".format(attr,
                                                                                                          attr_value))
