@@ -1,7 +1,7 @@
 # behave-webdriver
-behave-webdriver is a step library intended to allow users to easily run [selenium](https://github.com/SeleniumHQ/selenium) 
-webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework
-Inspired by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
+behave-webdriver is a step library intended to allow users to easily write [selenium](https://github.com/SeleniumHQ/selenium) 
+webdriver tests with the [behave](https://github.com/behave/behave) BDD testing framework.  
+Inspired heavily by the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project.
 
 [![Documentation](https://readthedocs.org/projects/behave-webdriver/badge/?version=latest)](http://behave-webdriver.readthedocs.io/en/latest/)
 [![Build Status](https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master)](https://travis-ci.org/spyoungtech/behave-webdriver)
@@ -13,22 +13,9 @@ Be sure to check out the full  [behave-webdriver documentation](http://behave-we
 
 ![behave-webdriver](https://raw.githubusercontent.com/spyoungtech/behave-webdriver/master/docs/_static/behave-webdriver.gif)
 
-
-# Status
-
-This project is under active development and its first official release is around the corner.
-Currently we test against Python **2.7** and Python **3.5+** using a headless chromedriver. Support for additional browsers is planned for the future.
-
-If you have issues with untested Python versions or browsers, please raise an issue.
-
-
-# Goals
-- Make writing readable selenium tests as Gherkin features easy.
-- Provide an easily extensible interface to the selenium driver (`BehaveDriver`)
-- To be compatible with feature files written for [webdriverio/cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate)
-
-
 # Installation
+
+Installation is easy via pip. The install will require `behave` and `selenium`.
 
 ```
 pip install behave-webdriver
@@ -86,21 +73,30 @@ def before_all(context):
 Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` class. This means you can subclass this to override or extend any behaviors implemented there.
 Also worth noting is that you can access attributes of the underlying webdriver directly through `behave_driver` or by accessing the stored driver instance `behave_driver.driver`
 
-For example, suppose you want to write your steps using class names instead of the standard behavior of using CSS/XPATH.
+For example, suppose you want to write your steps using class names by default, instead of CSS/XPATH.
 You can override the `get_element` method.
 
 ```python
 from behave_webdriver import BehaveDriver
+from selenium.webdriver.common.by import By
+
 class MyBehaveDriver(BehaveDriver):
-    def get_element(self, class_name, by=None):
-        elem = self.driver.find_element_by_class_name(class_name)
-        return elem
+    def get_element(self, class_name, by=By.CLASS_NAME):
+        return super(MyBehaveDriver, self).get_element(class_name, by)
 ```
 
+## Getting help
+
+If you have any unanswered questions or encounter any issues, please feel welcome to raise an issue.
+
+## Contributing
+
+Contributions are very much welcomed. If you have ideas or suggestions, please raise an issue or submit a PR.
 
 # List of step definitions
 
-A few step definitions are pending implementation. These will be provided as part of the 0.1.0 release.
+We support all the steps supported by webdriverio/cucumber-boilerplate.  
+We also support some additional niceties and plan to add more step definitions.
 
 ## Given Steps
 
@@ -126,11 +122,7 @@ A few step definitions are pending implementation. These will be provided as par
 - `the element "([^"]*)?" is( not)* positioned at ([\d]+)px on the (x|y) axis`
 - `I have a screen that is ([\d]+) by ([\d]+) pixels`
 - `a (alertbox|confirmbox|prompt) is( not)* opened`
-
-### Given steps pending implementation
-
 - `I have closed all but the first (window|tab)`
-
 
 ## When Steps
 
@@ -140,28 +132,24 @@ A few step definitions are pending implementation. These will be provided as par
 - `I click on the link "{link_text}"`
 - `I click on the button "{element}"`
 - `I set "{value}" to the inputfield "{element}"`
-- `I set {value} to the inputfield "{element}"`
 - `I add "{value}" to the inputfield "{element}"`
 - `I clear the inputfield "{element}"`
 - `I drag element "{from_element}" to element "{to_element}"`
 - `I submit the form "{element}"`
 - `I set a cookie "{cookie_key}" with the content "{value}"`
-- `I delete the cookie "{cookie_key}`
+- `I delete the cookie "{cookie_key}"`
 - `I press "{key}"`
 - `I accept the alert`
 - `I dismiss the alert`
-- `I enter {text} into the prompt`
-- `I scroll to element {element}`
+- `I enter "{text}" into the prompt`
+- `I scroll to element "{element}"`
 - `I move to element "{element}" with an offset of {x_offset:d},{y_offset:d}`
 - `I move to element "{element}"`
-
-### When steps pending implementation
-
 - `I close the last opened tab`
 - `I close the last opened window`
 - `I select the {nth:d} option for element "{element}"`
-- `I select the option with the text {text} for element {element}`
-- `I select the option with the value {value} for element {element}`
+- `I select the option with the text "{text}" for element "{element}"`
+- `I select the option with the value "{value}" for element "{element}"`
 
 
 
@@ -194,14 +182,11 @@ A few step definitions are pending implementation. These will be provided as par
 - `I expect that element "([^"]*)?" (has|does not have) the class "([^"]*)?"`
 - `I expect that element "([^"]*)?" is( not)* focused`
 - `I expect that a (alertbox|confirmbox|prompt)( not)* contains the text "([^"]*)?"`
-
-### Then steps pending implementation
-
 - `I expect a new (window|tab) has( not)* been opened`
 - `I expect the url "([^"]*)?" is opened in a new (tab|window)`
 
 
 # Acknowledgements
 
-Special thanks to the authors of the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project for boilerplate ideas and feature files
+Special thanks to the authors of the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project for boilerplate ideas and feature files  
 Special thanks to the authors of the [behave](https://github.com/behave/behave) for the BDD testing framework.
