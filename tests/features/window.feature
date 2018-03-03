@@ -39,3 +39,10 @@ Feature: Test if new windows/tabs are being opened
         Then  I expect that the url is "http://example.com/"
         When  I close the last opened window
         Then  I expect that the url is "http://localhost:8000/"
+
+    Scenario: Test checking for new window without new widow raises an error
+        Then I expect that executing the step 'Then I expect the url "/" is opened in a new window' raises an exception
+
+    Scenario: Test checking for new window with nonexistent url fails
+        When I click on the element "#linkNewWindow"
+        Then I expect that executing the step 'Then I expect the url "foo" is opened in a new window' raises an exception

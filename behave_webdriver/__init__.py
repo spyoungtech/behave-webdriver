@@ -186,6 +186,41 @@ class BehaveDriver(object):
         except TimeoutException:
             return False
 
+    @property
+    def primary_handle(self):
+        """
+        shortcut for window_handles[0]
+
+        :returns: the primary (first) window handle
+        """
+        return self.driver.window_handles[0]
+
+    @property
+    def secondary_handles(self):
+        """
+        shortcut for window_handles[1:]
+
+        :returns: list of window handles
+        :rtype: list
+        """
+        if len(self.driver.window_handles) > 1:
+            return self.driver.window_handles[1:]
+        else:
+            return []
+
+    @property
+    def last_opened_handle(self):
+        return self.driver.window_handles[-1]
+
+    @property
+    def handles(self):
+        """
+        shortcut for window_handles
+
+        :returns: the driver window handles
+        """
+        return self.driver.window_handles
+
     def get_cookie(self, cookie_name):
         """
         retrieve a cookie with a particular name
