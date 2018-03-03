@@ -1,4 +1,5 @@
 import time
+from functools import partial
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -8,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.color import Color
+from selenium.webdriver.support.select import Select as _Select
 
 from .conditions import (element_is_present,
                          element_is_selected,
@@ -15,6 +17,21 @@ from .conditions import (element_is_present,
                          element_is_visible,
                          element_contains_text,
                          element_is_enabled)
+
+
+class Select(_Select):
+    def select_by_attr(self, attr, attr_value):
+        css = 'option[{} ={}]'.format(attr, self._escapeString(attr_value))
+        opts = self._el.find_elements(By.CSS_SELECTOR, css)
+        matched = False
+        for opt in opts:
+            self._setSelected(opt)
+            matched = True
+            if not self.is_multiple:
+                return
+        if not matched:
+            raise NoSuchElementException("Cannot locate option by {} attribue with value of '{}'".format(attr,
+                                                                                                         attr_value))
 
 
 class BehaveDriver(object):
@@ -168,7 +185,6 @@ class BehaveDriver(object):
             return True
         except TimeoutException:
             return False
-
 
     def get_cookie(self, cookie_name):
         """
@@ -597,6 +613,21 @@ class BehaveDriver(object):
             result = None
 
         return result
+
+    def select_option(self, select_element, by, by_arg):
+        """
+        Implements features for selecting options in Select elements. Uses selenium's ``Select`` support class.
+
+        :param select_element: CSS Selector or XPATH used to locate the select element containing options
+        :param by: the method for selecting the option, valid options include any select_by_X supported by ``Select``.
+        :type by: str
+        :return:
+        """
+
+        select_elem = self.get_element(select_element)
+        select = Select(select_elem)
+        select_method = getattr(select, 'select_by_'+by, partial(select.select_by_attr, by))
+        select_method(by_arg)
 
     @staticmethod
     def is_color(str_):
