@@ -83,16 +83,6 @@ def scroll_to(context, element):
     context.behave_driver.scroll_to_element(element)
 
 
-@when('I close the last opened tab')
-def close_last_tab(context):
-    context.behave_driver.window_handles[-1].close()
-
-
-@when('I close the last opened window')
-def close_last_window(context):
-    raise NotImplementedError('This step has not been implemented yet')
-
-
 @when('I select the {nth} option for element "{element}"')
 def select_nth_option(context, nth, element):
     index = int(''.join(char for char in nth if char in string.digits))
@@ -112,6 +102,16 @@ def move_to_element(context, element):
 
 
 use_step_matcher('re')
+
+@when('I close the last opened (tab|window)')
+def close_last_tab(context, _):
+    context.behave_driver.switch_to_window(context.behave_driver.last_opened_handle)
+    context.behave_driver.close()
+    context.behave_driver.switch_to_window(context.behave_driver.primary_handle)
+
+@when('I focus the last opened (tab|window)')
+def focus_last_tab(context, _):
+    context.behave_driver.switch_to_window(context.behave_driver.last_opened_handle)
 
 
 @when('I select the option with the (text|value|name) "([^"]*)?" for element "([^"]*)?"')
@@ -140,7 +140,11 @@ def handle_prompt(context, text, modal_type):
 
 @given('I have closed all but the first (window|tab)')
 def close_secondary_windows(context, window_or_tab):
-    raise NotImplementedError('step not implemented')
+    if len(context.behave_driver.window_handles) > 1:
+        for handle in context.behave_driver.window_handles[1:]:
+            context.behave_driver.switch_to_window(handle)
+            context.behave_driver.close()
+    context.behave_driver.switch_to_window(context.behave_driver.primary_handle)
 
 
 @step('I open the url "([^"]*)?"')
@@ -171,11 +175,6 @@ def pause(context, milliseconds):
 @given('I have a screen that is ([\d]+) by ([\d]+) pixels')
 def set_screen_size(context, x, y):
     context.behave_driver.screen_size = (x, y)
-
-
-@given('I have closed all but the first (window|tab)')
-def close_secondary_windows(context, window_or_tab):
-    raise NotImplementedError('step not implemented')
 
 
 use_step_matcher('parse')

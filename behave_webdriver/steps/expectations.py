@@ -265,13 +265,28 @@ def check_element_has_class(context, element, has, classname):
 
 
 @then('I expect a new (window|tab) has( not)* been opened')
-def check_window_opened(context, window_or_tab, negative):
-    raise NotImplementedError('step not implemented')
+def check_window_opened(context, _, negative):
+    if negative:
+        assert not context.behave_driver.secondary_handles
+    else:
+        assert bool(context.behave_driver.secondary_handles)
+
 
 
 @then('I expect the url "([^"]*)?" is opened in a new (tab|window)')
-def check_url_new_window(context, url, tab_or_window):
-    raise NotImplementedError('step not implemented')
+def check_url_new_window(context, url, _):
+    current_handle = context.behave_driver.primary_handle
+    for handle in context.behave_driver.secondary_handles:
+        context.behave_driver.switch_to_window(handle)
+        if context.behave_driver.current_url == url:
+            context.behave_driver.switch_to_window(current_handle)
+            break
+    else:
+        context.behave_driver.switch_to_window(current_handle)
+        if len(context.behave_driver.secondary_handles) < 2:
+            raise AssertionError('No secondary handles found!')
+        raise AssertionError("The url '{}' was not found in any handle")
+
 
 
 @then('I expect that element "([^"]*)?" is( not)* focused')
