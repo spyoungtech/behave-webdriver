@@ -176,5 +176,11 @@ def pause(context, milliseconds):
 def set_screen_size(context, x, y):
     context.behave_driver.screen_size = (x, y)
 
-
+@given('I have a screen that is ([\d]+) pixels (broad|tall)')
+def set_screen_dimension(context, size, how):
+    size = int(size)
+    if how == 'tall':
+        context.behave_driver.screen_size = (None, size)
+    else:
+        context.behave_driver.screen_size = (size, None)
 use_step_matcher('parse')

@@ -283,7 +283,7 @@ def check_url_new_window(context, url, _):
             break
     else:
         context.behave_driver.switch_to_window(current_handle)
-        if len(context.behave_driver.secondary_handles) < 2:
+        if len(context.behave_driver.secondary_handles) < 1:
             raise AssertionError('No secondary handles found!')
         raise AssertionError("The url '{}' was not found in any handle")
 
@@ -323,4 +323,11 @@ def wait_for_element_condition(context, element, milliseconds, negative, conditi
                     result=result)
 
 
+@then("I expect the screen is ([\d]+) by ([\d]+) pixels")
+def check_screen_size(context, x, y):
+    screen_x, screen_y = context.behave_driver.screen_size
+
+
+
 use_step_matcher('parse')
+

@@ -35,3 +35,11 @@ Feature: Test text contents of elements
 
     Scenario: Input containing the same text
         Then I expect that element "#valueDoesContainCucumber" contains the text "This input contains cucumber"
+
+    Scenario: Test element matches text
+      Then I expect that element "#textDoesContainCucumber" matches the text "This element contains cucumber"
+      And I expect that element "#textDoesContainCucumber" not matches the text "Something else"
+
+    Scenario: Test Input matches text
+      Then I expect that element "#valueDoesContainCucumber" matches the text "This input contains cucumber"
+      And I expect that element "#valueDoesContainCucumber" not matches the text "Something else"
