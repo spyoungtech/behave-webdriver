@@ -91,8 +91,7 @@ a mixin somebody else provides for selenium.
 ## Example: selenium-requests
 
 [selenium-requests](https://github.com/cryzed/Selenium-Requests) is a preexisting project that 
-adds functionality of the popular `requests` library to selenium. It is simple to use `selenium-requests` with behave-webdriver.
-behave-webdriver.  
+adds functionality of the popular `requests` library to selenium. It is simple to use `selenium-requests` with behave-webdriver.  
 The following, and other examples, are available in the repo `examples` directory and in the full documentation.
 
 
@@ -142,7 +141,7 @@ Assuming you're in the repository root (and have the demo app running) just run 
 ### Results :sparkles:
 
 ```
-(behave-webdriver) $ behave examples\selenium-requests\features
+(behave-webdriver) $ behave examples/selenium-requests/features
 
 DevTools listening on ws://127.0.0.1:12646/devtools/browser/1fe75b44-1c74-49fa-8e77-36c54d50cd24
 Feature: Using selenium-requests # examples/selenium-requests/features/requests.feature:1
