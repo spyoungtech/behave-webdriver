@@ -9,7 +9,7 @@ Inspired heavily by the webdriverio [cucumber-boilerplate](https://github.com/we
 [![Python Versions](https://img.shields.io/pypi/pyversions/behave-webdriver.svg?)](https://pypi.org/project/behave-webdriver/)
 [![Coverage Status](https://coveralls.io/repos/github/spyoungtech/behave-webdriver/badge.svg)](https://coveralls.io/github/spyoungtech/behave-webdriver)
 
-Be sure to check out the full  [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) 
+For more details, see the  [behave-webdriver documentation](http://behave-webdriver.readthedocs.io/en/latest/) 
 
 ![behave-webdriver](https://raw.githubusercontent.com/spyoungtech/behave-webdriver/master/docs/_static/behave-webdriver.gif)
 
@@ -21,7 +21,7 @@ Installation is easy via pip. The install will require `behave` and `selenium`.
 pip install behave-webdriver
 ```
 
-## Using webdrivers
+## Using webdrivers :traffic_light:
 
 Selenium requires that you provide executables for the webdriver you want to use. Further, unless you specify the path to 
 the binary explicitly, selenium expects that this executable is in PATH. See [this article](http://selenium-python.readthedocs.io/installation.html#drivers) for more information.
@@ -29,76 +29,81 @@ the binary explicitly, selenium expects that this executable is in PATH. See [th
 You can download the latest chromedriver for your 
 platform from the [chromium.org downloads page](https://sites.google.com/a/chromium.org/chromedriver/downloads).
 
-# Quick start
+# Quick start :running:
 
-Basic use of this step library will require you to (1) import the step functions and (2) provide a `behave_driver` to your `context`.
+Basic usage of this library with behave requires the following steps: 
 
-For example, you can import all the step definitions from this library by placing the following in one of your step files (`features/steps`)
+1. import the step implementations
+2. set the `behave_driver` attribute on the behave `context` in your `environment.py` file.
+
+
+### Importing the step implementations
+
+In order for your feature file steps to match our step implementations, behave needs to find them in your project.  
+This is as simple as importing our step definitions into your own step implementation file.
 
 ```python
 # features/steps/webdriver_example.py
 from behave_webdriver.steps import *
 ```
 
-These steps will expect to be able to access a `BehaveDriver` instance in your context. You can provide this, for example, in your `environment.py` file in a `before_all` function.
+For more information about step implementations, see the [behave tutorial](http://behave.readthedocs.io/en/latest/tutorial.html#python-step-implementations)
 
-You can use one of the supplied presets. For testing, we use **Headless Chrome** `BehaveDriver.headless_chrome()`which will work in headless environments, like CI builds.
+
+### Setting up the environment :hammer:
+
+Our step implementations specifically look at the behave context for a `behave_driver` attribute to use to run your tests.  
+In order for that to work, you'll have to provide this attribute in your `environment.py` file.
+
 
 ```python
 # features/environment.py
-from behave_webdriver import BehaveDriver
+import behave_webdriver
 
 def before_all(context):
-    # use the headless chromedriver preset
-    context.behave_driver = BehaveDriver.headless_chrome()
+    context.behave_driver = behave_webdriver.Chrome()
 
 def after_all(context):
     # cleanup after tests run
     context.behave_driver.quit()
 ```
-You can also supply your own instance of any selenium webdriver by passing the driver to `BehaveDriver` (e.g. `BehaveDriver(my_driver_instance)`)
+
+The webdriver classes provided by behave-webdriver inherit from selenium's webdriver classes, so they will accept all 
+same positional and keyword arguments that selenium accepts.
+
+Some webdrivers, such as Chrome, provide special classmethods like `Chrome.headless` which instantiates `Chrome` with 
+options to run headless. This is useful, for example in headless testing environments.
 
 ```python
-from behave_webdriver import BehaveDriver
-from selenium import webdriver
-
-firefox = webdriver.Firefox()
-
 def before_all(context):
-    context.behave_driver = BehaveDriver(firefox)
+    context.behave_driver = behave_webdriver.Chrome.headless()
 ```
+
+See the behave tutorial for more information about [environment controls](http://behave.readthedocs.io/en/latest/tutorial.html#environmental-controls)
+
 
 ## Advanced usage; modifying/extending behave-webdriver
 
-Most of the logic for behave-webdriver is implemented in the `BehaveWebdriver` class. This means you can subclass this to override or extend any behaviors implemented there.
-Also worth noting is that you can access attributes of the underlying webdriver directly through `behave_driver` or by accessing the stored driver instance `behave_driver.driver`
+behave-webdriver is designed with you in-mind. You are free to extend the behavior of our webdriver classes to suit your 
+unique needs. 
 
-For example, suppose you want to write your steps using class names by default, instead of CSS/XPATH.
-You can override the `get_element` method.
+## Getting help :children_crossing:
 
-```python
-from behave_webdriver import BehaveDriver
-from selenium.webdriver.common.by import By
+If you have any unanswered questions or encounter any issues, please feel welcome to raise an issue. We recognize that 
+testers come in all different shapes, sizes, and backgrounds. We welcome any and all questions that may arise from using 
+this library.
 
-class MyBehaveDriver(BehaveDriver):
-    def get_element(self, class_name, by=By.CLASS_NAME):
-        return super(MyBehaveDriver, self).get_element(class_name, by)
-```
+## Contributing :busts_in_silhouette: :wrench:
 
-## Getting help
+Contributions are very much welcomed! If you have ideas or suggestions, please raise an issue or submit a PR.
 
-If you have any unanswered questions or encounter any issues, please feel welcome to raise an issue.
-
-## Contributing
-
-Contributions are very much welcomed. If you have ideas or suggestions, please raise an issue or submit a PR.
-
-# List of step definitions
+# List of step definitions :memo:
 
 We support all the steps supported by webdriverio/cucumber-boilerplate.  
 We also support some additional niceties and plan to add more step definitions.
 
-## Given Steps
+## Given Steps :contruction_worker:
+
 
 - `I open the url "([^"]*)?"`
 - `I open the site "([^"]*)?"`
@@ -124,7 +129,8 @@ We also support some additional niceties and plan to add more step definitions.
 - `a (alertbox|confirmbox|prompt) is( not)* opened`
 - `I have closed all but the first (window|tab)`
 
-## When Steps
+## When Steps :arrow_forward:
+
 
 - `I pause for {miliseconds:d}ms`
 - `I click on the element "{element}"`
@@ -153,7 +159,7 @@ We also support some additional niceties and plan to add more step definitions.
 
 
 
-## Then Steps
+## Then Steps :white_check_mark:
 
 
 - `I expect that the title is( not)* "([^"]*)?"`
@@ -186,7 +192,7 @@ We also support some additional niceties and plan to add more step definitions.
 - `I expect the url "([^"]*)?" is opened in a new (tab|window)`
 
 
-# Acknowledgements
+# Acknowledgements :heart:
 
 Special thanks to the authors of the webdriverio [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) project for boilerplate ideas and feature files  
 Special thanks to the authors of the [behave](https://github.com/behave/behave) for the BDD testing framework.
