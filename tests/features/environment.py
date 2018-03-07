@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from functools import partial
 
 def before_all(context):
-    kwargs = {}
+    kwargs = {'default_wait': 5}
 
     Driver = behave_webdriver._from_env(default_driver=behave_webdriver.Chrome.headless)
     if Driver == behave_webdriver.Chrome.headless:
@@ -21,7 +21,6 @@ def before_all(context):
         kwargs['executable_path'] = ex_path
     context.BehaveDriver = partial(Driver, **kwargs)
     context.behave_driver = context.BehaveDriver()
-    context.behave_driver.default_wait = 5
 
 def after_all(context):
     context.behave_driver.quit()
