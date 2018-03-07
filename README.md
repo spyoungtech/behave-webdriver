@@ -21,7 +21,7 @@ Installation is easy via pip. The install will require `behave` and `selenium`.
 pip install behave-webdriver
 ```
 
-## Using webdrivers :traffic_light:
+## Using webdrivers
 
 Selenium requires that you provide executables for the webdriver you want to use. Further, unless you specify the path to 
 the binary explicitly, selenium expects that this executable is in PATH. See [this article](http://selenium-python.readthedocs.io/installation.html#drivers) for more information.
@@ -29,7 +29,7 @@ the binary explicitly, selenium expects that this executable is in PATH. See [th
 You can download the latest chromedriver for your 
 platform from the [chromium.org downloads page](https://sites.google.com/a/chromium.org/chromedriver/downloads).
 
-# Quick start :running:
+# Quick start
 
 Basic usage of this library with behave requires the following steps: 
 
@@ -50,7 +50,7 @@ from behave_webdriver.steps import *
 For more information about step implementations, see the [behave tutorial](http://behave.readthedocs.io/en/latest/tutorial.html#python-step-implementations)
 
 
-### Setting up the environment :hammer:
+### Setting up the environment
 
 Our step implementations specifically look at the behave context for a `behave_driver` attribute to use to run your tests.  
 In order for that to work, you'll have to provide this attribute in your `environment.py` file.
@@ -82,13 +82,13 @@ def before_all(context):
 See the behave tutorial for more information about [environment controls](http://behave.readthedocs.io/en/latest/tutorial.html#environmental-controls)
 
 
-## Advanced usage; modifying/extending behave-webdriver
+# Advanced usage; modifying/extending behave-webdriver
 
 behave-webdriver is designed with **you** in-mind. You are free to extend the behavior of our webdriver classes to suit your 
 unique needs. You can subclass our webdriver classes, use a custom selenium webdriver, write your own mixin, or use 
 a mixin somebody else provides for selenium.
 
-### Example: selenium-requests
+## Example: selenium-requests
 
 [selenium-requests](https://github.com/cryzed/Selenium-Requests) is a preexisting project that 
 adds functionality of the popular `requests` library to selenium. It is simple to use `selenium-requests` with behave-webdriver.
@@ -107,10 +107,12 @@ class BehaveRequestDriver(BehaveDriverMixin, RequestMixin, webdriver.Chrome):
 
 def before_all(context):
     context.behave_driver = BehaveRequestDriver()
-
+```
+```python
 # examples/selenium-requests/features/steps/some_steps.py
 from behave import *
 from urllib.parse import urljoin
+
 @given('I send a {method} request to the page "{page}"')
 def send_request_page(context, method, page):
     url = urljoin(context.base_url, page)
@@ -120,8 +122,6 @@ def send_request_page(context, method, page):
 def check_response_text_contains(context, text):
     assert text in context.response.text
 ```
-
-And a feature file
 
 ```gherkin
 # examples/selenium-requests/features/selenium-requests.feature
@@ -139,7 +139,7 @@ Feature: Using selenium-requests
 
 Assuming you're in the repository root (and have the demo app running) just run with `behave`!
 
-### Results :sparkle:
+### Results :sparkles:
 
 ```
 (behave-webdriver) $ behave examples\selenium-requests\features
@@ -159,13 +159,13 @@ Feature: Using selenium-requests # examples/selenium-requests/features/requests.
 Took 0m1.385s
 ```
 
-## Getting help :children_crossing:
+## Getting help :rescue_worker_helmet: 
 
 If you have any unanswered questions or encounter any issues, please feel welcome to raise an issue. We recognize that 
 testers come in all different shapes, sizes, and backgrounds. We welcome any and all questions that may arise from using 
 this library.
 
-## Contributing :busts_in_silhouette: :wrench:
+## Contributing
 
 Contributions are very much welcomed! If you have ideas or suggestions, please raise an issue or submit a PR.
 
@@ -174,7 +174,7 @@ Contributions are very much welcomed! If you have ideas or suggestions, please r
 We support all the steps supported by webdriverio/cucumber-boilerplate.  
 We also support some additional niceties and plan to add more step definitions.
 
-## Given Steps :contruction_worker:
+## Given Steps :construction_worker:
 
 
 - `I open the url "([^"]*)?"`
@@ -231,7 +231,7 @@ We also support some additional niceties and plan to add more step definitions.
 
 
 
-## Then Steps :white_check_mark:
+## Then Steps :heavy_check_mark:
 
 
 - `I expect that the title is( not)* "([^"]*)?"`
