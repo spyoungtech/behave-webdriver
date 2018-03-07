@@ -1,19 +1,17 @@
 import os
 import sys
 import shutil
-from behave_webdriver import BehaveDriver
+import behave_webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium import webdriver
 from functools import partial
-
 
 def before_all(context):
     kwargs = {}
-    browser_env = os.getenv('BEHAVE_WEBDRIVER', 'headless_chrome').lower()
-    Driver = getattr(BehaveDriver, browser_env, BehaveDriver.headless_chrome)
-    if Driver == BehaveDriver.headless_chrome:
+
+    Driver = behave_webdriver._from_env(default_driver=behave_webdriver.Chrome.headless)
+    if Driver == behave_webdriver.Chrome.headless:
         opts = ChromeOptions()
-        opts.add_argument('--no-sandbox')
+        opts.add_argument('--no-sandbox')  # for travis build
         kwargs['chrome_options'] = opts
         pwd_chrome_path = os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
         if sys.version_info[0] < 3:
