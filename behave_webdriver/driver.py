@@ -36,17 +36,31 @@ class Select(_Select):
             raise NoSuchElementException("Cannot locate option by {} attribue with value of '{}'".format(attr,
                                                                                                          attr_value))
 
-
 class BehaveDriverMixin(object):
     """
-    Implements most of the logic for step definitions.
-    Instances of this class are fully substitutable with selenium webdriver.
-    The behave driver can be used just like you would any other selenium webdriver.
+    Implements most of the general (I.E. not browser-specific) logic for step implementations.
 
-    >>> behave_driver = BehaveDriver.chrome()
-    >>> behave_driver.get('https://google.com/')
+    Intended to be used with subclasses of any selenium webdriver.
 
-    If, for some reason, you need it, you can access the actual driver instance by the ``.driver`` attribute.
+    >>> from behave_webdriver.driver import BehaveDriverMixin
+    >>> from somewhere import SomeDriver
+    >>> class MyBehaveDriver(BehaveDriverMixin, SomeDriver):
+    ...     pass
+    >>> behave_driver = MyBehaveDriver()
+    >>> behave_driver.get('https://github.com/spyoungtech/behave-webdriver')
+
+
+    Can also be used with other mixins designed for selenium, such as selenium-requests
+
+    >>> from behave_webdriver.driver import BehaveDriverMixin
+    >>> from seleniumrequests import RequestMixin
+    >>> from selenium import webdriver
+    >>> class BehavingRequestDriver(BehaveDriverMixin, RequestMixin, webdriver.Chrome):
+    ...     pass
+    >>> behave_driver = BehavingRequestDriver()
+    >>> response = behave_driver.request('GET', 'https://github.com/spyoungtech/behave-webdriver')
+
+
     """
     def __init__(self, *args, **kwargs):
         default_wait = kwargs.pop('default_wait', 1.5)
@@ -67,7 +81,7 @@ class BehaveDriverMixin(object):
     @property
     def screen_size(self):
         """
-        Property for the current screen size. Can also be set by assigning an x/y tuple.
+        Property for the current driver window size. Can also be set by assigning an x/y tuple.
 
         :return: tuple of the screen dimensions (x, y)
         """
@@ -137,16 +151,6 @@ class BehaveDriverMixin(object):
     @property
     def last_opened_handle(self):
         return self.window_handles[-1]
-
-    @property
-    def handles(self):
-        """
-        shortcut for window_handles
-
-        :returns: the driver window handles
-        """
-        return self.window_handles
-
 
     def get_element(self, selector, by=None):
         """
@@ -608,18 +612,19 @@ class Chrome(BehaveDriverMixin, webdriver.Chrome):
         return cls(*args, **kwargs)
 
 class PhantomJS(BehaveDriverMixin, webdriver.PhantomJS):
-    @property
-    def __is_phantomjs_211(self):
-        return self.capabilities['version'] == '2.1.1'
-
-    def add_cookie(self, cookie_dict):
-        # Workaround for PhantomJS bug: https://github.com/ariya/phantomjs/issues/14047
-        try:
-            super(PhantomJS, self).add_cookie(cookie_dict)
-        except WebDriverException as exception:
-            details = json.loads(exception.msg)
-            if not (self.__is_phantomjs_211 and details['errorMessage'] == 'Unable to set Cookie'):
-                raise
+    pass
+    # @property
+    # def __is_phantomjs_211(self):
+    #     return self.capabilities['version'] == '2.1.1'
+    #
+    # def add_cookie(self, cookie_dict):
+    #     # Workaround for PhantomJS bug: https://github.com/ariya/phantomjs/issues/14047
+    #     try:
+    #         super(PhantomJS, self).add_cookie(cookie_dict)
+    #     except WebDriverException as exception:
+    #         details = json.loads(exception.msg)
+    #         if not (self.__is_phantomjs_211 and details['errorMessage'] == 'Unable to set Cookie'):
+    #             raise
 
 
 class Firefox(BehaveDriverMixin, webdriver.Firefox):
