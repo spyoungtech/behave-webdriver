@@ -601,6 +601,9 @@ class BehaveDriverMixin(object):
 
 
 class Chrome(BehaveDriverMixin, webdriver.Chrome):
+    """
+    Chrome driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     @classmethod
     def headless(cls, *args, **kwargs):
         chrome_options = kwargs.pop('chrome_options', None)
@@ -612,6 +615,9 @@ class Chrome(BehaveDriverMixin, webdriver.Chrome):
         return cls(*args, **kwargs)
 
 class PhantomJS(BehaveDriverMixin, webdriver.PhantomJS):
+    """
+    PhantomJS driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
     # @property
     # def __is_phantomjs_211(self):
@@ -628,33 +634,58 @@ class PhantomJS(BehaveDriverMixin, webdriver.PhantomJS):
 
 
 class Firefox(BehaveDriverMixin, webdriver.Firefox):
+    """
+    Firefox driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
+
     pass
 
 
 class Ie(BehaveDriverMixin, webdriver.Ie):
+    """
+    Ie driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 
 
 class Edge(BehaveDriverMixin, webdriver.Edge):
+    """
+    Edge driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 
 
 class Opera(BehaveDriverMixin, webdriver.Opera):
+    """
+    Opera driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 
 
 class Safari(BehaveDriverMixin, webdriver.Safari):
+    """
+    Safari driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 
 
 class BlackBerry(BehaveDriverMixin, webdriver.BlackBerry):
+    """
+    BlackBerry driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 
 
 class Android(BehaveDriverMixin, webdriver.Android):
+    """
+    Android driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 
 
 class Remote(BehaveDriverMixin, webdriver.Remote):
+    """
+    Remote driver class. Alternate constructors and browser-specific logic is implemented here.
+    """
     pass
 

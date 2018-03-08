@@ -354,8 +354,6 @@ Special thanks to the authors of `behave`_
 .. _webdriverio/cucumber-boilerplate: https://github.com/webdriverio/cucumber-boilerplate
 
 
-.. |travis| image:: https://img.shields.io/travis/mandeep/Travis-Encrypt/master.svg?style=flat-square
-    :target: https://travis-ci.org/mandeep/Travis-Encrypt
 
 .. |docs| image:: https://readthedocs.org/projects/behave-webdriver/badge/?version=latest
     :target: http://behave-webdriver.readthedocs.io/en/latest/
