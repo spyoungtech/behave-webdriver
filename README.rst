@@ -44,7 +44,6 @@ In order for your feature file steps to match our step implementations, behave n
 This is as simple as importing our step definitions into your own step implementation file.
 
 .. code-block:: python
-   :linenos:
 
    # features/steps/webdriver_example.py
    from behave_webdriver.steps import *
@@ -60,7 +59,6 @@ Our step implementations specifically look at the behave context for a ``behave_
 In order for that to work, you'll have to provide this attribute in your ``environment.py`` file.
 
 .. code-block:: python
-   :linenos:
    :emphasize-lines: 5
 
    # features/environment.py
