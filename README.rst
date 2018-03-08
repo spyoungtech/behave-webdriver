@@ -363,7 +363,7 @@ Special thanks to the authors of `behave`_
 .. |status| image:: https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master
     :target: https://travis-ci.org/spyoungtech/behave-webdriver
 
-.. |version| image:: https://pypi.org/project/behave-webdriver/
+.. |version| image:: https://img.shields.io/pypi/v/behave-webdriver.svg?colorB=blue
     :target: https://pypi.org/project/behave-webdriver/
 
 .. |pyversions| image:: https://img.shields.io/pypi/pyversions/behave-webdriver.svg?
