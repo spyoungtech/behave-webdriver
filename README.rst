@@ -20,6 +20,7 @@ Installation
 Installation is easy via pip. The install will require ``behave`` and ``selenium``.::
 
     pip install behave-webdriver
+
 Using webdrivers
 ----------------
 
@@ -82,6 +83,7 @@ options to run headless. This is useful, for example in headless testing environ
 
    def before_all(context):
        context.behave_driver = behave_webdriver.Chrome.headless()
+
 In the future, behave-webdriver will provide `fixtures`_ for the setup and teardown of webdrivers.
 See the behave tutorial for more information about `environment controls`_ .
 
@@ -168,8 +170,9 @@ The following, and other examples, are available in the repo ``examples`` direct
        context.behave_driver = BehaveRequestDriver()
 .. code-block:: python
 
-   # examples/selenium-requests/features/steps/some_steps.py
+   # examples/selenium-requests/features/steps/selenium_steps.py
    from behave import *
+   from behave_webdriver.steps import *
    from urllib.parse import urljoin
 
    @given('I send a {method} request to the page "{page}"')
@@ -193,6 +196,7 @@ The following, and other examples, are available in the repo ``examples`` direct
        # use your own steps using selenium-requests features
        Given I send a GET request to the page "/"
        Then I expect the response text contains "<h1>DEMO APP</h1>"
+
 Assuming you're in the repository root (and have the demo app running) just run like any other project with ``behave``
 
 Results ✨
@@ -230,14 +234,14 @@ Contributing
 Contributions are very much welcomed! If you have ideas or suggestions, please raise an issue or submit a PR.
 
 List of step definitions 📝
-==========================
+===========================
 
 We support all the steps supported by webdriverio/cucumber-boilerplate.
 We also support some additional niceties and plan to add more step definitions.
 
 
 Given Steps 👷
--------------
+--------------
 
 - ``I open the url "([^"]*)?"``
 - ``I open the site "([^"]*)?"``
@@ -294,7 +298,7 @@ When Steps ▶️
 
 
 Then Steps ✔️
-------------
+-------------
 
 
 - ``I expect that the title is( not)* "([^"]*)?"``
@@ -330,6 +334,7 @@ Acknowledgements ❤️
 ===================
 
 Special thanks to the authors of the `webdriverio/cucumber-boilerplate`_ project
+
 Special thanks to the authors of `behave`_
 
 
