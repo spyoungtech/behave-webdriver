@@ -20,9 +20,8 @@ def test_browser_from_string(driver_name):
 
 @pytest.mark.parametrize("driver_name", driver_names)
 def test_browser_from_env(driver_name):
-    os.environ['BEHAVE_WEBDRIVER'] = driver_name
     driver_qual_name = 'behave_webdriver.' + driver_name
-    with mock.patch(driver_qual_name) as mock_driver:
+    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': driver_name}), mock.patch(driver_qual_name) as mock_driver:
         driver = behave_webdriver.from_env()
         assert mock_driver.called
 
@@ -39,8 +38,7 @@ def test_default_from_env_driver_as_string():
     assert Driver is expected_driver
 
 
-def test_env_raises_for_invalid_drivername():
-    os.environ['BEHAVE_WEBDRIVER'] = 'foo'
+def test_env_raises_for_absent_drivername():
     with pytest.raises(ValueError) as excinfo:
         driver = behave_webdriver._from_env()
     assert "No driver found in environment variables and no default" in str(excinfo.value)
