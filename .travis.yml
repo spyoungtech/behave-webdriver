@@ -6,21 +6,22 @@ python:
   - "3.6"
   - "nightly"
 
-addons: # get google-chrome-stable
+addons:
   chrome: stable
-install: # Install ChromeDriver.
+install:
   - wget -N http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ./
   - unzip ./chromedriver_linux64.zip -d ./
   - rm ./chromedriver_linux64.zip
   - chmod +x ./chromedriver
   - pip install -r ./requirements.txt
-  - pip install coveralls
+  - pip install coveralls pytest mock
 
 script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
   - coverage run -m behave tests/features
+  - coverage run -a -m pytest tests/unittests
 
 
 after_success:
