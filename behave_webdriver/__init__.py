@@ -21,7 +21,8 @@ def _from_string(webdriver_string):
 
     Driver = driver_map.get(webdriver_string.upper(), None)
     if Driver is None:
-        raise ValueError('No such such driver. Valid options are: {}'.format(', '.join(driver_map.keys())))
+        raise ValueError('No such driver "{}". Valid options are: {}'.format(webdriver_string,
+                                                                             ', '.join(driver_map.keys())))
     return Driver
 
 
