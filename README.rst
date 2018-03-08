@@ -59,7 +59,6 @@ Our step implementations specifically look at the behave context for a ``behave_
 In order for that to work, you'll have to provide this attribute in your ``environment.py`` file.
 
 .. code-block:: python
-   :emphasize-lines: 5
 
    # features/environment.py
    import behave_webdriver
