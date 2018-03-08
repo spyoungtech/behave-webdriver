@@ -5,6 +5,7 @@ from functools import partial
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -626,8 +627,15 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
     """
     Firefox driver class. Alternate constructors and browser-specific logic is implemented here.
     """
+    @classmethod
+    def headless(cls, *args, **kwargs):
+        firefox_options = kwargs.pop('firefox_options', None)
+        if firefox_options is None:
+            firefox_options = FirefoxOptions()
+        firefox_options.add_argument('--headless')
+        kwargs['firefox_options'] = firefox_options
+        return cls(*args, **kwargs)
 
-    pass
 
 
 class Ie(BehaveDriverMixin, webdriver.Ie):
