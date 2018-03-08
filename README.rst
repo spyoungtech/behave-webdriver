@@ -35,7 +35,8 @@ Basic usage of this library with behave requires the following steps:
 
 1. import the step implementations
 2. set the ``behave_driver`` attribute on the behave ``context`` in your ``environment.py`` file.
-
+3. write your feature file
+4. run ``behave``
 
 Importing the step implementations
 ----------------------------------
@@ -52,7 +53,7 @@ This is as simple as importing our step definitions into your own step implement
 For more information about `step implementations`_, see the behave tutorial.
 
 
-set behave_driver in the environment
+Set behave_driver in the environment
 ------------------------------------
 
 Our step implementations specifically look at the behave context for a ``behave_driver`` attribute to use to run your tests.
@@ -84,7 +85,8 @@ options to run headless. This is useful, for example in headless testing environ
 In the future, behave-webdriver will provide `fixtures`_ for the setup and teardown of webdrivers.
 See the behave tutorial for more information about `environment controls`_ .
 
-With this, you're ready to write your feature file and run it.
+Writing the feature file
+------------------------
 
 .. code-block:: gherkin
 
@@ -106,6 +108,8 @@ With this, you're ready to write your feature file and run it.
         When  I click on the link "two"
         Then  I expect that the title is "two"
 
+Run behave
+----------
 
 Then run the tests, just like any other behave test
 
