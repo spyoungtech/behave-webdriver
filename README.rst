@@ -84,6 +84,56 @@ options to run headless. This is useful, for example in headless testing environ
 In the future, behave-webdriver will provide `fixtures`_ for the setup and teardown of webdrivers.
 See the behave tutorial for more information about `environment controls`_ .
 
+With this, you're ready to write your feature file and run it.
+
+.. code-block:: gherkin
+
+    # my-minimal-project/features/myFeature.feature
+    Feature: Sample Snippets test
+    As a developer
+    I should be able to use given text snippets
+
+    Scenario: open URL
+        Given the page url is not "http://webdriverjs.christian-bromann.com/"
+        And   I open the url "http://webdriverjs.christian-bromann.com/"
+        Then  I expect that the url is "http://webdriverjs.christian-bromann.com/"
+        And   I expect that the url is not "http://google.com"
+
+
+    Scenario: click on link
+        Given the title is not "two"
+        And   I open the url "http://webdriverjs.christian-bromann.com/"
+        When  I click on the link "two"
+        Then  I expect that the title is "two"
+
+
+Then run the tests, just like any other behave test
+
+.. code-block:: bash
+
+    behave
+
+You should then see an output as follows::
+
+    Feature: Sample Snippets test # features/myFeature.feature:2
+      As a developer
+      I should be able to use given text snippets
+      Scenario: open URL                                                          # features/myFeature.feature:6
+        Given the page url is not "http://webdriverjs.christian-bromann.com/"     # ../../behave_webdriver/steps/given.py:136 0.012s
+        And I open the url "http://webdriverjs.christian-bromann.com/"            # ../../behave_webdriver/steps/given.py:10 1.414s
+        Then I expect that the url is "http://webdriverjs.christian-bromann.com/" # ../../behave_webdriver/steps/then.py:102 0.007s
+        And I expect that the url is not "http://google.com"                      # ../../behave_webdriver/steps/then.py:102 0.007s
+
+      Scenario: click on link                                          # features/myFeature.feature:13
+        Given the title is not "two"                                   # ../../behave_webdriver/steps/given.py:81 0.006s
+        And I open the url "http://webdriverjs.christian-bromann.com/" # ../../behave_webdriver/steps/given.py:10 0.224s
+        When I click on the link "two"                                 # ../../behave_webdriver/steps/when.py:21 0.622s
+        Then I expect that the title is "two"                          # ../../behave_webdriver/steps/then.py:10 0.006s
+
+    1 feature passed, 0 failed, 0 skipped
+    2 scenarios passed, 0 failed, 0 skipped
+    8 steps passed, 0 failed, 0 skipped, 0 undefined
+    Took 0m2.298s
 
 Advanced usage; extending behave-webdriver
 ==========================================
