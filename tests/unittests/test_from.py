@@ -27,10 +27,16 @@ def test_browser_from_env(driver_name):
         assert mock_driver.called
 
 
-def test_default_driver_as_driver():
+def test_default_from_env_driver_as_driver():
     def_driver = behave_webdriver.Chrome
-    Driver = behave_webdriver.from_env(default_driver=def_driver)
+    Driver = behave_webdriver._from_env(default_driver=def_driver)
     assert Driver is def_driver
+
+
+def test_default_from_env_driver_as_string():
+    expected_driver = behave_webdriver.Chrome
+    Driver = behave_webdriver._from_env(default_driver='Chrome')
+    assert Driver is expected_driver
 
 
 def test_env_raises_for_invalid_drivername():
