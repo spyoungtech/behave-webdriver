@@ -27,8 +27,9 @@ The following, and other examples, are available in the repo ``examples`` direct
        context.behave_driver = BehaveRequestDriver()
 .. code-block:: python
 
-   # examples/selenium-requests/features/steps/some_steps.py
+   # examples/selenium-requests/features/steps/selenium_steps.py
    from behave import *
+   from behave_webdriver.steps import *
    from urllib.parse import urljoin
 
    @given('I send a {method} request to the page "{page}"')
