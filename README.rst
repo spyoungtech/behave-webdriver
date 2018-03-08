@@ -38,7 +38,7 @@ Basic usage of this library with behave requires the following steps:
 
 
 Importing the step implementations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------
 
 In order for your feature file steps to match our step implementations, behave needs to find them in your project.
 This is as simple as importing our step definitions into your own step implementation file.
@@ -54,7 +54,7 @@ For more information about `step implementations`_, see the behave tutorial.
 
 
 set behave_driver in the environment
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------
 
 Our step implementations specifically look at the behave context for a ``behave_driver`` attribute to use to run your tests.
 In order for that to work, you'll have to provide this attribute in your ``environment.py`` file.
