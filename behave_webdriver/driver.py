@@ -36,6 +36,7 @@ class Select(_Select):
             raise NoSuchElementException("Cannot locate option by {} attribue with value of '{}'".format(attr,
                                                                                                          attr_value))
 
+
 class BehaveDriverMixin(object):
     """
     Implements most of the general (I.E. not browser-specific) logic for step implementations.
@@ -599,7 +600,6 @@ class BehaveDriverMixin(object):
             return False
 
 
-
 class Chrome(BehaveDriverMixin, webdriver.Chrome):
     """
     Chrome driver class. Alternate constructors and browser-specific logic is implemented here.
@@ -614,23 +614,12 @@ class Chrome(BehaveDriverMixin, webdriver.Chrome):
         kwargs['chrome_options'] = chrome_options
         return cls(*args, **kwargs)
 
+
 class PhantomJS(BehaveDriverMixin, webdriver.PhantomJS):
     """
     PhantomJS driver class. Alternate constructors and browser-specific logic is implemented here.
     """
     pass
-    # @property
-    # def __is_phantomjs_211(self):
-    #     return self.capabilities['version'] == '2.1.1'
-    #
-    # def add_cookie(self, cookie_dict):
-    #     # Workaround for PhantomJS bug: https://github.com/ariya/phantomjs/issues/14047
-    #     try:
-    #         super(PhantomJS, self).add_cookie(cookie_dict)
-    #     except WebDriverException as exception:
-    #         details = json.loads(exception.msg)
-    #         if not (self.__is_phantomjs_211 and details['errorMessage'] == 'Unable to set Cookie'):
-    #             raise
 
 
 class Firefox(BehaveDriverMixin, webdriver.Firefox):

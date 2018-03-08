@@ -272,7 +272,6 @@ def check_window_opened(context, _, negative):
         assert bool(context.behave_driver.secondary_handles)
 
 
-
 @then('I expect the url "([^"]*)?" is opened in a new (tab|window)')
 def check_url_new_window(context, url, _):
     current_handle = context.behave_driver.primary_handle
@@ -286,7 +285,6 @@ def check_url_new_window(context, url, _):
         if len(context.behave_driver.secondary_handles) < 1:
             raise AssertionError('No secondary handles found!')
         raise AssertionError("The url '{}' was not found in any handle")
-
 
 
 @then('I expect that element "([^"]*)?" is( not)* focused')
@@ -326,7 +324,6 @@ def wait_for_element_condition(context, element, milliseconds, negative, conditi
 @then("I expect the screen is ([\d]+) by ([\d]+) pixels")
 def check_screen_size(context, x, y):
     screen_x, screen_y = context.behave_driver.screen_size
-
 
 
 use_step_matcher('parse')

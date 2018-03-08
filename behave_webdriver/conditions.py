@@ -96,10 +96,10 @@ class element_is_enabled(object):
         return result
 
 
-
 class element_contains_text(NegationMixin, AnyTextMixin, EC.text_to_be_present_in_element):
     """
-    Like selenium's text_to_be_present_in_element but with the :ref:`~behave_webdriver.conditions.NegationMixin`. and :ref:`~behave_webdriver.conditions.AnyTextMixin`.
+    Like selenium's text_to_be_present_in_element but with the :ref:`~behave_webdriver.conditions.NegationMixin`.
+    and :ref:`~behave_webdriver.conditions.AnyTextMixin`.
     """
     def __call__(self, driver):
         """
@@ -119,6 +119,7 @@ class element_contains_text(NegationMixin, AnyTextMixin, EC.text_to_be_present_i
 
 class element_contains_value(NegationMixin, AnyTextMixin, EC.text_to_be_present_in_element_value):
     """
-    Like selenium's text_to_be_present_in_element_value but with the :ref:`~behave_webdriver.conditions.NegationMixin`. and :ref:`~behave_webdriver.conditions.AnyTextMixin`.
+    Like selenium's text_to_be_present_in_element_value but with the :ref:`~behave_webdriver.conditions.NegationMixin`.
+    and :ref:`~behave_webdriver.conditions.AnyTextMixin`.
     """
     pass
