@@ -103,11 +103,13 @@ def move_to_element(context, element):
 
 use_step_matcher('re')
 
+
 @when('I close the last opened (tab|window)')
 def close_last_tab(context, _):
     context.behave_driver.switch_to_window(context.behave_driver.last_opened_handle)
     context.behave_driver.close()
     context.behave_driver.switch_to_window(context.behave_driver.primary_handle)
+
 
 @when('I focus the last opened (tab|window)')
 def focus_last_tab(context, _):
@@ -175,6 +177,15 @@ def pause(context, milliseconds):
 @given('I have a screen that is ([\d]+) by ([\d]+) pixels')
 def set_screen_size(context, x, y):
     context.behave_driver.screen_size = (x, y)
+
+
+@given('I have a screen that is ([\d]+) pixels (broad|tall)')
+def set_screen_dimension(context, size, how):
+    size = int(size)
+    if how == 'tall':
+        context.behave_driver.screen_size = (None, size)
+    else:
+        context.behave_driver.screen_size = (size, None)
 
 
 use_step_matcher('parse')

@@ -7,64 +7,63 @@ with BDD/behave. If you're brand new to BDD in Python, you may want to check out
 
 .. _behave docs: http://behave.readthedocs.io/en/latest/
 
+Basic usage of this library with behave requires the following steps:
 
-Application Setup
------------------
+1. import the step implementations
+2. set the ``behave_driver`` attribute on the behave ``context`` in your ``environment.py`` file.
+3. write your feature file
+4. run ``behave``
 
-We'll run through setting up the bare necessities for running your first tests with behave-webdriver. For the impatient,
- you can also find this example in the `examples` from the github repository.
+Importing the step implementations
+----------------------------------
 
-environment.py
-^^^^^^^^^^^^^^
-
-For behave-webdriver to work, you'll need to add some setup code in your `environment.py` file to set the
-`behave_driver` attribute in your context. Typically, this is done in the a `before_all` function. Additionally, we'll
-include some teardown logic in an `after_all` function.
-
-.. code-block:: python
-
-    # my-minimal-project/features/environment.py
-    from behave_webdriver import BehaveDriver
-
-    def before_all(context):
-        context.behave_driver = BehaveDriver.chrome()
-
-    def after_all(context):
-        context.behave_driver.quit()
-
-.. hint::
-    You can supply any arguments that a given webdriver would normally take to any of the alternative browser constructors
+In order for your feature file steps to match our step implementations, behave needs to find them in your project.
+This is as simple as importing our step definitions into your own step implementation file.
 
 .. code-block:: python
 
-    context.behave_driver = BehaveDriver.headless_chrome(executable_path='/path/to/chromedriver')
+   # features/steps/webdriver_example.py
+   from behave_webdriver.steps import *
 
-.. hint::
-    You don't need to use the builtin browsers, either. You can also supply your own selenium webdriver instance to `BehaveDriver`
 
-.. code-block:: python
+For more information about `step implementations`_, see the behave tutorial.
 
-    from selenium import webdriver
-    from behave_webdriver import BehaveDriver
-    my_driver = webdriver.Firefox()
 
-    def before_all(context):
-        context.behave_driver = BehaveDriver(my_driver)
+Set behave_driver in the environment
+------------------------------------
 
-Import the step definitions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To use behave-webdriver's step definitions, you'll need to import them.
+Our step implementations specifically look at the behave context for a ``behave_driver`` attribute to use to run your tests.
+In order for that to work, you'll have to provide this attribute in your ``environment.py`` file.
 
 .. code-block:: python
 
-    # my-minimal-project/features/steps/my_steps.py
-    from behave_webdriver.steps import *
+   # features/environment.py
+   import behave_webdriver
 
-This is enough to be able to use all the steps provided by behave_webdriver.
+   def before_all(context):
+       context.behave_driver = behave_webdriver.Chrome()
 
-Feature file
-^^^^^^^^^^^^
-The following is a snippet of a feature file that utilizes a few of the step definitions provided by behave-webdriver.
+   def after_all(context):
+       # cleanup after tests run
+       context.behave_driver.quit()
+
+
+The webdriver classes provided by behave-webdriver inherit from selenium's webdriver classes, so they will accept all
+same positional and keyword arguments that selenium accepts.
+
+Some webdrivers, such as Chrome, provide special classmethods like ``Chrome.headless`` which instantiates ``Chrome`` with
+options to run headless. This is useful, for example in headless testing environments.
+
+.. code-block:: python
+
+   def before_all(context):
+       context.behave_driver = behave_webdriver.Chrome.headless()
+
+In the future, behave-webdriver will provide `fixtures`_ for the setup and teardown of webdrivers.
+See the behave tutorial for more information about `environment controls`_ .
+
+Writing the feature file
+------------------------
 
 .. code-block:: gherkin
 
@@ -86,21 +85,10 @@ The following is a snippet of a feature file that utilizes a few of the step def
         When  I click on the link "two"
         Then  I expect that the title is "two"
 
+Run behave
+----------
 
-Recap: we've created a minimal application structure with the content from the previous section. If you're following
-the example, you should have a directory tree that looks something like this::
-
-    └── my-minimal-project
-        └── features
-            ├── myFeature.feature
-            └── steps
-                └── my_steps.py
-
-Running the tests
------------------
-
-With the above being satisfactory for our minimal project, we can now run the tests, just like any other behave test,
-from the working directory of `my-minimal-project`
+Then run the tests, just like any other behave test
 
 .. code-block:: bash
 
@@ -129,3 +117,9 @@ You should then see an output as follows::
     Took 0m2.298s
 
 Congratulations, you've just implemented a behavior-driven test without having to write a single step implementation!
+
+.. _environment controls: http://behave.readthedocs.io/en/latest/tutorial.html#environmental-controls
+
+.. _fixtures: http://behave.readthedocs.io/en/latest/fixtures.html
+
+.. _step implementations: http://behave.readthedocs.io/en/latest/tutorial.html#python-step-implementations

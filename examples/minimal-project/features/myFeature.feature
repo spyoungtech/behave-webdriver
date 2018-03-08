@@ -1,4 +1,4 @@
-  # my-minimal-project/features/myFeature.feature
+  # minimal-project/features/myFeature.feature
   Feature: Sample Snippets test
   As a developer
   I should be able to use given text snippets

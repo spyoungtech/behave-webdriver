@@ -6,22 +6,34 @@ python:
   - "3.6"
   - "nightly"
 
-addons: # get google-chrome-stable
+addons:
   chrome: stable
-install: # Install ChromeDriver.
-  - wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ./
+install:
+  - wget -N http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ./
   - unzip ./chromedriver_linux64.zip -d ./
   - rm ./chromedriver_linux64.zip
   - chmod +x ./chromedriver
   - pip install -r ./requirements.txt
-  - pip install coveralls
+  - pip install coveralls pytest mock
 
 script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
   - coverage run -m behave tests/features
+  - coverage run -a -m pytest tests/unittests
 
 
 after_success:
   - coveralls
+
+
+deploy:
+  provider: pypi
+  user: "spyoungtech"
+  password:
+    secure: "A7e5gCAANlxbP60tQsfUUBU/yCcUokQdwtKN5drkPLEnQJD3OPAk9XA1jAPAUK6H9sEEmr1/+X7q7qSiqG7A39x8+fpjCCX1LAG5/Klq3D/aYBtxX3LX3uL2aJqOrqZVkrijftHVw1COkc5qxZEMrRhowXxE0r++ALWp2w5JlRYLf4Q5JJ/p3bns4n6JJc2clp+CBFOzyO59IyQebOHP0IxBtPoftdqLEqAD5Hk5cYM/9HM9AWMjAVAhJt8GK9xcuCHYC+yVEVAKquZFs3l3QcIr+sKfxHVQkTBvoZk38PG2zfKu+QHVPxVal/sYLK0FWUCupevKMUypST7r0ld/1jOzQFUSh72pIPMxpM2cQt2KC3gsPK5BmvWg/kKr5HZyOg5HMiYEqcDR4eBGOjBDvICPNH+JNnqtjOyk2qp8EACaReWWTnUdTJLMXSAfwYsx6KmST+W2rc5PNsUdflkJ9sJIK53l98b/pDCmmMXQOre+4YT+azfpjigFDJ4G4wKkfF5/dx4NE5IsY9tFveYiFWoIEcnmHu3/H2D+Sf9YEpeiakmpf/+M6jCH9RZKgYx05+vLd/l4a6SzrWa39SbdNwIZevtuuabUL/I/c0vqjD77hZr67o3MalS4eS7q6O6gOdKRfQBZ1VVLhABFWbieWTzx48ZhNiIJLLpE65mfr80="
+  on:
+    tags: true
+    python: 3.6
+
