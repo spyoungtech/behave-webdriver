@@ -17,7 +17,9 @@ from behave_webdriver.driver import (Chrome,
 def _from_string(webdriver_string):
     drivers = [Chrome, Firefox, Ie, Edge, Opera, Safari, BlackBerry, PhantomJS, Android, Remote]
     driver_map = dict(zip((name.upper() for name in __all__), drivers))
+    # FIXME: There must be a better way
     driver_map['CHROME.HEADLESS'] = Chrome.headless
+    driver_map['FIREFOX.HEADLESS'] = Firefox.headless
 
     Driver = driver_map.get(webdriver_string.upper(), None)
     if Driver is None:
