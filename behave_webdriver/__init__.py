@@ -17,10 +17,6 @@ from behave_webdriver.driver import (Chrome,
 def _from_string(webdriver_string):
     drivers = [Chrome, Firefox, Ie, Edge, Opera, Safari, BlackBerry, PhantomJS, Android, Remote]
     driver_map = dict(zip((name.upper() for name in __all__), drivers))
-    # FIXME: There must be a better way
-    driver_map['CHROME.HEADLESS'] = Chrome.headless
-    driver_map['FIREFOX.HEADLESS'] = Firefox.headless
-
     Driver = driver_map.get(webdriver_string.upper(), None)
     if Driver is None:
         raise ValueError('No such driver "{}". Valid options are: {}'.format(webdriver_string,
@@ -40,15 +36,14 @@ def _from_env(default_driver=None):
     if isinstance(browser_env, str):
         Driver = _from_string(browser_env)
     else:
-        # if not a string, assume we have a webdriver instance
+        # if not a string, assume we have a webdriver class
         Driver = browser_env
     return Driver
 
 
 def from_env(*args, **kwargs):
     default_driver = kwargs.pop('default_driver', None)
-    if default_driver is None:
-        default_driver = 'Chrome.headless'
     Driver = _from_env(default_driver=default_driver)
-
+    if int(os.environ.get('BEHAVE_WEBDRIVER_HEADLESS', 0)):
+        return Driver.headless(*args, **kwargs)
     return Driver(*args, **kwargs)

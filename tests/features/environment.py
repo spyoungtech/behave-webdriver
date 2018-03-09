@@ -8,8 +8,8 @@ from functools import partial
 def before_all(context):
     kwargs = {'default_wait': 5}
 
-    Driver = behave_webdriver._from_env(default_driver=behave_webdriver.Chrome.headless)
-    if Driver == behave_webdriver.Chrome.headless:
+    Driver = behave_webdriver._from_env()
+    if Driver == behave_webdriver.Chrome:
         opts = ChromeOptions()
         opts.add_argument('--no-sandbox')  # for travis build
         kwargs['chrome_options'] = opts
@@ -20,6 +20,8 @@ def before_all(context):
     else:
         ex_path = shutil.which(Driver._driver_name) or pwd_driver_path
     kwargs['executable_path'] = ex_path
+    if os.environ.get('BEHAVE_WEBDRIVER_HEADLESS', None) and hasattr(Driver, 'headless'):
+        Driver = Driver.headless
     context.BehaveDriver = partial(Driver, **kwargs)
     context.behave_driver = context.BehaveDriver()
 
