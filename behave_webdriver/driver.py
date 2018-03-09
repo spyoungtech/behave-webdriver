@@ -70,6 +70,12 @@ class BehaveDriverMixin(object):
         super(BehaveDriverMixin, self).__init__(*args, **kwargs)
         self.default_wait = default_wait
 
+
+    def wait(self, wait_time=None):
+        if wait_time is None:
+            wait_time = self.default_wait
+        return WebDriverWait(self, wait_time)
+
     @property
     def alert(self):
         """
@@ -639,6 +645,22 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
         kwargs['firefox_options'] = firefox_options
         return cls(*args, **kwargs)
 
+    @property
+    def secondary_handles(self):
+        self.switch_to.window(self.current_window_handle)
+        if not super(Firefox, self).secondary_handles:
+            try:
+                self.wait(1).until(EC.new_window_is_opened(self.window_handles))
+                self.switch_to.window(self.current_window_handle)
+            except TimeoutException:
+                pass
+        return super(Firefox, self).secondary_handles
+
+    @property
+    def last_opened_handle(self):
+        self.switch_to.window(self.current_window_handle)
+        return super(Firefox, self).last_opened_handle
+
     def click_element(self, element):
         self.scroll_to_element(element)
         super(Firefox, self).click_element(element)
@@ -653,6 +675,10 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
                   " arguments[0].dispatchEvent(evObj);")
         self.execute_script(script, elem)
 
+    def move_to_element(self, element, offset=None):
+        self.scroll_to_bottom()
+        self.scroll_to_element(element)
+        super(Firefox, self).move_to_element(element, offset=offset)
 
 
 class Ie(BehaveDriverMixin, webdriver.Ie):
