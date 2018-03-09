@@ -13,12 +13,13 @@ def before_all(context):
         opts = ChromeOptions()
         opts.add_argument('--no-sandbox')  # for travis build
         kwargs['chrome_options'] = opts
-        pwd_chrome_path = os.path.abspath(os.path.join(os.getcwd(), 'chromedriver'))
-        if sys.version_info[0] < 3:
-            ex_path = pwd_chrome_path
-        else:
-            ex_path = shutil.which('chromedriver') or pwd_chrome_path
-        kwargs['executable_path'] = ex_path
+
+    pwd_driver_path = os.path.abspath(os.path.join(os.getcwd(), Driver._driver_name))
+    if sys.version_info[0] < 3:
+        ex_path = pwd_driver_path
+    else:
+        ex_path = shutil.which(Driver._driver_name) or pwd_driver_path
+    kwargs['executable_path'] = ex_path
     context.BehaveDriver = partial(Driver, **kwargs)
     context.behave_driver = context.BehaveDriver()
 

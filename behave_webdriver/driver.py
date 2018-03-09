@@ -64,6 +64,7 @@ class BehaveDriverMixin(object):
 
 
     """
+    _driver_name = ''
     def __init__(self, *args, **kwargs):
         default_wait = kwargs.pop('default_wait', 1.5)
         super(BehaveDriverMixin, self).__init__(*args, **kwargs)
@@ -605,6 +606,7 @@ class Chrome(BehaveDriverMixin, webdriver.Chrome):
     """
     Chrome driver class. Alternate constructors and browser-specific logic is implemented here.
     """
+    _driver_name = 'chromedriver'
     @classmethod
     def headless(cls, *args, **kwargs):
         chrome_options = kwargs.pop('chrome_options', None)
@@ -627,6 +629,7 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
     """
     Firefox driver class. Alternate constructors and browser-specific logic is implemented here.
     """
+    _driver_name = 'geckodriver'
     @classmethod
     def headless(cls, *args, **kwargs):
         firefox_options = kwargs.pop('firefox_options', None)
