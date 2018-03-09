@@ -639,6 +639,20 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
         kwargs['firefox_options'] = firefox_options
         return cls(*args, **kwargs)
 
+    def click_element(self, element):
+        self.scroll_to_element(element)
+        super(Firefox, self).click_element(element)
+
+    def doubleclick_element(self, element):
+        """
+        Overrides the doubleclick method to first scroll to element, and adds JS shim for doubleclick
+        """
+        self.scroll_to_element(element)
+        elem = self.get_element(element)
+        script = ("var evObj = new MouseEvent('dblclick', {bubbles: true, cancelable: true, view: window}); "
+                  " arguments[0].dispatchEvent(evObj);")
+        self.execute_script(script, elem)
+
 
 
 class Ie(BehaveDriverMixin, webdriver.Ie):
