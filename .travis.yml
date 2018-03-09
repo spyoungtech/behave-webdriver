@@ -16,12 +16,12 @@ install:
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox.headles" ]; then tar -xvzf ./geckodriver-v0.19.1-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox.headles" ]; then rm ./geckodriver-v0.19.1-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox.headles" ]; then chmod +x ./geckodriver; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox.headles" ]; then mv ./geckodriver ./bin
+  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox.headles" ]; then mv ./geckodriver ./bin; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome.headless" ]; then wget -N http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome.headless" ]; then unzip ./chromedriver_linux64.zip -d ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome.headless" ]; then rm ./chromedriver_linux64.zip; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome.headless" ]; then chmod +x ./chromedriver; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "Chrome.headless" ]; then mv ./chromedriver ./bin
+  - if [ "${BEHAVE_WEBDRIVER}" = "Chrome.headless" ]; then mv ./chromedriver ./bin; fi
   - pip install -r ./requirements.txt
   - pip install coveralls pytest mock
 
