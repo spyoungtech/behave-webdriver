@@ -27,22 +27,24 @@ def test_browser_from_env(driver_name):
 
 
 def test_default_from_env_driver_as_driver():
-    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': None}):
-
+    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': 'deleteme'}):
+        del os.environ['BEHAVE_WEBDRIVER']
         def_driver = behave_webdriver.Chrome
         Driver = behave_webdriver._from_env(default_driver=def_driver)
         assert Driver is def_driver
 
 
 def test_default_from_env_driver_as_string():
-    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': None}):
+    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': 'deleteme'}):
+        del os.environ['BEHAVE_WEBDRIVER']
         expected_driver = behave_webdriver.Chrome
         Driver = behave_webdriver._from_env(default_driver='Chrome')
         assert Driver is expected_driver
 
 
 def test_env_raises_for_absent_drivername():
-    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': None}):
+    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': 'deleteme'}):
+        del os.environ['BEHAVE_WEBDRIVER']
         with pytest.raises(ValueError) as excinfo:
             driver = behave_webdriver._from_env()
         assert "No driver found in environment variables and no default" in str(excinfo.value)
