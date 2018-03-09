@@ -12,18 +12,20 @@ driver_names = ['Chrome', 'Firefox', 'Ie', 'Edge', 'Opera', 'Safari', 'BlackBerr
 
 @pytest.mark.parametrize("driver_name", driver_names)
 def test_browser_from_string(driver_name):
-    driver_qual_name = 'behave_webdriver.' + driver_name
-    with mock.patch(driver_qual_name) as mock_driver:
-        driver = behave_webdriver.from_string(driver_name)
-        assert mock_driver.called
+    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER_HEADLESS': '0'}):
+        driver_qual_name = 'behave_webdriver.' + driver_name
+        with mock.patch(driver_qual_name) as mock_driver:
+            driver = behave_webdriver.from_string(driver_name)
+            assert mock_driver.called
 
 
 @pytest.mark.parametrize("driver_name", driver_names)
 def test_browser_from_env(driver_name):
-    driver_qual_name = 'behave_webdriver.' + driver_name
-    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': driver_name}), mock.patch(driver_qual_name) as mock_driver:
-        driver = behave_webdriver.from_env()
-        assert mock_driver.called
+    with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER_HEADLESS': '0'}):
+        driver_qual_name = 'behave_webdriver.' + driver_name
+        with mock.patch.dict(os.environ, {'BEHAVE_WEBDRIVER': driver_name}), mock.patch(driver_qual_name) as mock_driver:
+            driver = behave_webdriver.from_env()
+            assert mock_driver.called
 
 
 def test_default_from_env_driver_as_driver():
