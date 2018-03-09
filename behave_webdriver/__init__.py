@@ -44,6 +44,6 @@ def _from_env(default_driver=None):
 def from_env(*args, **kwargs):
     default_driver = kwargs.pop('default_driver', None)
     Driver = _from_env(default_driver=default_driver)
-    if int(os.environ.get('BEHAVE_WEBDRIVER_HEADLESS', 0)):
+    if int(os.environ.get('BEHAVE_WEBDRIVER_HEADLESS', 0)) and hasattr(Driver, 'headless'):
         return Driver.headless(*args, **kwargs)
     return Driver(*args, **kwargs)
