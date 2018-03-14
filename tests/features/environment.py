@@ -34,3 +34,8 @@ def before_feature(context, feature):
         context.behave_driver.quit()
         context.behave_driver = context.BehaveDriver()
         context.behave_driver.default_wait = 5
+
+def before_scenario(context, scenario):
+    if "skip_firefox" in scenario.effective_tags:
+        scenario.skip("Skipping because @skip_firefox tag (usually this is because of a known-issue with firefox)")
+        return
