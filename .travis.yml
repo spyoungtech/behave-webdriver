@@ -1,5 +1,7 @@
 sudo: false
 language: python
+
+
 python:
   - "2.7"
   - "3.5"
@@ -16,6 +18,16 @@ env:
 addons:
   chrome: stable
   firefox: latest
+
+matrix:
+  fast_finish: true
+  exclude:
+    - python: 3.5
+      env: BEHAVE_WEBDRIVER=Firefox
+    - python: nightly
+      env: BEHAVE_WEBDRIVER=Firefox
+  allow_failures:
+    - env: BEHAVE_WEBDRIVER=Firefox
 
 install:
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz; fi
