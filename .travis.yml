@@ -2,7 +2,9 @@ sudo: false
 language: python
 python:
   - "2.7"
+  - "3.5"
   - "3.6"
+  - "nightly"
 
 env:
   global:
@@ -16,9 +18,9 @@ addons:
   firefox: latest
 
 install:
-  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then tar -xvzf ./geckodriver-v0.19.1-linux64.tar.gz; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then rm ./geckodriver-v0.19.1-linux64.tar.gz; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then tar -xvzf ./geckodriver-v0.20.0-linux64.tar.gz; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then rm ./geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then chmod +x ./geckodriver; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then wget -N http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then unzip ./chromedriver_linux64.zip -d ./; fi
@@ -45,4 +47,5 @@ deploy:
   on:
     tags: true
     python: 3.6
+    env: BEHAVE_WEBDRIVER=Chrome
 
