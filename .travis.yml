@@ -6,7 +6,6 @@ python:
   - "2.7"
   - "3.5"
   - "3.6"
-  - "nightly"
 
 env:
   global:
@@ -22,10 +21,8 @@ addons:
 matrix:
   fast_finish: true
   exclude:
-  - python: 3.5
-  env: BEHAVE_WEBDRIVER=Firefox
-  - python: nightly
-  env: BEHAVE_WEBDRIVER=Firefox
+    - python: 3.5
+      env: BEHAVE_WEBDRIVER=Firefox
   allow_failures:
     - env: BEHAVE_WEBDRIVER=Firefox
 
