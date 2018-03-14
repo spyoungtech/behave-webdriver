@@ -648,12 +648,12 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
     @property
     def secondary_handles(self):
         self.switch_to.window(self.current_window_handle)
-        if not super(Firefox, self).secondary_handles:
-            try:
-                self.wait(1).until(EC.new_window_is_opened(self.window_handles))
-                self.switch_to.window(self.current_window_handle)
-            except TimeoutException:
-                pass
+        try:
+            # FIXME: there must be a better way
+            self.wait(1).until(EC.new_window_is_opened(self.window_handles))
+            self.switch_to.window(self.current_window_handle)
+        except TimeoutException:
+            pass
         return super(Firefox, self).secondary_handles
 
     @property
