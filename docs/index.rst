@@ -27,6 +27,8 @@ Inspired by, the webdriverio `cucumber-boilerplate`_ project.
    api
    steps
    examples
+   browsers
+   roadmap
 
 
 
@@ -50,26 +52,18 @@ Goals
 Status
 ------
 
+|version| |pyversions| |status|
+
 We currently test against Python2.7 and Python3.5+ using headless chrome. While all selenium's webdrivers are provided,
 they are not all supported at this time. We plan to add support for additional browsers in the future.
 
-|status|
-
-The future
-----------
-
-In no particular order, here are some goals we have for the future
-
-- Support additional browsers, starting with Firefox, then PhantomJS.
-- Provide additional step definitions
-- Integrate an assertion library
-- use requestium/requests-html ?
-- ???
 
 
 
 
 
+
+.. _raise an issue: https://github.com/spyoungtech/behave-webdriver/issues/new
 
 
 .. _selenium-requests: https://github.com/cryzed/Selenium-Requests
