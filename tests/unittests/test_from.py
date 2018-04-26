@@ -29,14 +29,16 @@ def test_browser_from_env(driver_name):
 
 
 def test_default_from_env_driver_as_driver():
-    def_driver = behave_webdriver.utils.Chrome
-    Driver = behave_webdriver.utils._from_env(default_driver=def_driver)
+    with mock.patch.dict(os.environ, clear=True):
+        def_driver = behave_webdriver.utils.Chrome
+        Driver = behave_webdriver.utils._from_env(default_driver=def_driver)
     assert Driver is def_driver
 
 
 def test_default_from_env_driver_as_string():
-    expected_driver = behave_webdriver.utils.Chrome
-    Driver = behave_webdriver.utils._from_env(default_driver='Chrome')
+    with mock.patch.dict(os.environ, clear=True):
+        expected_driver = behave_webdriver.utils.Chrome
+        Driver = behave_webdriver.utils._from_env(default_driver='Chrome')
     assert Driver is expected_driver
 
 
