@@ -41,7 +41,8 @@ def test_default_from_env_driver_as_string():
 
 
 def test_env_raises_for_absent_drivername():
-    with pytest.raises(ValueError) as excinfo:
+
+    with pytest.raises(ValueError) as excinfo, mock.patch.dict(os.environ, clear=True):
         driver = behave_webdriver.utils._from_env()
     assert "No driver found in environment variables and no default" in str(excinfo.value)
 
