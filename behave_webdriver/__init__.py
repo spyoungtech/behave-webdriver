@@ -11,7 +11,7 @@ __all__ = [
     'Remote',
     'from_env',
     'from_string',
-    'fixture_browser,'
+    'fixture_browser',
     'before_all_factory',
     'before_feature_factory',
     'before_scenario_factory',
