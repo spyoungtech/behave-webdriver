@@ -174,7 +174,7 @@ class BehaveDriverMixin(object):
         """
         if by:
             return self.find_element(by, selector)
-        if selector.startswith('//'):
+        if selector.startswith('/'):
             return self.find_element_by_xpath(selector)
         else:
             return self.find_element_by_css_selector(selector)
@@ -564,7 +564,7 @@ class BehaveDriverMixin(object):
         else:
             expected = element_is_present
 
-        if element.startswith('//'):
+        if element.startswith('/'):
             locator = (By.XPATH, element)
         else:
             locator = (By.CSS_SELECTOR, element)
