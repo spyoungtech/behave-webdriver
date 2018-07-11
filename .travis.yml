@@ -19,24 +19,31 @@ addons:
   firefox: latest
 
 matrix:
+  include:
+    - os: osx
+      language: generic
+      python:
+      env:
+        - BEHAVE_WEBDRIVER=Safari
   fast_finish: true
-  exclude:
-    - python: 3.5
-      env: BEHAVE_WEBDRIVER=Firefox
   allow_failures:
-    - env: BEHAVE_WEBDRIVER=Firefox
+    - os: osx
 
 install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo safaridriver --enable; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python3 -m pip install -r ./requirements.txt; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python3 -m pip install coveralls pytest mock; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then tar -xvzf ./geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then rm ./geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then chmod +x ./geckodriver; fi
-  - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then wget -N http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip -P ./; fi
+  - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then wget -N http://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip -P ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then unzip ./chromedriver_linux64.zip -d ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then rm ./chromedriver_linux64.zip; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then chmod +x ./chromedriver; fi
-  - pip install -r ./requirements.txt
-  - pip install coveralls pytest mock
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then python -m pip install -r ./requirements.txt; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then python -m pip install coveralls pytest mock; fi
 
 script:
   - cd tests/demo-app
