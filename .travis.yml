@@ -40,7 +40,7 @@ matrix:
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo safaridriver --enable; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python3 -m pip install ./requirements.txt; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python3 -m pip install -r ./requirements.txt; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python3 -m pip install coveralls pytest mock; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then tar -xvzf ./geckodriver-v0.20.0-linux64.tar.gz; fi
