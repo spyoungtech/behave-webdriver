@@ -24,6 +24,9 @@ matrix:
   include:
     - os: osx
       language: generic
+      python:
+      env:
+        - BEHAVE_WEBDRIVER=Safari
 
 
   fast_finish: true
