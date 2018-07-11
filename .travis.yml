@@ -39,7 +39,7 @@ matrix:
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo safaridriver --enable; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python --enable; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python --enable; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then tar -xvzf ./geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then rm ./geckodriver-v0.20.0-linux64.tar.gz; fi
