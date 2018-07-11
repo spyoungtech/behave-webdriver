@@ -28,9 +28,10 @@ matrix:
       env:
         - BEHAVE_WEBDRIVER=Safari
 
-
   fast_finish: true
   exclude:
+    - os: linux
+      env: BEHAVE_WEBDRIVER=Safari
     - python: 3.5
       env: BEHAVE_WEBDRIVER=Firefox
   allow_failures:
@@ -38,6 +39,7 @@ matrix:
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo safaridriver --enable; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python --enable; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then tar -xvzf ./geckodriver-v0.20.0-linux64.tar.gz; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Firefox" ]; then rm ./geckodriver-v0.20.0-linux64.tar.gz; fi
@@ -46,8 +48,8 @@ install:
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then unzip ./chromedriver_linux64.zip -d ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then rm ./chromedriver_linux64.zip; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then chmod +x ./chromedriver; fi
-  - pip install -r ./requirements.txt
-  - pip install coveralls pytest mock
+  - python -m pip install -r ./requirements.txt
+  - python -m pip install coveralls pytest mock
 
 script:
   - cd tests/demo-app
