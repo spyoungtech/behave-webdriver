@@ -48,8 +48,8 @@ install:
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then unzip ./chromedriver_linux64.zip -d ./; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then rm ./chromedriver_linux64.zip; fi
   - if [ "${BEHAVE_WEBDRIVER}" = "Chrome" ]; then chmod +x ./chromedriver; fi
-  - python -m pip install -r ./requirements.txt
-  - python -m pip install coveralls pytest mock
+  - python3 -m pip install -r ./requirements.txt
+  - python3 -m pip install coveralls pytest mock
 
 script:
   - cd tests/demo-app
