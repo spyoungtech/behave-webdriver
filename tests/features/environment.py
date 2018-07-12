@@ -22,8 +22,9 @@ def before_all(context):
         ex_path = shutil.which(Driver._driver_name) or pwd_driver_path
     kwargs['executable_path'] = ex_path
     if Driver == behave_webdriver.Ie:
-        caps = kwargs.get('capabilities', DesiredCapabilities.INTERNETEXPLORER)
-        caps.setdefault('ignoreProtectedModeSettings', True)
+        caps = DesiredCapabilities.INTERNETEXPLORER
+        caps['ignoreProtectedModeSettings'] = True
+        caps['initialBrowserUrl'] = 'about:blank'
         kwargs['capabilities'] = caps
     if os.environ.get('BEHAVE_WEBDRIVER_HEADLESS', None) and hasattr(Driver, 'headless'):
         Driver = Driver.headless
