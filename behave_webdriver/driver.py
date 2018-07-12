@@ -706,7 +706,7 @@ class Safari(BehaveDriverMixin, webdriver.Safari):
     """
     Safari driver class. Alternate constructors and browser-specific logic is implemented here.
     """
-    pass
+    _driver_name = 'safaridriver'
 
 
 class BlackBerry(BehaveDriverMixin, webdriver.BlackBerry):
