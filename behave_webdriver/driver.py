@@ -685,7 +685,7 @@ class Ie(BehaveDriverMixin, webdriver.Ie):
     """
     Ie driver class. Alternate constructors and browser-specific logic is implemented here.
     """
-    pass
+    _driver_name = 'IEDriverServer'
 
 
 class Edge(BehaveDriverMixin, webdriver.Edge):
