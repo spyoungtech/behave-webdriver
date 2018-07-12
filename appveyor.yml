@@ -1,0 +1,28 @@
+version: 1.0.{build}
+
+environment:
+  BEHAVE_WEBDRIVER: IE
+
+services: iis
+
+install:
+  - regedit /s bfcache.reg
+  - cmd: >-
+      C:\Python36\python.exe -m venv venv
+      call venv\Scripts\activate.bat
+      pip install -r .\requirements.txt
+      pip install pytest mock coverage
+      call deactivate
+
+build: off
+
+test_script:
+  - cmd: >-
+      call venv\Scripts\activate.bat
+      powershell -Command "Import-Module WebAdministration;New-WebSite -Name demoapp -Port 8000 -PhysicalPath C:\projects\behave-webdriver\tests\demo-app"
+      coverage run -m behave tests\features --format=progress2 --junit
+      coverage run -a -m pytest tests\unittests --junitxml=reports
+      call deactivate
+
+on_finish:
+  - ps: "$wc = New-Object 'System.Net.WebClient'\nGet-ChildItem .\\reports | \nForeach-Object {\n    $wc.UploadFile(\"https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)\", (Resolve-Path $_.FullName))\n}\n\n$blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))"
