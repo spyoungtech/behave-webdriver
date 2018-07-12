@@ -3,6 +3,7 @@ import sys
 import shutil
 import behave_webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from functools import partial
 
 def before_all(context):
@@ -20,6 +21,10 @@ def before_all(context):
     else:
         ex_path = shutil.which(Driver._driver_name) or pwd_driver_path
     kwargs['executable_path'] = ex_path
+    if Driver == behave_webdriver.Ie:
+        caps = kwargs.get('capabilities', DesiredCapabilities.INTERNETEXPLORER)
+        caps.setdefault('ignoreProtectedModeSettings', True)
+        kwargs['capabilities'] = caps
     if os.environ.get('BEHAVE_WEBDRIVER_HEADLESS', None) and hasattr(Driver, 'headless'):
         Driver = Driver.headless
     context.BehaveDriver = partial(Driver, **kwargs)
