@@ -7,7 +7,7 @@ services:
   - iis
 
 install:
-  - regedit /s bfcache.reg
+  - regedit /s .\ci\bfcache.reg
   - cmd: .\ci\install.bat
 
 build: off
@@ -15,7 +15,7 @@ build: off
 test_script:
   - cmd: .\ci\runtests.bat
 
-on_finish:
+after_test:
   - ps: |
        $wc = New-Object 'System.Net.WebClient';
        Get-ChildItem .\reports |

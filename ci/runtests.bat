@@ -4,6 +4,6 @@ powershell -Command "Import-Module WebAdministration;New-WebSite -Name demoapp -
 
 coverage run -m behave tests\features --format=progress2 --junit
 
-coverage run -a -m pytest tests\unittests --junitxml=reports
+coverage run -a -m pytest tests\unittests --junitxml=reports\pytestresults.xml
 
 call deactivate
