@@ -7,7 +7,7 @@ services:
   - iis
 
 install:
-  - regedit /s bfcache.reg
+  - regedit /s .\ci\bfcache.reg
   - cmd: .\ci\install.bat
 
 build: off
