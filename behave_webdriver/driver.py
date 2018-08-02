@@ -5,6 +5,7 @@ from functools import partial
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -63,10 +64,17 @@ class BehaveDriverMixin(object):
 
 
     """
+    _driver_name = ''
     def __init__(self, *args, **kwargs):
         default_wait = kwargs.pop('default_wait', 1.5)
         super(BehaveDriverMixin, self).__init__(*args, **kwargs)
         self.default_wait = default_wait
+
+
+    def wait(self, wait_time=None):
+        if wait_time is None:
+            wait_time = self.default_wait
+        return WebDriverWait(self, wait_time)
 
     @property
     def alert(self):
@@ -604,6 +612,7 @@ class Chrome(BehaveDriverMixin, webdriver.Chrome):
     """
     Chrome driver class. Alternate constructors and browser-specific logic is implemented here.
     """
+    _driver_name = 'chromedriver'
     @classmethod
     def headless(cls, *args, **kwargs):
         chrome_options = kwargs.pop('chrome_options', None)
@@ -626,15 +635,57 @@ class Firefox(BehaveDriverMixin, webdriver.Firefox):
     """
     Firefox driver class. Alternate constructors and browser-specific logic is implemented here.
     """
+    _driver_name = 'geckodriver'
+    @classmethod
+    def headless(cls, *args, **kwargs):
+        firefox_options = kwargs.pop('firefox_options', None)
+        if firefox_options is None:
+            firefox_options = FirefoxOptions()
+        firefox_options.add_argument('--headless')
+        kwargs['firefox_options'] = firefox_options
+        return cls(*args, **kwargs)
 
-    pass
+    @property
+    def secondary_handles(self):
+        self.switch_to.window(self.current_window_handle)
+        try:
+            # FIXME: there must be a better way
+            self.wait(1).until(EC.new_window_is_opened(self.window_handles))
+            self.switch_to.window(self.current_window_handle)
+        except TimeoutException:
+            pass
+        return super(Firefox, self).secondary_handles
+
+    @property
+    def last_opened_handle(self):
+        self.switch_to.window(self.current_window_handle)
+        return super(Firefox, self).last_opened_handle
+
+    def click_element(self, element):
+        self.scroll_to_element(element)
+        super(Firefox, self).click_element(element)
+
+    def doubleclick_element(self, element):
+        """
+        Overrides the doubleclick method to first scroll to element, and adds JS shim for doubleclick
+        """
+        self.scroll_to_element(element)
+        elem = self.get_element(element)
+        script = ("var evObj = new MouseEvent('dblclick', {bubbles: true, cancelable: true, view: window}); "
+                  " arguments[0].dispatchEvent(evObj);")
+        self.execute_script(script, elem)
+
+    def move_to_element(self, element, offset=None):
+        self.scroll_to_bottom()
+        self.scroll_to_element(element)
+        super(Firefox, self).move_to_element(element, offset=offset)
 
 
 class Ie(BehaveDriverMixin, webdriver.Ie):
     """
     Ie driver class. Alternate constructors and browser-specific logic is implemented here.
     """
-    pass
+    _driver_name = 'IEDriverServer'
 
 
 class Edge(BehaveDriverMixin, webdriver.Edge):
@@ -655,7 +706,7 @@ class Safari(BehaveDriverMixin, webdriver.Safari):
     """
     Safari driver class. Alternate constructors and browser-specific logic is implemented here.
     """
-    pass
+    _driver_name = 'safaridriver'
 
 
 class BlackBerry(BehaveDriverMixin, webdriver.BlackBerry):

@@ -1,20 +1,36 @@
 sudo: false
 language: python
+
+
 python:
   - "2.7"
   - "3.5"
   - "3.6"
-  - "nightly"
+
+env:
+  global:
+    - BEHAVE_WEBDRIVER_HEADLESS=1
+  matrix:
+    - BEHAVE_WEBDRIVER=Chrome
+    - BEHAVE_WEBDRIVER=Firefox
 
 addons:
   chrome: stable
+  firefox: latest
+
+matrix:
+  include:
+    - os: osx
+      language: generic
+      python:
+      env:
+        - BEHAVE_WEBDRIVER=Safari
+  fast_finish: true
+  allow_failures:
+    - os: osx
+
 install:
-  - wget -N http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ./
-  - unzip ./chromedriver_linux64.zip -d ./
-  - rm ./chromedriver_linux64.zip
-  - chmod +x ./chromedriver
-  - pip install -r ./requirements.txt
-  - pip install coveralls pytest mock
+  - ./ci/install.sh
 
 script:
   - cd tests/demo-app
@@ -23,10 +39,8 @@ script:
   - coverage run -m behave tests/features
   - coverage run -a -m pytest tests/unittests
 
-
 after_success:
   - coveralls
-
 
 deploy:
   provider: pypi
@@ -36,4 +50,5 @@ deploy:
   on:
     tags: true
     python: 3.6
+    env: BEHAVE_WEBDRIVER=Chrome
 
