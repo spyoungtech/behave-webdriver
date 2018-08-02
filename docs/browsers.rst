@@ -49,7 +49,7 @@ Known issues
 Workarounds/Shims
 ^^^^^^^^^^^^^^^^^
 
-Shims and other workarounds for some known issues are implemented in the :py:`behave_webdriver.drivers.Firefox` class.
+Shims and other workarounds for some known issues are implemented in the Firefox class.
 
 See :doc:`api` for more details.
 
