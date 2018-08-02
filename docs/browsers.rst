@@ -15,6 +15,7 @@ This is not a repository or body of knowledge for all driver-related issues; jus
 Unless otherwise noted, we are referring to the latest stable release of Selenium and each respective browser and driver.
 Keep in mind, this documentation may not necessarily be up-to-date with very recent releases.
 
+
 Chrome (recommended)
 --------------------
 
@@ -28,10 +29,13 @@ While earlier versions should work fine and we are willing to support them, they
 
 
 
-Firefox (coming soon)
----------------------
+Firefox (beta)
+--------------
 
-We have preliminary support for Firefox available with tests at least mostly passing, FWIW. A preview will be available in v0.1.1
+Firefox is officially supported as of v0.1.1
+
+
+
 
 Known issues
 ^^^^^^^^^^^^
@@ -41,6 +45,31 @@ Known issues
 - clicking elements requires they are in the viewport (we compensate for this by scrolling to an element before any click)
 - moving to an element *with an offset* that is bigger than the viewport is not (yet) supported
 - slower than Chrome
+
+Workarounds/Shims
+^^^^^^^^^^^^^^^^^
+
+Shims and other workarounds for some known issues are implemented in the :py:`behave_webdriver.drivers.Firefox` class.
+
+See :doc:`api` for more details.
+
+
+Ie
+--
+
+We have some preliminary support for Internet Explorer. It is tested in our `appveyor CI build`_.
+
+.. _appveyor CI build: https://ci.appveyor.com/project/spyoungtech/behave-webdriver
+
+
+Safari
+------
+
+We have some preliminary support for Safari on OSX/Mac OS. It is tested as part of our `Travis CI build`_ (failures currently allowed).
+
+.. _Travis CI build: https://travis-ci.org/spyoungtech/behave-webdriver/
+
+
 
 PhantomJS
 ---------
@@ -72,11 +101,6 @@ Remote
 Remote is untested at this time.
 
 
-Ie
---
-
-Ie is untested at this time.
-
 
 Edge
 ----
@@ -88,10 +112,6 @@ Opera
 
 Opera is untested at this time.
 
-Safari
-------
-
-Safari is untested at this time.
 
 BlackBerry
 ----------

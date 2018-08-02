@@ -84,8 +84,23 @@ options to run headless. This is useful, for example in headless testing environ
    def before_all(context):
        context.behave_driver = behave_webdriver.Chrome.headless()
 
-In the future, behave-webdriver will provide `fixtures`_ for the setup and teardown of webdrivers.
-See the behave tutorial for more information about `environment controls`_ .
+
+Using a fixture
+^^^^^^^^^^^^^^^
+
+*New in 0.1.1*
+
+You may also find it convenient to use a fixture to setup your driver as well. For example, to use our fixture with Firefox
+
+.. code-block:: python
+
+    from behave_webdriver.fixtures import fixture_browser
+    def before_all(context):
+        use_fixture(fixture_browser, webdriver='Firefox')
+
+This will also ensure that the browser is torn down at the corresponding `cleanup point`_.
+
+.. _cleanup point: http://behave.readthedocs.io/en/stable/fixtures.html#fixture-cleanup-points
 
 Writing the feature file
 ------------------------
@@ -337,24 +352,24 @@ Then Steps ✔️
 Acknowledgements ❤️
 ===================
 
-Special thanks to the authors of the `webdriverio/cucumber-boilerplate`_ project
+Special thanks to the authors and contributors of the `webdriverio/cucumber-boilerplate`_ project
 
-Special thanks to the authors of `behave`_
+Special thanks to the authors and contributors of `behave`_
 
 
 
 
 .. _selenium-requests: https://github.com/cryzed/Selenium-Requests
 
-.. _environment controls: http://behave.readthedocs.io/en/latest/tutorial.html#environmental-controls
+.. _environment controls: http://behave.readthedocs.io/en/stable/tutorial.html#environmental-controls
 
-.. _fixtures: http://behave.readthedocs.io/en/latest/fixtures.html
+.. _fixtures: http://behave.readthedocs.io/en/stable/fixtures.html
 
-.. _step implementations: http://behave.readthedocs.io/en/latest/tutorial.html#python-step-implementations
+.. _step implementations: http://behave.readthedocs.io/en/stable/tutorial.html#python-step-implementations
 
 .. _driver installation notes: http://selenium-python.readthedocs.io/installation.html#drivers
 
-.. _behave-webdriver documentation: http://behave-webdriver.readthedocs.io/en/latest/
+.. _behave-webdriver documentation: http://behave-webdriver.readthedocs.io/en/stable/
 
 .. _selenium: https://github.com/SeleniumHQ/selenium
 
@@ -364,8 +379,8 @@ Special thanks to the authors of `behave`_
 
 
 
-.. |docs| image:: https://readthedocs.org/projects/behave-webdriver/badge/?version=latest
-    :target: http://behave-webdriver.readthedocs.io/en/latest/
+.. |docs| image:: https://readthedocs.org/projects/behave-webdriver/badge/?version=stable
+    :target: http://behave-webdriver.readthedocs.io/en/stable/
 
 .. |status| image:: https://travis-ci.org/spyoungtech/behave-webdriver.svg?branch=master
     :target: https://travis-ci.org/spyoungtech/behave-webdriver
