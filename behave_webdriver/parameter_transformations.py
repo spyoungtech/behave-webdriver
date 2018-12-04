@@ -23,7 +23,7 @@ class FormatTransformation:
         return value.format(**self._context)
 
 
-def set_context_transformation_service(context, service=NoTransformation()):
+def set_parameter_transformation_service(context, service=NoTransformation()):
     """
     Installs parameter transformaton service into context.
     """
@@ -37,6 +37,5 @@ def transform_parameter(context, value):
     attribute name is parameter_transformation) the it installs default
     parameter transformation service (NoTransformation).
     """
-    assert context.parameter_transformation is not None
     t = getattr(context, 'parameter_transformation', NoTransformation())
     return t.eval(value)

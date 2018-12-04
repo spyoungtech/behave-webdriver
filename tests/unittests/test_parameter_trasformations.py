@@ -4,7 +4,7 @@ import os
 present_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.abspath(os.path.join(present_dir, '..', '..'))
 sys.path.insert(0, root_dir)
-from behave_webdriver import NoTransformation, FormatTransformation, transform_parameter
+from behave_webdriver import NoTransformation, FormatTransformation, transform_parameter, set_parameter_transformation_service
 
 
 class TestContext(object):
@@ -25,6 +25,12 @@ def test_format_transformation_replaces_placeholders():
 
 def test_transformation_is_retrieved_from_context():
     c = TestContext()
-    setattr(c, 'parameter_transformation', FormatTransformation(TEST_SLUG='testxyz'))
+    set_parameter_transformation_service(c, FormatTransformation(TEST_SLUG='testxyz'))
     v = transform_parameter(c, '!{TEST_SLUG}?')
     assert v == '!testxyz?'
+
+
+def test_no_transformation_is_selected_by_default():
+    c = TestContext()
+    v = transform_parameter(c, '!{TEST_SLUG}?')
+    assert v == '!{TEST_SLUG}?'

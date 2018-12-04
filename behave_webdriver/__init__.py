@@ -34,5 +34,5 @@ from behave_webdriver.fixtures import (fixture_browser,
                                        before_scenario_factory)
 from behave_webdriver.parameter_transformations import (NoTransformation,
                                                         FormatTransformation,
-                                                        set_context_transformation_service,
+                                                        set_parameter_transformation_service,
                                                         transform_parameter)
