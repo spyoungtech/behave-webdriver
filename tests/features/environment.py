@@ -1,7 +1,7 @@
 from os import getcwd
 from os.path import abspath, join
 from sys import version_info
-from behave_webdriver import before_all_factory
+from behave_webdriver import before_all_factory, FormatTransformation, set_context_transformation_service
 from behave_webdriver.driver import Chrome, ChromeOptions
 from functools import partial
 
@@ -24,7 +24,15 @@ def get_driver_args(context, Driver):
     return (args, kwargs)
 
 
-before_all = before_all_factory(webdriver_args=get_driver_args, default_driver=Chrome.headless)
+f_before_all = before_all_factory(webdriver_args=get_driver_args, default_driver=Chrome.headless)
+
+
+def before_all(context):
+    f_before_all(context)
+    set_context_transformation_service(context,
+                                       FormatTransformation(BASE_URL='http://localhost:8000',
+                                                            ALT_BASE_URL='http://127.0.0.1:8000')
+                                       )
 
 
 def before_feature(context, feature):
