@@ -4,6 +4,7 @@ try:
     from urllib.parse import urljoin
 except ImportError:
     from urlparse import urljoin  # Python 2
+from ..parameter_transformations import transform_parameter
 
 
 use_step_matcher('parse')
@@ -151,11 +152,13 @@ def close_secondary_windows(context, window_or_tab):
 
 @step('I open the url "([^"]*)?"')
 def open_url(context, url):
+    url = transform_parameter(context, url)
     context.behave_driver.open_url(url)
 
 
 @step('I open the site "([^"]*)?"')
 def open_site(context, url):
+    url = transform_parameter(context, url)
     base_url = getattr(context, 'base_url', 'http://localhost:8000')
     destination = urljoin(base_url, url)
     context.behave_driver.open_url(destination)
@@ -163,6 +166,7 @@ def open_site(context, url):
 
 @given('the base url is "([^"]*)?"')
 def set_base_url(context, url):
+    url = transform_parameter(context, url)
     if url.endswith('/'):
         url = url[:-1]
     context.base_url = url
