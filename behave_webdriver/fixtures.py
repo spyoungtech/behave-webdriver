@@ -193,9 +193,9 @@ def use_fixture_tag(context, tag, *args, **kwargs):
     if not tag.startswith('fixture'):
         return
     if tag.startswith('fixture.webdriver'):
-        browser_name = tag.split('.')[-1]
+        browser_name = '.'.join(tag.split('.')[2:])
         if browser_name == 'browser':
-            browser_name = 'chrome'
+            browser_name = 'Chrome.headless'
         use_fixture(fixture_browser, context, *args, **kwargs)
 
     elif tag.startswith('fixture.transformer'):
