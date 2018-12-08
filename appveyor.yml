@@ -5,8 +5,7 @@ environment:
 
 matrix:
   allow_failures:
-    - environment:
-        BEHAVE_WEBDRIVER: IE
+    - BEHAVE_WEBDRIVER: IE
 
 services:
   - iis
