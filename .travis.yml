@@ -4,9 +4,7 @@ language: python
 
 python:
   - "2.7"
-  - "3.5"
   - "3.6"
-  - "3.7"
 
 env:
   global:
@@ -26,6 +24,14 @@ matrix:
       python:
       env:
         - BEHAVE_WEBDRIVER=Safari
+    - python: "3.5"
+      env:
+       - BEHAVE_WEBDRIVER=Chrome
+    - python: "3.7"
+      env:
+        - BEHAVE_WEBDRIVER=Chrome
+
+
   fast_finish: true
   allow_failures:
     - os: osx
