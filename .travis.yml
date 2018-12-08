@@ -6,6 +6,12 @@ python:
   - "3.6"
   - "nightly"
 
+
+environment:
+  global:
+    # for testing transformation
+    - ENV_BASE_URL: "http://127.0.0.1:8000/"
+
 addons:
   chrome: stable
 install:

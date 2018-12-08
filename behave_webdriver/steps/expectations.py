@@ -3,10 +3,9 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     from urlparse import urlparse
-from behave_webdriver import transform_parameter
 
 
-use_step_matcher('re')
+use_step_matcher('transform-re')
 
 
 @given('the element "([^"]*)?" is( not)* visible')
@@ -151,7 +150,6 @@ def check_element_empty(context, element, negative):
 @then('I expect that the url is( not)* "([^"]*)?"')
 def check_url(context, negative, value):
     current_url = context.behave_driver.current_url
-    value = transform_parameter(context, value)
     if negative:
         assert current_url != value, 'The url was "{}"'.format(current_url)
     else:

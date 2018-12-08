@@ -4,8 +4,8 @@ Provides fixtures to initialize the web driver.
 from behave import fixture, use_fixture
 from behave_webdriver.utils import _from_string, _from_env
 from behave_webdriver.driver import BehaveDriverMixin
-
-
+from functools import partial
+from behave_webdriver import transformers
 _env_webdriver_name = 'env'
 
 
@@ -167,3 +167,46 @@ def before_scenario_factory(*args, **kwargs):
     def before_scenario(ctx, scenario):
         use_fixture(fixture_browser, ctx, *args, **kwargs)
     return before_scenario
+
+
+class TransformerNotSet:
+    pass
+
+
+
+@fixture
+def transformation_fixture(context, transformer_class, *args, **kwargs):
+    old_transformer = context.transformer_class if 'transformer_class' in context else TransformerNotSet
+    #transformer_class = partial(transformer_class, *args, **kwargs)
+
+    class TransformerClass(transformer_class):
+        def __init__(self, *more_args, **more_kwargs):
+            nonlocal args, kwargs
+            args += more_args
+            kwargs.update(more_kwargs)
+            super().__init__(*args, **kwargs)
+
+    context.transformer_class = TransformerClass
+    def cleanup(context, old):
+        if old is TransformerNotSet:
+            del context.transformer_class
+        else:
+            context.transformer_class = old
+    cleanup_transformer = partial(cleanup, context, old_transformer)
+    context.add_cleanup(cleanup_transformer)
+
+
+def use_fixture_tag(context, tag, *args, **kwargs):
+    if not tag.startswith('fixture'):
+        return
+    if tag.startswith('fixture.webdriver'):
+        browser_name = tag.split('.')[-1]
+        if browser_name == 'browser':
+            browser_name = 'chrome'
+        use_fixture(fixture_browser, context, *args, **kwargs)
+
+    elif tag.startswith('fixture.transformer'):
+        transformer_name = tag.split('.')[-1]
+        transformer_class = getattr(transformers, transformer_name)
+        use_fixture(transformation_fixture, context, transformer_class, **kwargs)
+
