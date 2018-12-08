@@ -177,16 +177,9 @@ class TransformerNotSet:
 @fixture
 def transformation_fixture(context, transformer_class, *args, **kwargs):
     old_transformer = context.transformer_class if 'transformer_class' in context else TransformerNotSet
-    #transformer_class = partial(transformer_class, *args, **kwargs)
+    transformer_class = partial(transformer_class, *args, **kwargs)
+    context.transformer_class = transformer_class
 
-    class TransformerClass(transformer_class):
-        def __init__(self, *more_args, **more_kwargs):
-            nonlocal args, kwargs
-            args += more_args
-            kwargs.update(more_kwargs)
-            super().__init__(*args, **kwargs)
-
-    context.transformer_class = TransformerClass
     def cleanup(context, old):
         if old is TransformerNotSet:
             del context.transformer_class
