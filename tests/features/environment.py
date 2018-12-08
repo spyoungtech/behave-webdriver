@@ -4,7 +4,9 @@ from sys import version_info
 from behave_webdriver import before_all_factory, use_fixture_tag
 from behave_webdriver.driver import Chrome, ChromeOptions
 from functools import partial
-
+from behave_webdriver.fixtures import transformation_fixture
+from behave_webdriver.transformers import FormatTransformer
+from behave.fixture import use_fixture
 
 def get_driver_args(context, Driver):
     args = []
@@ -29,6 +31,7 @@ f_before_all = before_all_factory(webdriver_args=get_driver_args, default_driver
 
 def before_all(context):
     f_before_all(context)
+    use_fixture(transformation_fixture, context, FormatTransformer, BASE_URL='http://localhost:8000', ALT_BASE_URL='http://127.0.0.1:8000')
 
 
 def before_tag(context, tag):
