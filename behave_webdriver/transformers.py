@@ -36,7 +36,7 @@ class FormatTransformer(TransformerBase):
             kwargs.update(context=context)
         if func is not None:
             kwargs.update(func=func)
-        super().__init__(**kwargs)
+        super(FormatTransformer, self).__init__(**kwargs)
         self.transformations = kwargs
         if suppress_missing:
             self.transformations = defaultdict(lambda key: '', self.transformations)
@@ -54,7 +54,7 @@ class EnvironmentFormatTransformer(FormatTransformer):
     """
     def __init__(self, *args, **kwargs):
         kwargs.update(os.environ)
-        super().__init__(*args, **kwargs)
+        super(EnvironmentFormatTransformer, self).__init__(*args, **kwargs)
 
 
 class FuncTransformer(TransformerBase):
@@ -63,10 +63,10 @@ class FuncTransformer(TransformerBase):
     """
     def __init__(self, new_func, *args, **kwargs):
         self.new_func = new_func
-        super().__init__(*args, **kwargs)
+        super(FuncTransformer, self).__init__(*args, **kwargs)
 
     def transform(self, *transform_args, **transform_kwargs):
-        args, kwargs, _old_func = super().transform(*transform_args, **transform_kwargs)
+        args, kwargs, _old_func = super(FuncTransformer, self).transform(*transform_args, **transform_kwargs)
         return args, kwargs, self.new_func
 
 
