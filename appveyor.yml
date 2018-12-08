@@ -3,6 +3,11 @@ version: 1.0.{build}
 environment:
   BEHAVE_WEBDRIVER: IE
 
+matrix:
+  allow_failures:
+    - environment:
+        BEHAVE_WEBDRIVER: IE
+
 services:
   - iis
 
@@ -20,4 +25,3 @@ test_script:
        Foreach-Object {
            $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $_.FullName))
        }
-
