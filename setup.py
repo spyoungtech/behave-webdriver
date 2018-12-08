@@ -5,7 +5,7 @@ with open('README.rst', 'rt', encoding='utf8') as f:
 
 setup(
     name='behave-webdriver',
-    version='0.1.1',
+    version='0.2.0',
     url='https://github.com/spyoungtech/behave-webdriver/',
     license='MIT',
     author='Spencer Young',
@@ -23,11 +23,14 @@ setup(
         'Topic :: Software Development :: Testing',
         'Topic :: Software Development :: Quality Assurance',
         'Topic :: Internet :: WWW/HTTP :: Browsers',
+        'Topic :: Software Development :: Testing :: BDD',
         'Operating System :: OS Independent',
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )
