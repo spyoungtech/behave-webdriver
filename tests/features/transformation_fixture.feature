@@ -1,6 +1,6 @@
 Feature: Using a transformation fixture from feature file
 
-  @fixture.transformer.EnvironmentFormatTransformer
+  @fixture.transformer.EnvironmentTransformer
   Scenario: transform step from environment variable
     Given the base url is "{ENV_BASE_URL}"
     When I open the site "/page.html"
