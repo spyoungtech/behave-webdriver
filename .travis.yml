@@ -7,11 +7,6 @@ python:
   - "nightly"
 
 
-environment:
-  global:
-    # for testing transformation
-    - ENV_BASE_URL: "http://127.0.0.1:8000/"
-
 addons:
   chrome: stable
 install:
@@ -26,6 +21,7 @@ script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
+  - export ENV_BASE_URL=http://127.0.0.1:8000/
   - coverage run -m behave tests/features
   - coverage run -a -m pytest tests/unittests
 
