@@ -34,7 +34,7 @@ def test_driver_from_name():
         Chrome = mock.MagicMock(name='Chrome', return_value=chrome)
         mock_from_string.return_value = Chrome
         ctx = mock.MagicMock()
-        gen = behave_webdriver.fixtures.fixture_browser(ctx, webdriver_name='chrome')
+        gen = behave_webdriver.fixtures.fixture_browser(ctx, webdriver='chrome')
         driver = next(gen)
         assert driver is chrome
         assert ctx.behave_driver is chrome
@@ -48,16 +48,6 @@ def test_driver_from_name():
         assert 'behave_driver' not in ctx
 
 
-def test_driver_from_bad_class():
-    class CustomDriver(object):
-        pass
-    ctx = mock.MagicMock()
-    with pytest.raises(ValueError) as excinfo:
-        gen = behave_webdriver.fixtures.fixture_browser(ctx, webdriver_class=CustomDriver)
-        driver = next(gen)
-    assert 'The driver "CustomDriver" does not inherit from BehaveDriverMixin.' in str(excinfo.value)
-
-
 def test_driver_from_good_class():
     class CustomDriver(behave_webdriver.fixtures.BehaveDriverMixin):
         def __init__(self, *args, **kwargs):
@@ -68,7 +58,7 @@ def test_driver_from_good_class():
         def quit(self):
             self._quit = True
     ctx = mock.MagicMock()
-    gen = behave_webdriver.fixtures.fixture_browser(ctx, webdriver_class=CustomDriver)
+    gen = behave_webdriver.fixtures.fixture_browser(ctx, webdriver=CustomDriver)
     driver = next(gen)
     assert isinstance(driver, CustomDriver)
     assert ctx.behave_driver is driver
@@ -91,45 +81,13 @@ def test_driver_with_custom_arguments():
         def quit(self):
             self._quit = True
     ctx = mock.MagicMock()
-    gen = behave_webdriver.fixtures.fixture_browser(ctx, 4, True, "test", webdriver_class=CustomDriver, options={'param': 'value'})
+    gen = behave_webdriver.fixtures.fixture_browser(ctx, 4, True, "test", webdriver=CustomDriver, options={'param': 'value'})
     driver = next(gen)
     assert isinstance(driver, CustomDriver)
     assert ctx.behave_driver is driver
     assert driver._quit is False
     assert driver._args == (4, True, "test")
     assert driver._kwargs == {'options': {'param': 'value'}}
-    try:
-        next(gen)
-        pytest.fail('StopIteration expected')
-    except StopIteration:
-        pass
-    assert driver._quit is True
-    assert 'behave_driver' not in ctx
-
-
-def test_driver_with_lamda_arguments():
-    class CustomDriver(behave_webdriver.fixtures.BehaveDriverMixin):
-        def __init__(self, *args, **kwargs):
-            self._args = args
-            self._kwargs = kwargs
-            self._quit = False
-
-        def quit(self):
-            self._quit = True
-
-    def get_driver_args(ctx, webdriver_class):
-        if webdriver_class == CustomDriver:
-            return ([42], {'special_arg': 13})
-        else:
-            return ([], {})
-    ctx = mock.MagicMock()
-    gen = behave_webdriver.fixtures.fixture_browser(ctx, 4, True, "test", webdriver_class=CustomDriver, webdriver_args=get_driver_args, options={'param': 'value'})
-    driver = next(gen)
-    assert isinstance(driver, CustomDriver)
-    assert ctx.behave_driver is driver
-    assert driver._quit is False
-    assert driver._args == (42, 4, True, "test")
-    assert driver._kwargs == {'options': {'param': 'value'}, 'special_arg': 13}
     try:
         next(gen)
         pytest.fail('StopIteration expected')

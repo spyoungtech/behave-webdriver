@@ -68,7 +68,7 @@ Feature: Sample Snippets test
         Given I open the url "http://webdriverjs.christian-bromann.com/"
         And   there is no element ".gotDataA" on the page
         When  I submit the form ".send"
-        Then  I expect that element ".gotDataA" is visible
+        Then  I wait on element ".gotDataA" for 5000ms to be visible
 
     Scenario: wait for element
         Given I open the url "http://webdriverjs.christian-bromann.com/"

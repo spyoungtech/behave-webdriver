@@ -15,14 +15,6 @@ Immediate and short term goals are some milestones that we are actively working 
 Ideally, these things have clearly defined requirements and some work in progress.
 
 
-Browser support (Firefox)
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Currently, Chrome is the recommended webdriver and is fully supported.
-A preview of firefox support is planned for V0.1.1
-
-We hope to have more refined support for firefox in a future version.
-
 
 Documentation; recipes & tutorials
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -59,11 +51,12 @@ are welcomed and very much appreciated.
 Browser support (others)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Chrome and Firefox are in our forefront for browser support. We do however plan to test and provide at least best-effort
-support for all the webdrivers supported by selenium. At a minimum, we hope to get all browsers tested (but not necessarily in the CI build) and attempt to make
-note of differences and quirks.
+Chrome and Firefox are in our forefront for browser support. We do however plan to test and provide best-effort
+support for all the webdrivers supported by selenium.
 
-Having all browsers included in the CI build is not currently on the roadmap.
+We hope to get all browsers tested (but not necessarily passing) and attempt to make note of compatibility, behavior differences, and other browser-specific quirks.
+
+Would be nice to have more browsers tested in the CI builds as well.
 
 See :doc:`browsers` for more information.
 
@@ -123,6 +116,11 @@ improve the functionality of the library as a whole.
 
 Completed
 ---------
+
+Browser support (Firefox)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Firefox is officially supported as of v0.1.1
 
 v0.1.0
 ^^^^^^
