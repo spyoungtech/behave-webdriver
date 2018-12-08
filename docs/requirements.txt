@@ -14,7 +14,7 @@ parse==1.8.2
 parse-type==0.4.2
 Pygments==2.2.0
 pytz==2017.3
-requests==2.18.4
+requests
 selenium==3.9.0
 six==1.11.0
 snowballstemmer==1.2.1
