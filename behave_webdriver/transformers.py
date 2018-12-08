@@ -13,11 +13,9 @@ class TransformerBase(object):
         return value
 
     def transform_args(self, args):
-        print(args)
         return [self.transform_value(arg) for arg in args]
 
     def transform_kwargs(self, kwargs):
-        print(kwargs)
         return {key: self.transform_value(value) for key, value in kwargs.items()}
 
     def transform(self, args, kwargs):
