@@ -1,39 +1,63 @@
-sudo: false
+dist: xenial
 language: python
+
+
 python:
   - "2.7"
-  - "3.5"
   - "3.6"
-  - "nightly"
+
+env:
+  global:
+    - BEHAVE_WEBDRIVER_HEADLESS=1
+  matrix:
+    - BEHAVE_WEBDRIVER=Chrome
+    - BEHAVE_WEBDRIVER=Firefox
 
 addons:
   chrome: stable
+  firefox: latest
+
+matrix:
+  include:
+    - os: osx
+      language: generic
+      python:
+      env:
+        - BEHAVE_WEBDRIVER=Safari
+    - python: "3.5"
+      env:
+       - BEHAVE_WEBDRIVER=Chrome
+    - python: "3.7"
+      env:
+        - BEHAVE_WEBDRIVER=Chrome
+
+
+  fast_finish: true
+  allow_failures:
+    - os: osx
+
 install:
-  - wget -N http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ./
-  - unzip ./chromedriver_linux64.zip -d ./
-  - rm ./chromedriver_linux64.zip
-  - chmod +x ./chromedriver
-  - pip install -r ./requirements.txt
-  - pip install coveralls pytest mock
+  - ./ci/install.sh
 
 script:
   - cd tests/demo-app
   - python ./runserver.py > /dev/null 2>&1 &
   - cd ../..
+  - export ENV_BASE_URL=http://127.0.0.1:8000/
   - coverage run -m behave tests/features
   - coverage run -a -m pytest tests/unittests
-
 
 after_success:
   - coveralls
 
-
 deploy:
   provider: pypi
+  distributions: "sdist bdist_wheel"
   user: "spyoungtech"
   password:
     secure: "oj3Yvv150E+ExDCxYkeXdwH3+jXmrQbJFK9ic+DHwFBmN8wb0IbjcjtBTu+VOotiEfHZjUuK8Ok44bYvsLIka0Zzt8pY52KREFXEwLh63IYottccerE9VmzQUvC87GWCsiLkmVR5O4ATM31byOFk9MmxIrWy3qhoNNJvQSTcW/HMDIweJUnqHQ10KS/7IkxHZiW1Efe3KKIr9cjOWiXAX/xjmSD7DzEVpENT4BvvwrBnDO2JY+CROHmsO8X2FqjriNn2BCLZK1rd3FXS/hcb698V4nZdTNd63f8twmuPk/owr2dQiexiAhZPQKHj8KBZ6fyn80uOuHHc/44U4rWf+699Q4nq2vYDCaLA2drl3PAPZg65HjWumVQKKYCddY1by52iumJ0fFdPqB7dERqWIvHzCERkwJvsZtzxQ8QV7CUENyS5v398/wUdaOqhRD+MMHG6ZS4Zuhr/wurrJrcX3KjAffY3dVN6uEzTq57JoYX9zrMysKQRyUsGUiNC7e008vRm8rSIEoX4Kc/NqqY+em+wKLuhvxGyDZ9Sd731BgtCQPNj+DFBvk55taXKw78NlCwl03pFCRXKTWoy1nZKYoStQmizy9d44dqua12NV2EOYHzK6+WddM6xJnuVFaWxqcV/vesL/6ekJw8wZI3Q0ud3d0Ws1zSxfyjJt4OchZQ="
   on:
     tags: true
     python: 3.6
+    env: BEHAVE_WEBDRIVER=Chrome
 

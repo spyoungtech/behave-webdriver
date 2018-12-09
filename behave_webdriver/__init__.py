@@ -11,10 +11,6 @@ __all__ = [
     'Remote',
     'from_env',
     'from_string',
-    'fixture_browser',
-    'before_all_factory',
-    'before_feature_factory',
-    'before_scenario_factory',
 ]
 from behave_webdriver.driver import (Chrome,
                                      Firefox,
@@ -32,3 +28,6 @@ from behave_webdriver.fixtures import (fixture_browser,
                                        before_all_factory,
                                        before_feature_factory,
                                        before_scenario_factory)
+from behave_webdriver.fixtures import use_fixture_tag
+from behave_webdriver import transformers
+

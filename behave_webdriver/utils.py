@@ -1,4 +1,5 @@
 from os import getenv
+import six
 from behave_webdriver.driver import (Chrome,
                                      Firefox,
                                      Ie,
@@ -33,7 +34,7 @@ def _from_env(default_driver=None):
     browser_env = getenv('BEHAVE_WEBDRIVER', default_driver)
     if browser_env is None:
         raise ValueError('No driver found in environment variables and no default driver selection')
-    if isinstance(browser_env, str):
+    if isinstance(browser_env, six.string_types):
         Driver = _from_string(browser_env)
     else:
         # if not a string, assume we have a webdriver instance

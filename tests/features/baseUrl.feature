@@ -11,3 +11,4 @@ Feature: Base URL configuration
     When I open the site "/page.html"
     Then I expect that the url is "http://127.0.0.1:8000/page.html"
     And I expect that the url is not "http://localhost:8000/page.html"
+

@@ -1,0 +1,26 @@
+version: 1.0.{build}
+
+environment:
+  BEHAVE_WEBDRIVER: IE
+
+matrix:
+  allow_failures:
+    - BEHAVE_WEBDRIVER: IE
+
+services:
+  - iis
+
+install:
+  - regedit /s .\ci\bfcache.reg
+  - cmd: .\ci\install.bat
+
+build: off
+
+test_script:
+  - cmd: .\ci\runtests.bat
+  - ps: |
+       $wc = New-Object 'System.Net.WebClient';
+       Get-ChildItem .\reports |
+       Foreach-Object {
+           $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $_.FullName))
+       }

@@ -4,7 +4,8 @@ try:
 except ImportError:
     from urlparse import urlparse
 
-use_step_matcher('re')
+
+use_step_matcher('transform-re')
 
 
 @given('the element "([^"]*)?" is( not)* visible')

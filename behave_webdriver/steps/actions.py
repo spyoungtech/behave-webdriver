@@ -6,7 +6,7 @@ except ImportError:
     from urlparse import urljoin  # Python 2
 
 
-use_step_matcher('parse')
+use_step_matcher('transform-parse')
 
 
 @when('I pause for {milliseconds:d}ms')
@@ -101,7 +101,7 @@ def move_to_element(context, element):
     context.behave_driver.move_to_element(element)
 
 
-use_step_matcher('re')
+use_step_matcher('transform-re')
 
 
 @when('I close the last opened (tab|window)')

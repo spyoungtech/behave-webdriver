@@ -28,22 +28,22 @@ mixin as well as the respective ``selenium`` counterpart class.
 .. autoclass:: behave_webdriver.Chrome
    :members:
 
-.. autoclass:: behave_webdriver.PhantomJS
-   :members:
-
 .. autoclass:: behave_webdriver.Firefox
    :members:
 
 .. autoclass:: behave_webdriver.Ie
    :members:
 
+.. autoclass:: behave_webdriver.Safari
+   :members:
+
+.. autoclass:: behave_webdriver.PhantomJS
+   :members:
+
 .. autoclass:: behave_webdriver.Edge
    :members:
 
 .. autoclass:: behave_webdriver.Opera
-   :members:
-
-.. autoclass:: behave_webdriver.Safari
    :members:
 
 .. autoclass:: behave_webdriver.BlackBerry
