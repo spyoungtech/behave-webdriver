@@ -3,7 +3,7 @@ Feature: Test waiting for actions
     I want to be able to test if delayed actions are being performed
 
     Background:
-        Given I open the url "http://localhost:8000/"
+        Given I open the site "/"
         And   I pause for 1000ms
 
     Scenario: Test if element becomes checked after 2000 ms
