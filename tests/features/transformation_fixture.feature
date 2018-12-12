@@ -4,5 +4,4 @@ Feature: Using a transformation fixture from feature file
   Scenario: transform step from environment variable
     Given the base url is "{ENV_BASE_URL}"
     When I open the site "/page.html"
-    Then I expect that the url is "{ENV_BASE_URL}/page.html"
-    And I expect that the url is not "/page.html"
+    Then I expect that the url is "{ENV_BASE_URL}page.html"
