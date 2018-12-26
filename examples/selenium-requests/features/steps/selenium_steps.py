@@ -1,4 +1,8 @@
-from urllib.parse import urljoin
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
+
 from behave import *
 from behave_webdriver.steps import *
 
