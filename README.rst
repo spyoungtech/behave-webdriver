@@ -96,7 +96,7 @@ You may also find it convenient to use a fixture to setup your driver as well. F
 
     from behave_webdriver.fixtures import fixture_browser
     def before_all(context):
-        use_fixture(fixture_browser, webdriver='Firefox')
+        use_fixture(fixture_browser, context, webdriver='Firefox')
 
 This will also ensure that the browser is torn down at the corresponding `cleanup point`_.
 
