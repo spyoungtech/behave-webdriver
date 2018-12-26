@@ -108,7 +108,7 @@ class TransformingMatch(Match):
         with context.use_with_user_mode():
             #  the above is a COPY/PASTE of the original `run` implementation,
             transformer_class = context.transformer_class if 'transformer_class' in context else None
-            if transformer_class and (isinstance(transformer_class, partial) and issubclass(transformer_class.func, TransformerBase)) or issubclass(transformer_class, TransformerBase):
+            if transformer_class and ((isinstance(transformer_class, partial) and issubclass(transformer_class.func, TransformerBase)) or issubclass(transformer_class, TransformerBase)):
                 transformer = transformer_class(context=context, func=self.func)
                 args, kwargs, func = transformer.transform(args, kwargs)
             else:
