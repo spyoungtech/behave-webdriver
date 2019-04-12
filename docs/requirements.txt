@@ -8,7 +8,7 @@ coverage==4.5
 docutils==0.14
 idna==2.6
 imagesize==0.7.1
-Jinja2==2.10
+Jinja2>=2.10.1
 MarkupSafe==1.0
 parse==1.8.2
 parse-type==0.4.2
