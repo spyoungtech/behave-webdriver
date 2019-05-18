@@ -1,11 +1,14 @@
 from behave import *
+from behave_webdriver.transformers import matcher_mapping
 try:
     from urllib.parse import urlparse
 except ImportError:
     from urlparse import urlparse
 
-
-use_step_matcher('transform-re')
+if 'transform-parse' not in matcher_mapping:
+    use_step_matcher('re')
+else:
+    use_step_matcher('transform-re')
 
 
 @given('the element "([^"]*)?" is( not)* visible')
