@@ -217,7 +217,7 @@ Assuming you're in the repository root (and have the demo app running) just run 
 Results ✨
 ^^^^^^^^^^
 
-.. code-block:: guess
+.. code-block:: 
 
    (behave-webdriver) $ behave examples/selenium-requests/features
 
