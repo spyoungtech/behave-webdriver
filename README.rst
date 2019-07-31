@@ -34,10 +34,35 @@ Usage
 
 Basic usage of this library with behave requires the following steps:
 
-1. import the step implementations
-2. set the ``behave_driver`` attribute on the behave ``context`` in your ``environment.py`` file.
-3. write your feature file
+1. write your feature file
+2. import the step implementations
+3. set the ``behave_driver`` attribute on the behave ``context`` in your ``environment.py`` file.
 4. run ``behave``
+
+
+Writing the feature file
+------------------------
+
+.. code-block:: gherkin
+
+    # my-minimal-project/features/myFeature.feature
+    Feature: Sample Snippets test
+    As a developer
+    I should be able to use given text snippets
+
+    Scenario: open URL
+        Given the page url is not "http://webdriverjs.christian-bromann.com/"
+        And   I open the url "http://webdriverjs.christian-bromann.com/"
+        Then  I expect that the url is "http://webdriverjs.christian-bromann.com/"
+        And   I expect that the url is not "http://google.com"
+
+
+    Scenario: click on link
+        Given the title is not "two"
+        And   I open the url "http://webdriverjs.christian-bromann.com/"
+        When  I click on the link "two"
+        Then  I expect that the title is "two"
+
 
 Importing the step implementations
 ----------------------------------
@@ -102,28 +127,6 @@ This will also ensure that the browser is torn down at the corresponding `cleanu
 
 .. _cleanup point: http://behave.readthedocs.io/en/stable/fixtures.html#fixture-cleanup-points
 
-Writing the feature file
-------------------------
-
-.. code-block:: gherkin
-
-    # my-minimal-project/features/myFeature.feature
-    Feature: Sample Snippets test
-    As a developer
-    I should be able to use given text snippets
-
-    Scenario: open URL
-        Given the page url is not "http://webdriverjs.christian-bromann.com/"
-        And   I open the url "http://webdriverjs.christian-bromann.com/"
-        Then  I expect that the url is "http://webdriverjs.christian-bromann.com/"
-        And   I expect that the url is not "http://google.com"
-
-
-    Scenario: click on link
-        Given the title is not "two"
-        And   I open the url "http://webdriverjs.christian-bromann.com/"
-        When  I click on the link "two"
-        Then  I expect that the title is "two"
 
 Run behave
 ----------
