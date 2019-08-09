@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  hub:
+   image: selenium/hub:3.141.59-copernicium
+   ports:
+     - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome:3.141.59-copernicium
+    environment:
+      HUB_HOST: hub
+      HUB_PORT: 4444
+    deploy:
+        replicas: 1
+    entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
+    depends_on:
+      - hub
+      - demo-site
+
+  firefox:
+    image: selenium/node-firefox:3.141.59-copernicium
+    environment:
+      HUB_HOST: hub
+      HUB_PORT: 4444
+    deploy:
+        replicas: 1
+    entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
+    depends_on:
+      - hub
+      - demo-site
+
+  demo-site:
+    image: nginx
+    volumes:
+      - ./tests/demo-app:/usr/share/nginx/html:ro
