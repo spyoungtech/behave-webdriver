@@ -24,7 +24,7 @@ def focus_last_tab(context, _):
     context.behave_driver.switch_to_window(context.behave_driver.last_opened_handle)
 
 
-@when('I select the option with the (text|value|name) "([^"]*)?" for element "([^"]*)?"')
+@when('I select the option with the (text|value|name) "([^"]+)?" for element "([^"]+)?"')
 def select_option_by(context, attr, attr_value, element):
     attr_map = {'text': 'visible_text'}
     attr = attr_map.get(attr, attr)
@@ -43,7 +43,7 @@ def dismiss_alert(context, modal_type):
     context.behave_driver.alert.dismiss()
 
 
-@when('I enter "([^"]*)?" into the (alertbox|confirmbox|prompt)')
+@when('I enter "([^"]+)?" into the (alertbox|confirmbox|prompt)')
 def handle_prompt(context, text, modal_type):
     context.behave_driver.alert.send_keys(text)
 
@@ -57,19 +57,19 @@ def close_secondary_windows(context, window_or_tab):
     context.behave_driver.switch_to_window(context.behave_driver.primary_handle)
 
 
-@step('I open the url "([^"]*)?"')
+@step('I open the url "([^"]+)?"')
 def open_url(context, url):
     context.behave_driver.open_url(url)
 
 
-@step('I open the site "([^"]*)?"')
+@step('I open the site "([^"]+)?"')
 def open_site(context, url):
     base_url = getattr(context, 'base_url', 'http://localhost:8000')
     destination = urljoin(base_url, url)
     context.behave_driver.open_url(destination)
 
 
-@given('the base url is "([^"]*)?"')
+@given('the base url is "([^"]+)?"')
 def set_base_url(context, url):
     if url.endswith('/'):
         url = url[:-1]
