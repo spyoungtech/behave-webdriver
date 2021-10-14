@@ -17,7 +17,7 @@ setup(
     packages=['behave_webdriver', 'behave_webdriver.steps'],
     platforms='any',
     install_requires=[
-        'selenium',
+        'selenium < 4',
         'behave'
     ],
     classifiers=[
