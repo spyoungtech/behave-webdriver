@@ -46,6 +46,9 @@ def before_tag(context, tag):
 
 
 def before_feature(context, feature):
+    if "skip_safari" in feature.tags:
+        feature.skip()
+        return
     if "fresh_driver" in feature.tags:
         context.behave_driver.quit()
         context.behave_driver = context.BehaveDriver()
@@ -55,4 +58,7 @@ def before_feature(context, feature):
 def before_scenario(context, scenario):
     if "skip_firefox" in scenario.effective_tags and os.environ.get("BEHAVE_WEBDRIVER", '').lower() == 'firefox':
         scenario.skip("Skipping because @skip_firefox tag (usually this is because of a known-issue with firefox)")
+        return
+    if "skip_safari" in scenario.effective_tags and os.environ.get("BEHAVE_WEBDRIVER", '').lower() == 'safari':
+        scenario.skip("Skipping because safari has issues we're not dealing with right now")
         return

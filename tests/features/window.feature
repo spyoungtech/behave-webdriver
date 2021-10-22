@@ -26,6 +26,7 @@ Feature: Test if new windows/tabs are being opened
         Given the page url is "http://localhost:8000/"
         Then  I expect a new window has not been opened
 
+    @skip_safari
     Scenario: Test if we can close the last opened window/tab
         When  I click on the element "#linkNewWindow"
         Then  I expect a new window has been opened

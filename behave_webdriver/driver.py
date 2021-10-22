@@ -692,6 +692,7 @@ class Edge(BehaveDriverMixin, webdriver.Edge):
     """
     Edge driver class. Alternate constructors and browser-specific logic is implemented here.
     """
+    _driver_name = 'msedgedriver'
 
 
 class Opera(BehaveDriverMixin, webdriver.Opera):

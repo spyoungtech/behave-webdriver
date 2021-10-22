@@ -13,19 +13,20 @@ Feature: Sample Snippets test
         And   I open the url "http://guinea-pig.webdriver.io/"
         Then  I expect that the url is "http://guinea-pig.webdriver.io/"
         And   I expect that the url is not "http://google.com"
-
+    @skip_safari
     Scenario: click on link
         Given the title is not "two"
         And   I open the url "http://guinea-pig.webdriver.io/"
         When  I click on the link "two"
         Then  I expect that the title is "two"
-
+    @skip_safari
     Scenario: click on button
         Given I open the url "http://guinea-pig.webdriver.io/"
         And   the element ".btn1_clicked" is not visible
         When  I click on the button ".btn1"
         Then  I expect that element ".btn1_clicked" is visible
 
+    @skip_safari
     @firefox_bug
     Scenario: double click on a button
         Given I open the url "http://guinea-pig.webdriver.io/"
@@ -39,6 +40,7 @@ Feature: Sample Snippets test
         When  I click on the element ".btn1"
         Then  I expect that element ".btn1_clicked" is visible
 
+    @skip_safari
     Scenario: add value to an input element
         Given I open the url "http://guinea-pig.webdriver.io/"
         And   the element "//html/body/section/form/input[1]" not contains the text "abc"
@@ -145,6 +147,7 @@ Feature: Sample Snippets test
         And   I expect that element ".red" is not 103px broad
         And   I expect that element ".red" is not 103px tall
 
+    @skip_safari
     Scenario: check offset
         Given I open the url "http://guinea-pig.webdriver.io/"
         And   the element ".red" is positioned at 15px on the x axis
