@@ -59,6 +59,7 @@ jobs:
         env:
           BEHAVE_WEBDRIVER: ${{ matrix.browser }}
           BEHAVE_WEBDRIVER_HEADLESS: "1"
+          ENV_BASE_URL: "http://127.0.0.1:8000/"
         run: |
          coverage run -m behave tests/features
          coverage run -a -m pytest tests/unittests
