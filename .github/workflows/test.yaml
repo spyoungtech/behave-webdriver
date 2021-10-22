@@ -5,9 +5,17 @@ jobs:
     name: test
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         browser: [Chrome, Firefox, Safari, IE]
+        exclude:
+          - os: macos-latest
+            browser: IE
+          - os: windows-latest
+            browser: Safari
+          - os: ubuntu-latest
+            browser: [Safari, IE]
 
     steps:
       - name: Checkout code
@@ -52,6 +60,6 @@ jobs:
 
       - name: coveralls
         if: ${{ success() }}
-        run: coveralls
+        run: echo coveralls here
 
 
