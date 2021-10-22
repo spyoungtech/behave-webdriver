@@ -15,7 +15,9 @@ jobs:
           - os: windows-latest
             browser: Safari
           - os: ubuntu-latest
-            browser: [Safari, IE]
+            browser: Safari
+          - os: ubuntu-latest
+            browser: IE
 
     steps:
       - name: Checkout code
