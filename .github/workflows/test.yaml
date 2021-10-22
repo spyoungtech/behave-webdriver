@@ -17,7 +17,7 @@ jobs:
           python-version: '3.9'
 
       - name: enable-safaridriver
-        if: ${{ matrix.os == "macos-latest" }}
+        if: ${{ matrix.os == 'macos-latest' }}
         run: sudo safaridriver --enable
 
       - name: install-deps
@@ -26,7 +26,7 @@ jobs:
           python -m pip install coveralls pytest mock
 
       - name: run-windows
-        if: ${{ matrix.os == "windows-latest" && matrix.browser != "Safari" }}
+        if: ${{ matrix.os == 'windows-latest' && matrix.browser != 'Safari' }}
         env:
           BEHAVE_WEBDRIVER: ${{ matrix.browser }}
           BEHAVE_WEBDRIVER_HEADLESS: "1"
@@ -35,7 +35,7 @@ jobs:
           echo this would run on windows for %BEHAVE_WEBDRIVER%
 
       - name: run-linux
-        if: ${{ matrix.os == "ubuntu-latest" && matrix.browser != "Safari" && matrix.browser != "IE" }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.browser != 'Safari' && matrix.browser != 'IE' }}
         env:
           BEHAVE_WEBDRIVER: ${{ matrix.browser }}
           BEHAVE_WEBDRIVER_HEADLESS: "1"
@@ -43,7 +43,7 @@ jobs:
           echo "this would run on linux for ${BEHAVE_WEBDRIVER}"
 
       - name: run-macos
-        if: ${{ matrix.os == "macos-latest" && matrix.browser != "IE" }}
+        if: ${{ matrix.os == 'macos-latest' && matrix.browser != 'IE' }}
         env:
           BEHAVE_WEBDRIVER: ${{ matrix.browser }}
           BEHAVE_WEBDRIVER_HEADLESS: "1"
