@@ -50,11 +50,11 @@ jobs:
 
       - name: start-test-server-windows
         if: ${{ matrix.os == 'windows-latest' }}
-        shell: powershell
+        shell: cmd
         run: |
-          pushd tests/demo-app
-          Start-Job { python .\runserver.py }
-          popd
+          cd tests/demo-app
+          start "" python .\runserver.py > output.txt
+          cd ..\..
 
 
       - name: run-tests
