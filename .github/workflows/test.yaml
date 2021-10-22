@@ -53,7 +53,7 @@ jobs:
         shell: powershell
         run: |
           pushd tests/demo-app
-          python .\runserver.py &
+          Start-Job { python .\runserver.py }
           popd
 
 
