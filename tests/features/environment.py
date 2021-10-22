@@ -46,7 +46,7 @@ def before_tag(context, tag):
 
 
 def before_feature(context, feature):
-    if "skip_safari" in feature.tags:
+    if "skip_safari" in feature.tags and os.environ.get("BEHAVE_WEBDRIVER", '').lower() == 'safari':
         feature.skip()
         return
     if "fresh_driver" in feature.tags:
