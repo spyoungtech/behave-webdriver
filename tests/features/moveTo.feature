@@ -19,5 +19,5 @@ Feature: Test moveTo elements
         Then  I expect that element "#moveTo" has the class "moveToClass"
     @skip_firefox
     Scenario: Move to the element with a too large offset
-        When  I move to element "#moveTo" with an offset of 5000,5000
+        When  I move to element "#moveTo" with an offset of 941,21
         Then  I expect that element "#moveTo" does not have the class "moveToClass"
