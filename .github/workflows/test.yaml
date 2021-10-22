@@ -66,6 +66,6 @@ jobs:
 
       - name: coveralls
         if: ${{ success() }}
-        run: echo coveralls here
-
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls --service=github
