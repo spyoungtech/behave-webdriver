@@ -8,16 +8,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        browser: [Chrome, Firefox, Safari, IE]
+        browser: [Chrome, Firefox, Safari, Edge]
         exclude:
           - os: macos-latest
-            browser: IE
+            browser: Edge
           - os: windows-latest
             browser: Safari
           - os: ubuntu-latest
             browser: Safari
           - os: ubuntu-latest
-            browser: IE
+            browser: Edge
 
     steps:
       - name: Checkout code
@@ -52,8 +52,10 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         shell: powershell
         run: |
-          Import-Module WebAdministration
-          New-WebSite -Name demoapp -Port 8000 -PhysicalPath "${env:GITHUB_WORKSPACE}\tests\demo-app"
+          pushd tests/demo-app
+          python .\runserver.py &
+          popd
+
 
       - name: run-tests
         env:
