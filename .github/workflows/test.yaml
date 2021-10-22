@@ -35,30 +35,33 @@ jobs:
           python -m pip install -r ./requirements.txt
           python -m pip install coveralls pytest mock
 
-      - name: run-windows
-        if: ${{ matrix.os == 'windows-latest' && matrix.browser != 'Safari' }}
-        env:
-          BEHAVE_WEBDRIVER: ${{ matrix.browser }}
-          BEHAVE_WEBDRIVER_HEADLESS: "1"
+      - name: start-test-server-nix
+        if: ${{ matrix.os != 'windows-latest' }}
+        run: |
+          cd tests/demo-app
+          python ./runserver.py > /dev/null 2>&1 &
+          cd ../..
+
+      - name: regedit
+        if: ${{ matrix.os == 'windows-latest' }}
         shell: cmd
         run: |
-          echo this would run on windows for %BEHAVE_WEBDRIVER%
+          regedit /s .\ci\bfcache.reg
 
-      - name: run-linux
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.browser != 'Safari' && matrix.browser != 'IE' }}
+      - name: start-test-server-windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: powershell
+        run: |
+          Import-Module WebAdministration
+          New-WebSite -Name demoapp -Port 8000 -PhysicalPath "${env:GITHUB_WORKSPACE}\tests\demo-app"
+
+      - name: run-tests
         env:
           BEHAVE_WEBDRIVER: ${{ matrix.browser }}
           BEHAVE_WEBDRIVER_HEADLESS: "1"
         run: |
-          echo "this would run on linux for ${BEHAVE_WEBDRIVER}"
-
-      - name: run-macos
-        if: ${{ matrix.os == 'macos-latest' && matrix.browser != 'IE' }}
-        env:
-          BEHAVE_WEBDRIVER: ${{ matrix.browser }}
-          BEHAVE_WEBDRIVER_HEADLESS: "1"
-        run: |
-          echo "this would run on macos for ${BEHAVE_WEBDRIVER}"
+         coverage run -m behave tests/features
+         coverage run -a -m pytest tests/unittests
 
       - name: coveralls
         if: ${{ success() }}
