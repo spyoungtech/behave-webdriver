@@ -35,8 +35,8 @@ jobs:
           python -m pip install -r ./requirements.txt
           python -m pip install coveralls pytest mock
 
-      - name: start-test-server-nix
-        if: ${{ matrix.os != 'windows-latest' }}
+      - name: start-test-server
+        shell: bash
         run: |
           cd tests/demo-app
           python ./runserver.py > /dev/null 2>&1 &
@@ -48,20 +48,12 @@ jobs:
         run: |
           regedit /s .\ci\bfcache.reg
 
-      - name: start-test-server-windows
-        if: ${{ matrix.os == 'windows-latest' }}
-        shell: cmd
-        run: |
-          cd tests/demo-app
-          start "" python .\runserver.py > output.txt
-          cd ..\..
-
-
       - name: run-tests
         env:
           BEHAVE_WEBDRIVER: ${{ matrix.browser }}
           BEHAVE_WEBDRIVER_HEADLESS: "1"
           ENV_BASE_URL: "http://127.0.0.1:8000/"
+        shell: bash
         run: |
          coverage run -m behave tests/features
          coverage run -a -m pytest tests/unittests
