@@ -1,0 +1,71 @@
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        browser: [Chrome, Firefox, Safari, Edge]
+        exclude:
+          - os: macos-latest
+            browser: Edge
+          - os: windows-latest
+            browser: Safari
+          - os: ubuntu-latest
+            browser: Safari
+          - os: ubuntu-latest
+            browser: Edge
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: enable-safaridriver
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: sudo safaridriver --enable
+
+      - name: install-deps
+        run: |
+          python -m pip install -r ./requirements.txt
+          python -m pip install coveralls pytest mock
+
+      - name: run unittests
+        env:
+          BEHAVE_WEBDRIVER: ${{ matrix.browser }}
+          BEHAVE_WEBDRIVER_HEADLESS: "1"
+          ENV_BASE_URL: "http://127.0.0.1:8000/"
+        run: |
+          coverage run -m pytest tests/unittests
+
+      - name: start-test-server
+        shell: bash
+        run: |
+          cd tests/demo-app
+          python ./runserver.py > /dev/null 2>&1 &
+          cd ../..
+
+      - name: regedit
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: cmd
+        run: |
+          regedit /s .\ci\bfcache.reg
+
+      - name: run-behave-tests
+        env:
+          BEHAVE_WEBDRIVER: ${{ matrix.browser }}
+          BEHAVE_WEBDRIVER_HEADLESS: "1"
+          ENV_BASE_URL: "http://127.0.0.1:8000/"
+        run: |
+         coverage run -a -m behave tests/features
+
+      - name: coveralls
+        if: ${{ success() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls --service=github
