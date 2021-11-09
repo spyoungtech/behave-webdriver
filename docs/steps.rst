@@ -96,4 +96,3 @@ Then Steps ✔️
 - ``I expect the url "([^"]*)?" is opened in a new (tab|window)``
 - ``I expect the url to( not)* contain "([^"]*)?"``
 - ``I wait on element "([^"]*)?"(?: for (\d+)ms)*(?: to( not)* (be checked|be enabled|be selected|be visible|contain a text|contain a value|exist))*``
-

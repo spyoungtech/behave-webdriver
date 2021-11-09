@@ -63,4 +63,3 @@ Feature: Test select elements
         Then I expect that element "#selectElementTest option:nth-child(2)" is not selected
         When I select the option with the name "secondOption" for element "//select[@id='selectElementTest']"
         Then I expect that element "#selectElementTest option:nth-child(2)" is selected
-

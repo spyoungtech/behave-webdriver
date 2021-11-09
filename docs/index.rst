@@ -100,4 +100,3 @@ they are not all supported at this time. We plan to add support for additional b
 
 .. |coverage| image:: https://coveralls.io/repos/github/spyoungtech/behave-webdriver/badge.svg
     :target: https://coveralls.io/github/spyoungtech/behave-webdriver
-
