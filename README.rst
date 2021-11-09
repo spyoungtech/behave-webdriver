@@ -220,7 +220,7 @@ Assuming you're in the repository root (and have the demo app running) just run 
 Results ✨
 ^^^^^^^^^^
 
-.. code-block:: 
+.. code-block::
 
    (behave-webdriver) $ behave examples/selenium-requests/features
 
@@ -396,4 +396,3 @@ Special thanks to the authors and contributors of `behave`_
 
 .. |coverage| image:: https://coveralls.io/repos/github/spyoungtech/behave-webdriver/badge.svg
     :target: https://coveralls.io/github/spyoungtech/behave-webdriver
-

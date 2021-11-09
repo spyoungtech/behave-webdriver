@@ -170,6 +170,3 @@ texinfo_documents = [
      author, 'behave-webdriver', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

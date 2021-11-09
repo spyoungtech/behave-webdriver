@@ -167,4 +167,3 @@ def use_fixture_tag(context, tag, *args, **kwargs):
         transformer_name = tag.split('.')[-1]
         transformer_class = getattr(transformers, transformer_name)
         use_fixture(transformation_fixture, context, transformer_class, **kwargs)
-

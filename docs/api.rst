@@ -64,4 +64,3 @@ The mixin class implements all of the general logic. If you want to alter how be
 
 .. autoclass:: behave_webdriver.driver.BehaveDriverMixin
    :members:
-
